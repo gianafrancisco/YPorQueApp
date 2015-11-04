@@ -50,7 +50,6 @@ public class ProductEditor extends VerticalLayout {
 		this.repository = repository;
 
 		addComponents(code, stock, price, description, actions);
-
 		// Configure and style components
 		setSpacing(true);
 		actions.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);

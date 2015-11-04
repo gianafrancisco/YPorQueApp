@@ -18,8 +18,15 @@ public class Application {
 	}
 
 	@Bean
-	public CommandLineRunner loadData(CustomerRepository repository) {
+	public CommandLineRunner loadData(CustomerRepository repository, ProductRepository productRepository) {
 		return (args) -> {
+
+			productRepository.save(new Product("10001","Remera Niños",10,100.0));
+			productRepository.save(new Product("10002","Remera Niñas",10,200.0));
+			productRepository.save(new Product("10003","Zapatitos Niños",10,300.0));
+			productRepository.save(new Product("10004","Zapatitos Niñas",10,600.0));
+
+
 			// save a couple of customers
 			repository.save(new Customer("Jack", "Bauer"));
 			repository.save(new Customer("Chloe", "O'Brian"));

@@ -38,6 +38,7 @@ public class MainUI extends UI {
 		// build layout
 		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
 		HorizontalLayout secondaryLayout = new HorizontalLayout(grid, editor);
+		secondaryLayout.setSpacing(true);
 		VerticalLayout mainLayout = new VerticalLayout(actions, secondaryLayout);
 		setContent(mainLayout);
 
@@ -46,7 +47,7 @@ public class MainUI extends UI {
 		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
 
-		grid.setHeight(300, Unit.PIXELS);
+		grid.setHeight(500, Unit.PIXELS);
 		grid.setColumns("id", "description", "code", "stock", "price");
 
 		filter.setInputPrompt("filtrar por código");
@@ -55,6 +56,7 @@ public class MainUI extends UI {
 
 		// Replace listing with filtered content when user changes filter
 		filter.addTextChangeListener(e -> listProducts(e.getText()));
+		filter.setWidth(300,Unit.PIXELS);
 
 		// Connect selected Customer to editor or hide if none is selected
 		grid.addSelectionListener(e -> {
