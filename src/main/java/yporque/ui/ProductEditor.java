@@ -1,4 +1,4 @@
-package yporque;
+package yporque.ui;
 
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.themes.ValoTheme;
+import yporque.model.Product;
+import yporque.repository.ProductRepository;
 
 /**
  * A simple example to introduce building forms. As your real application is

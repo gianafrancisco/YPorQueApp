@@ -1,5 +1,5 @@
 
-package yporque;
+package yporque.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,5 +1,5 @@
 
-package yporque;
+package yporque.ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.util.BeanItemContainer;
@@ -9,6 +9,8 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import yporque.model.Product;
+import yporque.repository.ProductRepository;
 
 @SpringUI
 @Theme("valo")

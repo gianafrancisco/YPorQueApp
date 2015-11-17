@@ -7,6 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import yporque.model.Customer;
+import yporque.model.Product;
+import yporque.repository.CustomerRepository;
+import yporque.repository.ProductRepository;
 
 @SpringBootApplication
 public class Application {
