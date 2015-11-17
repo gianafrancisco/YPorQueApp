@@ -1,0 +1,23 @@
+Articulo
+    id
+    Desc
+    Precio
+    Cantidad
+
+CodigoBarra
+    id
+    idArticulo
+    Cantidad
+    Codigo
+
+Vendedor
+    id
+    Nombre
+
+Venta
+    id
+    idArticulo
+    Descripcion
+    Precio
+    fecha
+    tipo (tarjeta o efectivo)
