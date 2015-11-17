@@ -7,12 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import yporque.model.Customer;
 import yporque.model.Product;
 import yporque.repository.CustomerRepository;
 import yporque.repository.ProductRepository;
 
 @SpringBootApplication
+@ComponentScan("yporque")
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
