@@ -23,6 +23,8 @@ public class Application {
 		SpringApplication.run(Application.class);
 	}
 
+
+
 	@Bean
 	public CommandLineRunner loadData(CustomerRepository repository, ProductRepository productRepository) {
 		return (args) -> {
