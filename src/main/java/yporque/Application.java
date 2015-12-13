@@ -24,7 +24,7 @@ public class Application {
 	}
 
 
-
+/*
 	@Bean
 	public CommandLineRunner loadData(CustomerRepository repository, ProductRepository productRepository) {
 		return (args) -> {
@@ -67,5 +67,6 @@ public class Application {
 			log.info("");
 		};
 	}
+	*/
 
 }

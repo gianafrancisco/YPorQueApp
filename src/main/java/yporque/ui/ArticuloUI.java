@@ -9,16 +9,17 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import yporque.model.Articulo;
 import yporque.model.Product;
+import yporque.repository.ArticuloRepository;
 import yporque.repository.ProductRepository;
 
-@SpringUI(path = "/example")
+@SpringUI(path = "/")
 @Theme("valo")
-public class MainUI extends UI {
+public class ArticuloUI extends UI {
 
-	private final ProductRepository repo;
-
-	private final ProductEditor editor;
+	private final ArticuloRepository articuloRepository;
+	private final ArticuloEditor editor;
 
 	private final Grid grid;
 
@@ -27,9 +28,9 @@ public class MainUI extends UI {
 	private final Button addNewBtn;
 
 	@Autowired
-	public MainUI(ProductRepository repo, ProductEditor editor) {
-		this.repo = repo;
+	public ArticuloUI(ArticuloRepository articuloRepository, ArticuloEditor editor) {
 		this.editor = editor;
+		this.articuloRepository = articuloRepository;
 		this.grid = new Grid();
 		this.filter = new TextField();
 		this.addNewBtn = new Button("Nuevo Producto", FontAwesome.PLUS);
@@ -37,20 +38,26 @@ public class MainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
+
+		Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo1");
+		articuloRepository.save(art);
+
 		// build layout
 		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
 		HorizontalLayout secondaryLayout = new HorizontalLayout(grid, editor);
 		secondaryLayout.setSpacing(true);
 		VerticalLayout mainLayout = new VerticalLayout(actions, secondaryLayout);
+		mainLayout.setWidth(100,Unit.PERCENTAGE);
 		setContent(mainLayout);
+		setWidth(100,Unit.PERCENTAGE);
 
 		// Configure layouts and components
 		actions.setSpacing(true);
 		mainLayout.setMargin(true);
 		mainLayout.setSpacing(true);
 
-		grid.setHeight(500, Unit.PIXELS);
-		grid.setColumns("id", "description", "code", "stock", "price");
+		grid.setHeight(100, Unit.PERCENTAGE);
+		//grid.setColumns("id", "description", "code", "stock", "price");
 
 		filter.setInputPrompt("filtrar por código");
 
@@ -66,12 +73,12 @@ public class MainUI extends UI {
 				editor.setVisible(false);
 			}
 			else {
-				editor.editProduct((Product) e.getSelected().iterator().next());
+				editor.edit((Articulo) e.getSelected().iterator().next());
 			}
 		});
 
 		// Instantiate and edit new Customer the new button is clicked
-		addNewBtn.addClickListener(e -> editor.editProduct(new Product("", "",0,0.0)));
+		addNewBtn.addClickListener(e -> editor.edit(new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo1")));
 
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
@@ -79,19 +86,18 @@ public class MainUI extends UI {
 			listProducts(filter.getValue());
 		});
 
-		// Initialize listing
 		listProducts(null);
 	}
 
 	// tag::listProducts[]
 	private void listProducts(String text) {
 		if (StringUtils.isEmpty(text)) {
-			grid.setContainerDataSource(
-					new BeanItemContainer(Product.class, repo.findAll()));
+			//grid.setContainerDataSource(
+					//new BeanItemContainer(Articulo.class, articuloRepository.findAll().iterator()));
 		}
 		else {
-			grid.setContainerDataSource(new BeanItemContainer(Product.class,
-					repo.findByCodeStartsWithIgnoreCase(text)));
+			grid.setContainerDataSource(new BeanItemContainer(Articulo.class,
+					articuloRepository.findByDescripcionStartsWithIgnoreCase(text)));
 		}
 	}
 	// end::listProducts[]
