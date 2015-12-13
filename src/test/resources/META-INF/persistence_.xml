@@ -1,3 +1,4 @@
+<!--
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
@@ -10,6 +11,8 @@
 
         <class>yporque.model.Articulo</class>
         <class>yporque.model.Item</class>
+        <class>yporque.model.Product</class>
+        <class>yporque.model.Customer</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
@@ -19,3 +22,4 @@
         </properties>
     </persistence-unit>
 </persistence>
+-->
