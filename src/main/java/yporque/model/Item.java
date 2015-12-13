@@ -14,26 +14,42 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="item_id", nullable = false)
-    private int itemId;
+    private Long itemId;
+    @Column(name="articulo_id")
+    private Long articuloId;
     private String codigo;
-    private int cantidad;
+    private Integer cantidad;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="articulo_id",referencedColumnName="articulo_id")
+    @ManyToOne()
+    @JoinColumn(name="articulo_id",referencedColumnName="articulo_id", insertable = false, updatable = false)
     private Articulo articulo;
 
+    public Articulo getArticulo() {
+        return articulo;
+    }
 
-    public Item(String codigo, int cantidad) {
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
+    }
+
+    public Item() {
+    }
+
+    public Item(String codigo, Integer cantidad) {
         this.codigo = codigo;
         this.cantidad = cantidad;
     }
 
-    public int getItemId() {
-        return itemId;
+    public Long getArticuloId() {
+        return articuloId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setArticuloId(Long articuloId) {
+        this.articuloId = articuloId;
+    }
+
+    public Long getItemId() {
+        return itemId;
     }
 
     public String getCodigo() {
@@ -44,19 +60,11 @@ public class Item {
         this.codigo = codigo;
     }
 
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public Articulo getArticulo() {
-        return articulo;
-    }
-
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
     }
 }

@@ -28,9 +28,9 @@ public class ModelTest {
     @Test
     public void test_add_new_Articulo_with_zero_item(){
 
-        int id = 0;
+        Long id = 0L;
         entityManager.getTransaction().begin();
-        Articulo art = new Articulo(0.0f,0.0f,0.0f,"Prueba");
+        Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo1");
         entityManager.persist(art);
         entityManager.getTransaction().commit();
         id = art.getArticuloId();
@@ -46,9 +46,9 @@ public class ModelTest {
     @Test
     public void test_add_new_Articulo_with_items(){
 
-        int id = 0;
+        Long id = 0L;
         entityManager.getTransaction().begin();
-        Articulo art = new Articulo(0.0f,0.0f,0.0f,"Prueba");
+        Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo1");
         List<Item> list = new ArrayList<>();
         list.add(new Item("123456789",1));
         list.add(new Item("987654321",1));
@@ -72,15 +72,15 @@ public class ModelTest {
     @Ignore
     public void test_add_new_item_to_Articulo(){
 
-        int id = 0;
+        Long id = 0L;
         entityManager.getTransaction().begin();
-        Articulo art = new Articulo(0.0f,0.0f,0.0f,"Prueba");
+        Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo1");
         entityManager.persist(art);
         entityManager.getTransaction().commit();
         id=art.getArticuloId();
 
         Item item = new Item("123456789", 1);
-        item.setArticulo(art);
+        //item.setArticulo(art);
 
         entityManager.getTransaction().begin();
         entityManager.persist(item);

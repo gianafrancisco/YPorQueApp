@@ -14,61 +14,77 @@ public class Articulo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "articulo_id", nullable = false)
-    private int articuloId;
-    private float precio;
-    private float precio_lista;
-    private float porcetaje;
+    private Long articuloId;
+    private Double precio;
+    private Double precioLista;
+    private Double factor1;
+    private Double factor2;
+    private Double porcetaje;
     private String descripcion;
 
-    @OneToMany(mappedBy="articulo",targetEntity=Item.class,
-            fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "articulo_id")
     private List<Item> items;
 
-    public Articulo(float precio, float precio_lista, float porcetaje, String descripcion) {
+    public Articulo() {
+    }
+
+    public Articulo(Double precio, Double precioLista, Double factor1, Double factor2, Double porcetaje, String descripcion) {
         this.precio = precio;
-        this.precio_lista = precio_lista;
+        this.precioLista = precioLista;
+        this.factor1 = factor1;
+        this.factor2 = factor2;
         this.porcetaje = porcetaje;
         this.descripcion = descripcion;
         this.items = new ArrayList<>();
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
+    public Articulo(Double precio, Double precioLista, Double factor1, Double factor2, Double porcetaje, String descripcion, List<Item> items) {
+        this(precio,precioLista,factor1,factor2,porcetaje,descripcion);
         this.items = items;
     }
 
-    public int getArticuloId() {
+    public Long getArticuloId() {
         return articuloId;
     }
 
-    public void setArticuloId(int articuloId) {
-        this.articuloId = articuloId;
-    }
-
-    public float getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public float getPrecio_lista() {
-        return precio_lista;
+    public Double getPrecioLista() {
+        return precioLista;
     }
 
-    public void setPrecio_lista(float precio_lista) {
-        this.precio_lista = precio_lista;
+    public void setPrecioLista(Double precioLista) {
+        this.precioLista = precioLista;
     }
 
-    public float getPorcetaje() {
+    public Double getFactor1() {
+        return factor1;
+    }
+
+    public void setFactor1(Double factor1) {
+        this.factor1 = factor1;
+    }
+
+    public Double getFactor2() {
+        return factor2;
+    }
+
+    public void setFactor2(Double factor2) {
+        this.factor2 = factor2;
+    }
+
+    public Double getPorcetaje() {
         return porcetaje;
     }
 
-    public void setPorcetaje(float porcetaje) {
+    public void setPorcetaje(Double porcetaje) {
         this.porcetaje = porcetaje;
     }
 
@@ -80,4 +96,12 @@ public class Articulo {
         this.descripcion = descripcion;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 }
+
