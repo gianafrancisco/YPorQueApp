@@ -16,8 +16,9 @@ Vendedor
 
 Venta
     id
-    idArticulo
+    vendedorId
+    List<Items>
     Descripcion
-    Precio
+    Total
     fecha
     tipo (tarjeta o efectivo)

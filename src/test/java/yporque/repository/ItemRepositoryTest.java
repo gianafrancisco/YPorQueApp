@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import yporque.config.MemoryDBConfig;
-import yporque.model.Articulo;
 import yporque.model.Item;
 
 import java.util.ArrayList;
@@ -31,28 +30,21 @@ public class ItemRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Autowired
-    private ArticuloRepository articuloRepository;
-    private Articulo articulo;
-
     @Before
     public void setUp() throws Exception {
-        articulo = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo 1");
-        articuloRepository.save(articulo);
     }
 
     @After
     public void tearDown() throws Exception {
-        articuloRepository.deleteAll();
         itemRepository.deleteAll();
     }
 
     @Test
     public void test_insert_item() throws Exception {
         List<Item> items = new ArrayList<>();
-        items.add(new Item("1",1));
-        items.add(new Item("2",1));
-        items.add(new Item("3",1));
+        items.add(new Item("1",1, 1L));
+        items.add(new Item("2",1, 1L));
+        items.add(new Item("3",1, 1L));
 
         itemRepository.save(items);
 
@@ -64,14 +56,37 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void test_insert_item_and_check_articulo() throws Exception {
+    public void test_update_item() throws Exception {
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("1", 1, 1L));
+        items.add(new Item("2", 1, 1L));
+        items.add(new Item("3", 1, 1L));
 
-        Item item = new Item("22",1);
-        item.setArticuloId(articulo.getArticuloId());
+        itemRepository.save(items);
+
+        List<Item> items1 = itemRepository.findAll();
+        Item item = items1.get(0);
+        item.setVentaId(1L);
+        item.setCantidad(2);
+        item.setCodigo("33");
         itemRepository.save(item);
-        Item item1 = itemRepository.findOne(item.getItemId());
-        Assert.assertThat(item1.getArticulo().getDescripcion(),notNullValue());
-        Assert.assertThat(item1.getArticulo().getDescripcion(),is("articulo 1"));
+        Item item2 = itemRepository.findByCodigo("33").get(0);
+        Assert.assertThat(item2.getCantidad(),is(2));
+        Assert.assertThat(item2.getCodigo(),is("33"));
+        Assert.assertThat(item2.getVentaId(),is(1L));
+        Assert.assertThat(item2.getArticuloId(),is(1L));
+
+    }
+
+    @Test
+    public void test_findByCodigo() throws Exception {
+
+        Item item = new Item("22",1, 1L);
+        itemRepository.save(item);
+        Item item1 = itemRepository.findByCodigo("22").get(0);
+
+        Assert.assertThat(item1.getCodigo(),is("22"));
+        Assert.assertThat(item1.getCantidad(),is(1));
 
     }
 

@@ -21,33 +21,59 @@ import java.util.Properties;
 public class MemoryDBConfig {
 
 
+    private final DataSource dataSource;
+    private final PlatformTransactionManager transactionManager;
+    private final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean;
+    private final EntityManagerFactory entityManagerFactory;
+    private final PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor;
+
+    public MemoryDBConfig() {
+        dataSource = getDataSource();
+        entityManagerFactoryBean = entityManagerFactoryBean();
+        entityManagerFactory = entityManagerFactoryBean.getObject();
+        transactionManager = getTransactionManager(entityManagerFactory);
+        persistenceExceptionTranslationPostProcessor = getPersistenceExceptionTranslationPostProcessor();
+    }
+
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
+        return dataSource;
+    }
+
+    public DataSource getDataSource(){
         DataSource dataSource = new DataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
         dataSource.setUrl("jdbc:hsqldb:mem:.");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
-
         return dataSource;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+    public PlatformTransactionManager transactionManager() {
+        return transactionManager;
+    }
+
+    public PlatformTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
 
+
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return persistenceExceptionTranslationPostProcessor;
+    }
+
+    public PersistenceExceptionTranslationPostProcessor getPersistenceExceptionTranslationPostProcessor(){
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean= new LocalContainerEntityManagerFactoryBean();
 
-        entityManagerFactoryBean.setDataSource(this.dataSource());
+        entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan("yporque");
         entityManagerFactoryBean.setPersistenceUnitName("test");
 
@@ -65,11 +91,14 @@ public class MemoryDBConfig {
         return entityManagerFactoryBean;
     }
 
+
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-
-        return entityManagerFactoryBean().getObject();
-
+        return entityManagerFactory;
     }
-
+/*
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactoryBean().getObject();
+    }
+*/
 }

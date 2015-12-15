@@ -19,7 +19,7 @@ import static org.hamcrest.core.Is.is;
  * Created by francisco on 21/11/15.
  */
 
-
+/*
 public class ModelTest {
 
     private EntityManager entityManager = Persistence.createEntityManagerFactory("test").createEntityManager();
@@ -97,5 +97,5 @@ public class ModelTest {
 
     }
 
-
 }
+*/

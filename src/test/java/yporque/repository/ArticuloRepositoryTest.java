@@ -42,38 +42,25 @@ public class ArticuloRepositoryTest {
 
     @Test
     public void test_insert_articulo() throws Exception {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("1",1));
-        items.add(new Item("2",1));
-        items.add(new Item("3",1));
-        Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo 1");
-        art.setItems(items);
+        Articulo art = new Articulo(0.0,1.0,2.0,2.0,1.0,"articulo 1");
         articuloRepository.save(art);
         Articulo a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo 1"));
-        Assert.assertThat(a.getItems().size(),is(3));
+        Assert.assertThat(a.getPrecio(),is(4.0));
     }
 
     @Test
     public void test_update_articulo() throws Exception {
-        List<Item> items = new ArrayList<>();
-        items.add(new Item("1",1));
-        items.add(new Item("2",1));
-        items.add(new Item("3",1));
         Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo 1");
-        art.setItems(items);
         articuloRepository.save(art);
         Articulo a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo 1"));
-        Assert.assertThat(a.getItems().size(),is(3));
 
-        a.getItems().remove(0);
         a.setDescripcion("articulo x");
         articuloRepository.save(a);
 
         a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo x"));
-        Assert.assertThat(a.getItems().size(),is(2));
     }
 
 }

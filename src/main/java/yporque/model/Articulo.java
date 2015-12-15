@@ -22,10 +22,6 @@ public class Articulo {
     private Double porcetaje;
     private String descripcion;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "articulo_id")
-    private List<Item> items;
-
     public Articulo() {
     }
 
@@ -36,12 +32,7 @@ public class Articulo {
         this.factor2 = factor2;
         this.porcetaje = porcetaje;
         this.descripcion = descripcion;
-        this.items = new ArrayList<>();
-    }
-
-    public Articulo(Double precio, Double precioLista, Double factor1, Double factor2, Double porcetaje, String descripcion, List<Item> items) {
-        this(precio,precioLista,factor1,factor2,porcetaje,descripcion);
-        this.items = items;
+        actualizarPrecio();
     }
 
     public Long getArticuloId() {
@@ -62,6 +53,7 @@ public class Articulo {
 
     public void setPrecioLista(Double precioLista) {
         this.precioLista = precioLista;
+        actualizarPrecio();
     }
 
     public Double getFactor1() {
@@ -70,6 +62,7 @@ public class Articulo {
 
     public void setFactor1(Double factor1) {
         this.factor1 = factor1;
+        actualizarPrecio();
     }
 
     public Double getFactor2() {
@@ -78,6 +71,7 @@ public class Articulo {
 
     public void setFactor2(Double factor2) {
         this.factor2 = factor2;
+        actualizarPrecio();
     }
 
     public Double getPorcetaje() {
@@ -96,12 +90,9 @@ public class Articulo {
         this.descripcion = descripcion;
     }
 
-    public List<Item> getItems() {
-        return items;
+    private void actualizarPrecio(){
+        precio = precioLista*factor1*factor2;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
 }
 
