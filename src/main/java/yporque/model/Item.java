@@ -17,6 +17,7 @@ public class Item {
     private Long articuloId;
     private String codigo;
     private Integer cantidad;
+    private Integer cantidadStock;
     @Column(name="venta_id", nullable = true)
     private Long ventaId;
 
@@ -26,7 +27,9 @@ public class Item {
     public Item(String codigo, Integer cantidad, Long articuloId) {
         this.codigo = codigo;
         this.cantidad = cantidad;
+        this.cantidadStock = this.cantidad;
         this.articuloId = articuloId;
+
     }
 
     public Long getArticuloId() {
@@ -61,4 +64,19 @@ public class Item {
         this.cantidad = cantidad;
     }
 
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setArticuloId(Long articuloId) {
+        this.articuloId = articuloId;
+    }
+
+    public Integer getCantidadStock() {
+        return cantidadStock;
+    }
+
+    public void setCantidadStock(Integer cantidadStock) {
+        this.cantidadStock = cantidadStock;
+    }
 }

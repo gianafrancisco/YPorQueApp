@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import yporque.config.MemoryDBConfig;
@@ -87,6 +89,39 @@ public class ItemRepositoryTest {
 
         Assert.assertThat(item1.getCodigo(),is("22"));
         Assert.assertThat(item1.getCantidad(),is(1));
+
+    }
+
+
+    @Test
+    public void test_findByArticuloId_pageable() throws Exception {
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("1",1, 1L));
+        items.add(new Item("2",1, 1L));
+        items.add(new Item("3",1, 1L));
+        itemRepository.save(items);
+
+        Page<Item> page = itemRepository.findByArticuloId(1L,new PageRequest(0,1));
+
+        Assert.assertThat(page.getTotalElements(),is(3L));
+        Assert.assertThat(page.getTotalPages(),is(3));
+        Assert.assertThat(page.isFirst(),is(true));
+        Assert.assertThat(page.getContent().get(0).getCodigo(),is("1"));
+
+    }
+
+    @Test
+    public void test_findByArticuloId() throws Exception {
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("1",1, 1L));
+        items.add(new Item("2",1, 1L));
+        items.add(new Item("3",1, 1L));
+        itemRepository.save(items);
+
+        List<Item> list = itemRepository.findByArticuloId(1L);
+
+        Assert.assertThat(list,hasSize(3));
+        Assert.assertThat(list.get(0).getCodigo(),is("1"));
 
     }
 
