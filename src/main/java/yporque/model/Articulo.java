@@ -1,8 +1,6 @@
 package yporque.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by francisco on 21/11/15.
@@ -19,18 +17,27 @@ public class Articulo {
     private Double precioLista;
     private Double factor1;
     private Double factor2;
-    private Double porcetaje;
     private String descripcion;
+    private Integer cantidad;
+    private Integer cantidadStock;
+    private String codigoBarra;
+
 
     public Articulo() {
+        this.precio=0.0;
+        this.precioLista=0.0;
+        this.factor1=1.0;
+        this.factor2=1.0;
+        this.descripcion="";
+        this.codigoBarra="";
+        this.cantidad = 0;
+        this.cantidadStock = 0;
     }
 
-    public Articulo(Double precio, Double precioLista, Double factor1, Double factor2, Double porcetaje, String descripcion) {
-        this.precio = precio;
+    public Articulo(String codigoBarra, String descripcion, Double precioLista, Double factor1, Double factor2, Integer cantidad, Integer cantidadStock) {
         this.precioLista = precioLista;
         this.factor1 = factor1;
         this.factor2 = factor2;
-        this.porcetaje = porcetaje;
         this.descripcion = descripcion;
         actualizarPrecio();
     }
@@ -74,14 +81,6 @@ public class Articulo {
         actualizarPrecio();
     }
 
-    public Double getPorcetaje() {
-        return porcetaje;
-    }
-
-    public void setPorcetaje(Double porcetaje) {
-        this.porcetaje = porcetaje;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -93,6 +92,31 @@ public class Articulo {
     private void actualizarPrecio(){
         precio = precioLista*factor1*factor2;
     }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Integer getCantidadStock() {
+        return cantidadStock;
+    }
+
+    public void setCantidadStock(Integer cantidadStock) {
+        this.cantidadStock = cantidadStock;
+    }
+
+    public String getCodigoBarra() {
+        return codigoBarra;
+    }
+
+    public void setCodigoBarra(String codigoBarra) {
+        this.codigoBarra = codigoBarra;
+    }
+
 
 }
 
