@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="articuloApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Nuevos Articulos</title>
+</head>
+<body>
+
+<div ng-controller="ArticuloController">
+    <div id="articulo">
+        <p><input type="text" id="articuloId" disabled ng-model="articulo.articuloId" /></p>
+        <p><input type="text" id="precio" placeholder="Precio" disabled ng-model="articulo.precio" /></p>
+        <p><input type="text" id="descripcion" placeholder="Descripcion" ng-model="articulo.descripcion" /></p>
+        <p><button ng-click="agregarArticulo();">Agregar nuevo</button></p>
+        <p><button ng-click="modificarArticulo();">Modificar</button></p>
+    </div>
+    <div id="listaArticulos">
+        <p ng-repeat="articulo in listado.content">
+            <span>{{articulo.articuloId}}</span>
+            <span>{{articulo.precio}}</span>
+            <span>{{articulo.descripcion}}</span>
+            <span><button ng-click="modificar(articulo);">Modificar</button></span>
+            <span><button >Eliminar</button></span>
+        </p>
+    </div>
+
+    <div id="item">
+        <p><input type="text" id="itemId" ng-model="codigo.itemId" disabled /></p>
+        <p><input type="text" id="cantidad" placeholder="Cantidad" ng-model="codigo.cantidad" /></p>
+        <p><input type="text" id="codigo" placeholder="Codigo" ng-model="codigo.codigo" /></p>
+        <p><button ng-click="agregarCodigo();">Agregar nuevo codigo</button></p>
+        <p><button ng-click="modificarCodigo();">Modificar</button></p>
+    </div>
+
+    <div id="listaCodigos">
+        <p ng-repeat="codigo in listadoCodigo.content">
+            <span>{{codigo.itemId}}</span>
+            <span>{{codigo.cantidad}}</span>
+            <span>{{codigo.codigo}}</span>
+            <span><button ng-click="modificarCodigo(codigo);">Modificar</button></span>
+            <span><button >Eliminar</button></span>
+        </p>
+    </div>
+
+</div>
+
+<script src="js/bower_components/angular/angular.min.js"></script>
+<script src="js/articuloApp.js"></script>
+</body>
+</html>

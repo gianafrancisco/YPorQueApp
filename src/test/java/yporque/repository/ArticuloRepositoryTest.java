@@ -42,7 +42,7 @@ public class ArticuloRepositoryTest {
 
     @Test
     public void test_insert_articulo() throws Exception {
-        Articulo art = new Articulo(0.0,1.0,2.0,2.0,1.0,"articulo 1");
+        Articulo art = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
         articuloRepository.save(art);
         Articulo a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo 1"));
@@ -51,7 +51,7 @@ public class ArticuloRepositoryTest {
 
     @Test
     public void test_update_articulo() throws Exception {
-        Articulo art = new Articulo(1.0,1.0,1.0,1.0,1.0,"articulo 1");
+        Articulo art = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
         articuloRepository.save(art);
         Articulo a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo 1"));

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="articuloApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Nuevos Articulos</title>
+    <link rel="stylesheet" type="text/css" href="js/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
+</head>
+<body>
+
+<div ng-controller="ArticuloController">
+    <div >
+    <span id="articulo">
+        <form>
+            <div class="form-group">
+                <label for="descripcion">Descripcion</label>
+                <input type="text" id="descripcion" class="form-control" placeholder="Descripcion" ng-model="articulo.descripcion" />
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio</label>
+                <input type="text" id="precio" class="form-control" placeholder="Precio" disabled ng-model="articulo.precio" />
+            </div>
+            <p>
+                <button ng-click="agregarArticulo();" class="btn btn-default">Agregar nuevo</button>
+                <button ng-click="modificarArticulo();" class="btn btn-default">Modificar</button>
+            </p>
+        </form>
+    </span>
+    <span id="item">
+        <form>
+            <div class="form-group">
+                <label for="item">Cantidad en Stock</label>
+                <input type="text" id="cantidad" class="form-control" placeholder="Cantidad" ng-model="codigo.cantidad" />
+            </div>
+            <div class="form-group">
+                <label for="item">Codigo de barras</label>
+                <input type="text" id="codigo" class="form-control" placeholder="Codigo" ng-model="codigo.codigo" />
+            </div>
+            <p>
+                <button ng-click="agregarCodigo();" class="btn btn-default">Agregar nuevo codigo</button>
+                <button ng-click="modificarCodigo();" class="btn btn-default">Modificar</button>
+            </p>
+        </form>
+    </span>
+    </div>
+    <div id="listaArticulos">
+        <table id="tablaListaArticulo" class="table">
+            <tbody>
+            <tr ng-repeat="articulo in listado.content">
+                <td>{{articulo.precio}}</td>
+                <td>{{articulo.descripcion}}</td>
+                <td>
+                    <button ng-click="modificar(articulo);" class="btn btn-default">Modificar</button>
+                    <button ng-click="eliminar(articulo);" class="btn btn-default">Eliminar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="listaCodigos">
+        <table id="tablaListaCodigo" class="table">
+            <tbody>
+            <tr ng-repeat="codigo in listadoCodigo.content">
+                <td>{{codigo.codigo}}</td>
+                <td>{{codigo.cantidad}}</td>
+                <td>{{codigo.cantidadStock}}</td>
+                <td>
+                    <button ng-click="modificarCodigo(codigo);" class="btn btn-default">Modificar</button>
+                    <button ng-click="eliminarCodigo(articulo,codigo);" class="btn btn-default">Eliminar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="js/bower_components/angular/angular.min.js"></script>
+<script src="js/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+
+
+<script src="js/articuloApp.js"></script>
+</body>
+</html>
