@@ -6,15 +6,18 @@
 
     <groupId>org.springframework</groupId>
     <artifactId>yporque</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>0.1.0</version>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.2.7.RELEASE</version>
     </parent>
 
+
     <!-- tag::bom[] -->
+    <!--
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -26,10 +29,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    -->
     <!-- end::bom[] -->
 
     <properties>
         <java.version>1.8</java.version>
+        <start-class>yporque.Application</start-class>
     </properties>
 
     <dependencies>
@@ -42,13 +47,13 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!-- tag::starter[] -->
-
+<!--
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+-->
         <!-- end::starter[] -->
         <dependency>
             <groupId>com.h2database</groupId>
@@ -61,11 +66,6 @@
             <version>1.8.0.10</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -111,6 +111,17 @@
             <version>2.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -132,5 +143,17 @@
         </testResources>
     </build>
 
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
