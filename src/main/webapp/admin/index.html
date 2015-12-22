@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Nuevos Articulos</title>
-    <link rel="stylesheet" type="text/css" href="js/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="js/bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
     <style type="text/css">
         [ng\:cloak], [ng-cloak], .ng-cloak {
         display: none !important;
         }
     </style>
 </head>
-<body ng-cloak class="ng-cloak">
+<body ng-cloak class="ng-cloak" ng-controller="ArticuloController">
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
@@ -24,13 +24,15 @@
             <li><a href="#listaArticulos">Buscar</a></li>
         </ul>
         -->
+        <!-- <button ng-click="cerrarSession();" class="btn btn-primary navbar-btn navbar-right">Salir</button> -->
     </div>
 </nav>
 
 
-<div ng-controller="ArticuloController">
-    <div class="panel panel-primary" style="width: 90%; margin: 5%">
-        <div class="panel-heading">Agregar nuevo articulo</div>
+
+<div>
+    <div id="agregarArticulo" class="panel panel-primary" style="width: 90%; margin: 5%">
+        <div class="panel-heading"></a>Agregar nuevo articulo</div>
         <div class="panel-body">
             <form>
                 <div class="form-group-sm">
@@ -49,6 +51,21 @@
                 <div class="form-group-sm">
                     <label for="cantidad">Cantidad</label>
                     <input type="text" id="cantidad" class="form-control" placeholder="Cantidad"  ng-model="articulo.cantidad" />
+                </div>
+
+                <div class="form-group-sm">
+                    <label for="precio">Precio de lista</label>
+                    <input type="text" id="precio" class="form-control" placeholder="Precio lista"  ng-model="articulo.precioLista" />
+                </div>
+
+                <div class="form-group-sm">
+                    <label for="factor1">Factor 1</label>
+                    <input type="text" id="factor1" class="form-control" placeholder="factor 1"  ng-model="articulo.factor1" value="1.0"/>
+                </div>
+
+                <div class="form-group-sm">
+                    <label for="factor2">Factor 2</label>
+                    <input type="text" id="factor2" class="form-control" placeholder="factor 2"  ng-model="articulo.factor2" value="1.0"/>
                 </div>
 
                 <div style="margin-top: 10px;">
@@ -71,27 +88,30 @@
             </div>
             <table id="tablaListaArticulo" class="table">
                 <thead>
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Precio</th>
-                        <th>Cant. / Stock</th>
-                        <th>Descripcion</th>
-                        <th>Acciones</th>
-                    </tr>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Precio / Lista</th>
+                    <th>f1 / f2</th>
+                    <th>Cant. / Stock</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="articulo in listado.content">
-                        <td style="width: 20%">{{articulo.codigo}}</td>
-                        <td style="width: 10%">{{articulo.precio}}</td>
-                        <td style="width: 10%">{{articulo.cantidad}} / {{articulo.cantidadStock}}</td>
-                        <td style="width: 40%">{{articulo.descripcion}}</td>
-                        <td style="width: 20%">
-                            <div class="btn-group">
-                                <button ng-click="modificar(articulo);" class="btn btn-primary btn-sm">Modificar</button>
-                                <button ng-click="copiar(articulo);" class="btn btn-primary btn-sm">Copiar</button>
-                            </div>
-                        </td>
-                    </tr>
+                <tr ng-repeat="articulo in listado.content">
+                    <td style="width: 20%">{{articulo.codigo}}</td>
+                    <td style="width: 10%">{{articulo.precio}} / {{articulo.precioLista}}</td>
+                    <td style="width: 10%">{{articulo.factor1}} / {{articulo.factor2}}</td>
+                    <td style="width: 10%">{{articulo.cantidad}} / {{articulo.cantidadStock}}</td>
+                    <td style="width: 30%">{{articulo.descripcion}}</td>
+                    <td style="width: 20%">
+                        <div class="btn-group">
+                            <button ng-click="modificar(articulo);" class="btn btn-primary btn-sm">Modificar</button>
+                            <button ng-click="copiar(articulo);" class="btn btn-primary btn-sm">Copiar</button>
+                            <button ng-click="eliminar(articulo);" class="btn btn-danger btn-sm">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <div class="panel-footer">
@@ -101,14 +121,12 @@
     </div>
 </div>
 
-<script src="js/bower_components/angular/angular.min.js"></script>
-<script src="js/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="js/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script src="js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="../js/bower_components/angular/angular.min.js"></script>
+<script src="../js/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../js/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="../js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-
-
-<script src="js/articuloApp.js"></script>
+<script src="../js/articuloApp.js"></script>
 </body>
 </html>
