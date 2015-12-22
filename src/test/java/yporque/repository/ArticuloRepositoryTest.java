@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +24,7 @@ import yporque.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -62,5 +65,22 @@ public class ArticuloRepositoryTest {
         a = articuloRepository.findOne(art.getArticuloId());
         Assert.assertThat(a.getDescripcion(),is("articulo x"));
     }
+
+    @Test
+    public void test_articulo_findByDescripcionOrCodigoIgnoreCase() throws Exception {
+        Articulo art = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
+        articuloRepository.save(art);
+
+        Page<Articulo> page = articuloRepository.findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase("Rticulo 1","Rticulo 1",new PageRequest(0,10));
+        Assert.assertThat(page.getContent(),hasSize(1));
+        Assert.assertThat(page.getContent().get(0).getDescripcion(),is("articulo 1"));
+
+        page = articuloRepository.findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase("23","23",new PageRequest(0,10));
+        Assert.assertThat(page.getContent(),hasSize(1));
+        Assert.assertThat(page.getContent().get(0).getCodigo(),is("1234"));
+
+
+    }
+
 
 }

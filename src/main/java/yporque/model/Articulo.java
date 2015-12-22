@@ -20,25 +20,28 @@ public class Articulo {
     private String descripcion;
     private Integer cantidad;
     private Integer cantidadStock;
-    private String codigoBarra;
+    private String codigo;
 
 
     public Articulo() {
-        this.precio=0.0;
-        this.precioLista=0.0;
-        this.factor1=1.0;
-        this.factor2=1.0;
-        this.descripcion="";
-        this.codigoBarra="";
+        this.precio = 0.0;
+        this.precioLista = 0.0;
+        this.factor1 = 1.0;
+        this.factor2 = 1.0;
+        this.descripcion = "";
+        this.codigo = "";
         this.cantidad = 0;
         this.cantidadStock = 0;
     }
 
-    public Articulo(String codigoBarra, String descripcion, Double precioLista, Double factor1, Double factor2, Integer cantidad, Integer cantidadStock) {
+    public Articulo(String codigo, String descripcion, Double precioLista, Double factor1, Double factor2, Integer cantidad, Integer cantidadStock) {
+        this.codigo = codigo;
         this.precioLista = precioLista;
         this.factor1 = factor1;
         this.factor2 = factor2;
         this.descripcion = descripcion;
+        this.cantidadStock = cantidadStock;
+        this.cantidad = cantidad;
         actualizarPrecio();
     }
 
@@ -90,7 +93,7 @@ public class Articulo {
     }
 
     private void actualizarPrecio(){
-        precio = precioLista*factor1*factor2;
+        precio = Math.ceil(precioLista*factor1*factor2*10)/10;
     }
 
     public Integer getCantidad() {
@@ -109,13 +112,14 @@ public class Articulo {
         this.cantidadStock = cantidadStock;
     }
 
-    public String getCodigoBarra() {
-        return codigoBarra;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoBarra(String codigoBarra) {
-        this.codigoBarra = codigoBarra;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
+
 
 
 }
