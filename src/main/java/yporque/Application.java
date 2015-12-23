@@ -8,11 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import yporque.model.Customer;
-import yporque.model.Product;
 import yporque.model.Vendedor;
-import yporque.repository.CustomerRepository;
-import yporque.repository.ProductRepository;
 import yporque.repository.VendedorRepository;
 
 import java.util.List;

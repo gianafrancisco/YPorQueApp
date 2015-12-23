@@ -11,8 +11,6 @@
 
         <class>yporque.model.Articulo</class>
         <class>yporque.model.Item</class>
-        <class>yporque.model.Product</class>
-        <class>yporque.model.Customer</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
