@@ -67,19 +67,6 @@ class ApplicationConfiguration {
     @Bean
     public EntityManagerFactory entityManagerFactory() {
 
-/*        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        //LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        LocalContainerEntityManagerFactoryBean factory = entityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("yporque");
-        factory.setDataSource(dataSource());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
-        */
-
         return entityManagerFactoryBean().getObject();
 
     }

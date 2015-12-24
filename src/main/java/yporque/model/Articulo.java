@@ -53,37 +53,6 @@ public class Articulo {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Double getPrecioLista() {
-        return precioLista;
-    }
-
-    public void setPrecioLista(Double precioLista) {
-        this.precioLista = precioLista;
-        actualizarPrecio();
-    }
-
-    public Double getFactor1() {
-        return factor1;
-    }
-
-    public void setFactor1(Double factor1) {
-        this.factor1 = factor1;
-        actualizarPrecio();
-    }
-
-    public Double getFactor2() {
-        return factor2;
-    }
-
-    public void setFactor2(Double factor2) {
-        this.factor2 = factor2;
-        actualizarPrecio();
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -94,14 +63,6 @@ public class Articulo {
 
     private void actualizarPrecio(){
         precio = Math.ceil(precioLista*factor1*factor2*10)/10;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
     }
 
     public Integer getCantidadStock() {
@@ -115,12 +76,6 @@ public class Articulo {
     public String getCodigo() {
         return codigo;
     }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-
 
 }
 

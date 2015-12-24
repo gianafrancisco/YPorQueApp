@@ -4,6 +4,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -14,6 +17,7 @@ import yporque.model.Articulo;
 import yporque.repository.ArticuloRepository;
 import yporque.repository.ItemRepository;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan("yporque")
-@ContextConfiguration(classes = {MemoryDBConfig.class})
+@ContextConfiguration(classes = {MemoryDBConfig.class, ArticuloController.class})
 public class ArticuloControllerTest {
 
     private MockMvc mockMvc;
@@ -34,16 +38,12 @@ public class ArticuloControllerTest {
     @Autowired
     private ArticuloRepository articuloRepository;
 
-    //@Autowired
+    @Autowired
     private ArticuloController articuloController;
 
     @Before
     public void setUp() throws Exception {
-        articuloController = new ArticuloController();
-        articuloController.setArticuloRepository(articuloRepository);
-        articuloController.setItemRepository(itemRepository);
-        mockMvc = MockMvcBuilders.standaloneSetup(articuloController).build();
-
+        mockMvc = MockMvcBuilders.standaloneSetup(articuloController).setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
     }
 
     @After
@@ -52,23 +52,7 @@ public class ArticuloControllerTest {
         articuloRepository.deleteAll();
     }
 
-    /*
     @Test
-    public void test_add_new_articulo() throws Exception {
-
-        Articulo articulo = new Articulo(0.0,1.0,1.0,1.0,0.0,"Articulo 1");
-
-        mockMvc.perform("/articulo/agregar")
-
-
-        Articulo articulo1 = articuloRepository.findAll().get(0);
-        Assert.assertThat(articulo.getDescripcion(),is(articulo1.getDescripcion()));
-
-    }
-    */
-
-    @Test
-    @Ignore
     public void test_get_articulos() throws Exception {
 
         Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
@@ -76,8 +60,80 @@ public class ArticuloControllerTest {
 
         mockMvc.perform(get("/articulos").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
         .andExpect(status().isOk())
-        .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.content[0].descripcion").value("Articulo 1"));
+        .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.content[0].descripcion").value("articulo 1"));
 
     }
+
+
+    @Test
+    public void test_request_articulos() throws Exception {
+
+        Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
+        articuloRepository.saveAndFlush(articulo);
+
+        Page<Articulo> page = articuloController.obtenerListaArticulos(new PageRequest(0,10));
+
+        Assert.assertThat(page.getTotalPages(),is(1));
+        Assert.assertThat(page.getTotalElements(),is(1L));
+        Assert.assertThat(page.getNumberOfElements(),is(1));
+        Assert.assertThat(page.getContent().get(0).getCodigo(),is("1234"));
+        Assert.assertThat(page.getContent().get(0).getDescripcion(),is("articulo 1"));
+
+    }
+
+
+    @Test
+    public void test_request_articulo_search() throws Exception {
+
+        Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
+        articuloRepository.saveAndFlush(articulo);
+
+        Page<Articulo> page = articuloController.filtrarArticulos("ticulo",new PageRequest(0,10));
+
+        Assert.assertThat(page.getTotalPages(),is(1));
+        Assert.assertThat(page.getTotalElements(),is(1L));
+        Assert.assertThat(page.getNumberOfElements(),is(1));
+        Assert.assertThat(page.getContent().get(0).getCodigo(),is("1234"));
+        Assert.assertThat(page.getContent().get(0).getDescripcion(),is("articulo 1"));
+
+    }
+
+    @Test
+    public void test_request_articulo_agregar() throws Exception {
+
+        Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
+
+        articuloController.agregar(articulo);
+
+        Page<Articulo> page = articuloController.obtenerListaArticulos(new PageRequest(0,10));
+
+        Assert.assertThat(page.getTotalPages(),is(1));
+        Assert.assertThat(page.getTotalElements(),is(1L));
+        Assert.assertThat(page.getNumberOfElements(),is(1));
+        Assert.assertThat(page.getContent().get(0).getCodigo(),is("1234"));
+        Assert.assertThat(page.getContent().get(0).getDescripcion(),is("articulo 1"));
+
+    }
+
+
+    @Test
+    public void test_request_borrar_articulo() throws Exception {
+
+        Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,1,1);
+
+        articulo = articuloController.agregar(articulo);
+
+        articuloController.borrarArticulo(articulo.getArticuloId());
+
+        Page<Articulo> page = articuloController.obtenerListaArticulos(new PageRequest(0,10));
+
+        Assert.assertThat(page.getTotalPages(),is(0));
+        Assert.assertThat(page.getTotalElements(),is(0L));
+        Assert.assertThat(page.getNumberOfElements(),is(0));
+        Assert.assertThat(page.getContent(),hasSize(0));
+
+    }
+
+
 }

@@ -20,7 +20,7 @@ public class VendedorController {
 
 
     @RequestMapping("/vendedores")
-    public Page<Vendedor> obtenerListaArticulos(Pageable pageRequest){
+    public Page<Vendedor> obtenerLista(Pageable pageRequest){
         return vendedorRepository.findAll(pageRequest);
     };
 
@@ -43,4 +43,5 @@ public class VendedorController {
         }
 
     };
+
 }

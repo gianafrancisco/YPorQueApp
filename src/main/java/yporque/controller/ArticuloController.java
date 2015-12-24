@@ -41,6 +41,7 @@ public class ArticuloController {
         return articuloRepository.saveAndFlush(articulo);
     };
 
+    /*
     @RequestMapping("/articulo/{articuloId}/agregar")
     public Item agregarItem(@PathVariable Long articuloId, @RequestBody Item item){
         item.setArticuloId(articuloId);
@@ -56,7 +57,7 @@ public class ArticuloController {
     public void borrarItem(@PathVariable Long itemId){
         itemRepository.delete(itemId);
     };
-
+    */
     @RequestMapping("/articulo/delete/{articuloId}")
     public void borrarArticulo(@PathVariable Long articuloId){
         List<Item> items = itemRepository.findByArticuloId(articuloId);
@@ -64,13 +65,4 @@ public class ArticuloController {
         articuloRepository.delete(articuloId);
     };
 
-
-
-    public void setArticuloRepository(ArticuloRepository articuloRepository) {
-        this.articuloRepository = articuloRepository;
-    }
-
-    public void setItemRepository(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
 }

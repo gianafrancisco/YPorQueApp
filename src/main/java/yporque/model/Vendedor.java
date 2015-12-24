@@ -20,6 +20,9 @@ public class Vendedor {
     private String apellido;
 
     public Vendedor() {
+        this.username = "";
+        this.nombre = "";
+        this.apellido = "";
     }
 
     public Vendedor(String username, String password, String nombre, String apellido) {

@@ -47,20 +47,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
 
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("123456").roles("USER", "ADMIN", "MOZO");
-    }
-    */
-
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        //auth.userDetailsService(userDetailsService);
     }
 
 

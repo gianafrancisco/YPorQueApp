@@ -9,6 +9,18 @@ public class VentaRequest {
     private Vendedor vendedor;
     private String formaPago;
 
+    public VentaRequest() {
+        this.formaPago = "Efectivo";
+        this.cantidad = 0;
+    }
+
+    public VentaRequest(Articulo articulo, Integer cantidad, Vendedor vendedor, String formaPago) {
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.vendedor = vendedor;
+        this.formaPago = formaPago;
+    }
+
     public Articulo getArticulo() {
         return articulo;
     }

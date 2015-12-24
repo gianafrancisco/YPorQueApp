@@ -18,9 +18,10 @@ import java.util.Properties;
  */
 //@Configuration
 //@EnableJpaRepositories("yporque.repository")
-class ApplicationConfigurationMysql {
+class ApplicationConfigurationMysql extends ApplicationConfiguration {
 
     @Bean
+    @Override
     public DataSource dataSource(){
         DataSource dataSource = new DataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -30,7 +31,7 @@ class ApplicationConfigurationMysql {
 
         return dataSource;
     }
-
+/*
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -42,7 +43,8 @@ class ApplicationConfigurationMysql {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
         return new PersistenceExceptionTranslationPostProcessor();
     }
-
+*/
+    @Override
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean= new LocalContainerEntityManagerFactoryBean();
 
@@ -63,27 +65,14 @@ class ApplicationConfigurationMysql {
         entityManagerFactoryBean.afterPropertiesSet();
         return entityManagerFactoryBean;
     }
-
+/*
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-
-/*        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        //LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        LocalContainerEntityManagerFactoryBean factory = entityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("yporque");
-        factory.setDataSource(dataSource());
-        factory.afterPropertiesSet();
-
-        return factory.getObject();
-        */
 
         return entityManagerFactoryBean().getObject();
 
     }
-
+*/
 
 }
 

@@ -23,6 +23,10 @@ public class Venta {
     private TipoDePago tipoPago;
 
     public Venta() {
+        this.descripcion = "";
+        this.montoTotal = 0.0;
+        this.fecha = Instant.now();
+        this.tipoPago = TipoDePago.EFECTIVO;
     }
 
     public Venta(String descripcion, Instant fecha, TipoDePago tipoPago, Double montoTotal) {

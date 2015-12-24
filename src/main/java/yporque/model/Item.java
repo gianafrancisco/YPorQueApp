@@ -22,6 +22,11 @@ public class Item {
     private Long ventaId;
 
     public Item() {
+        this.articuloId = 0L;
+        this.codigo = "";
+        this.cantidad = 0;
+        this.cantidadStock = 0;
+        this.ventaId = 0L;
     }
 
     public Item(String codigo, Integer cantidad, Long articuloId) {
@@ -64,19 +69,8 @@ public class Item {
         this.cantidad = cantidad;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
-    }
-
     public void setArticuloId(Long articuloId) {
         this.articuloId = articuloId;
     }
 
-    public Integer getCantidadStock() {
-        return cantidadStock;
-    }
-
-    public void setCantidadStock(Integer cantidadStock) {
-        this.cantidadStock = cantidadStock;
-    }
 }

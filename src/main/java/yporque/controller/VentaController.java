@@ -22,7 +22,7 @@ public class VentaController {
     private ArticuloRepository articuloRepository;
 
     @RequestMapping("/venta/confirmar")
-    public Double agregar(@RequestBody List<VentaRequest> ventas){
+    public Double confirmar(@RequestBody List<VentaRequest> ventas){
 
         ventas.stream().forEach(ventaRequest -> {
             Articulo art = articuloRepository.findOne(ventaRequest.getArticulo().getArticuloId());
@@ -32,7 +32,6 @@ public class VentaController {
 
         Double totalVenta = ventas.stream().mapToDouble(ventaRequest -> (Double)(ventaRequest.getCantidad()*ventaRequest.getArticulo().getPrecio())).sum();
         return  totalVenta;
-        //return articuloRepository.saveAndFlush(articulo);
     };
 
 }

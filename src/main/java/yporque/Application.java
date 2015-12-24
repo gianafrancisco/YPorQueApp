@@ -17,9 +17,6 @@ import java.util.List;
 @ComponentScan("yporque")
 public class Application {
 
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class);
 	}
@@ -28,7 +25,7 @@ public class Application {
 	public CommandLineRunner loadData(VendedorRepository vendedorRepository) {
 		return (args) -> {
 			List<Vendedor> list = vendedorRepository.findByUsername("Administrador");
-			if(list.size() == 0){
+			if(list.isEmpty()){
 				vendedorRepository.save(new Vendedor("Administrador","1qaz2wsx","Administrador","Administrador"));
 			}
 
