@@ -77,5 +77,16 @@ public class Articulo {
         return codigo;
     }
 
+    public Double getPrecioLista() {
+        return precioLista;
+    }
+
+    public Double getFactor1() {
+        return factor1;
+    }
+
+    public Double getFactor2() {
+        return factor2;
+    }
 }
 
