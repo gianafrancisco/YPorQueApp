@@ -28,18 +28,18 @@ public class ArticuloController {
     @RequestMapping("/articulos")
     public Page<Articulo> obtenerListaArticulos(Pageable pageRequest){
         return articuloRepository.findAll(pageRequest);
-    };
+    }
 
     @RequestMapping("/articulo/search")
     public Page<Articulo> filtrarArticulos(@RequestParam(value = "") String search, Pageable pageRequest){
         return articuloRepository.findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase(search, search, pageRequest);
-    };
+    }
 
 
     @RequestMapping("/articulo/agregar")
     public Articulo agregar(@RequestBody Articulo articulo){
         return articuloRepository.saveAndFlush(articulo);
-    };
+    }
 
     /*
     @RequestMapping("/articulo/{articuloId}/agregar")
@@ -63,6 +63,6 @@ public class ArticuloController {
         List<Item> items = itemRepository.findByArticuloId(articuloId);
         items.stream().forEach(item -> itemRepository.delete(item.getItemId()));
         articuloRepository.delete(articuloId);
-    };
+    }
 
 }

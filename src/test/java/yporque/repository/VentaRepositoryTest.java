@@ -36,10 +36,6 @@ public class VentaRepositoryTest {
     @Autowired
     private VentaRepository ventaRepository;
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @After
     public void tearDown() throws Exception {
         ventaRepository.deleteAll();

@@ -32,10 +32,6 @@ public class ItemRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @After
     public void tearDown() throws Exception {
         itemRepository.deleteAll();

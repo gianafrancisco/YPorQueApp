@@ -14,13 +14,13 @@ public class Articulo {
     @Column(name = "articulo_id", nullable = false)
     private Long articuloId;
     private Double precio;
-    private Double precioLista;
-    private Double factor1;
-    private Double factor2;
+    private final Double precioLista;
+    private final Double factor1;
+    private final Double factor2;
     private String descripcion;
-    private Integer cantidad;
+    private final Integer cantidad;
     private Integer cantidadStock;
-    private String codigo;
+    private final String codigo;
 
 
     public Articulo() {

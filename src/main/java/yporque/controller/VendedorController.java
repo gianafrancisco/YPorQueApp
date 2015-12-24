@@ -22,17 +22,17 @@ public class VendedorController {
     @RequestMapping("/vendedores")
     public Page<Vendedor> obtenerLista(Pageable pageRequest){
         return vendedorRepository.findAll(pageRequest);
-    };
+    }
 
     @RequestMapping("/vendedor/search")
     public Page<Vendedor> filtrar(@RequestParam(value = "") String search, Pageable pageRequest){
         return vendedorRepository.findByUsernameContainingIgnoreCaseOrNombreContainingIgnoreCaseOrApellidoContainingIgnoreCase(search,search,search,pageRequest);
-    };
+    }
 
     @RequestMapping("/vendedor/agregar")
     public Vendedor agregar(@RequestBody Vendedor vendedor){
         return vendedorRepository.saveAndFlush(vendedor);
-    };
+    }
 
     @RequestMapping("/vendedor/delete/{vendedorId}")
     public void delete(@PathVariable Long vendedorId){
@@ -42,6 +42,6 @@ public class VendedorController {
             vendedorRepository.delete(vendedorId);
         }
 
-    };
+    }
 
 }

@@ -45,15 +45,14 @@ public class VentaController {
             ventaRepository.save(ventaFunction.apply(fecha,ventaRequest));
         });
 
-        Double totalVenta = ventas.stream().mapToDouble(ventaRequest -> (Double)(ventaRequest.getCantidad()*ventaRequest.getArticulo().getPrecio())).sum();
+        return ventas.stream().mapToDouble(ventaRequest -> ventaRequest.getCantidad()*ventaRequest.getArticulo().getPrecio()).sum();
 
-        return  totalVenta;
-    };
+    }
 
 
     @RequestMapping("/ventas")
     public Page<Venta> obtenerListado(Pageable pageRequest){
         return  ventaRepository.findAll(pageRequest);
-    };
+    }
 
 }

@@ -19,16 +19,16 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "venta_id")
     private Long ventaId;
-    private Instant fecha;
-    private String codigo;
-    private String descripcion;
-    private Integer cantidad;
-    private Double factor1;
-    private Double factor2;
-    private Double precioLista;
-    private Double precio;
-    private TipoDePago tipoPago;
-    private String username;
+    private final Instant fecha;
+    private final String codigo;
+    private final String descripcion;
+    private final Integer cantidad;
+    private final Double factor1;
+    private final Double factor2;
+    private final Double precioLista;
+    private final Double precio;
+    private final TipoDePago tipoPago;
+    private final String username;
 
     public Venta() {
         this.codigo = "";
@@ -40,6 +40,7 @@ public class Venta {
         this.precio = 0.0;
         this.precioLista = 0.0;
         this.username = "";
+        this.cantidad = 0;
     }
 
     public Venta(Instant fecha, String codigo, String descripcion, Integer cantidad, Double factor1, Double factor2, Double precioLista, Double precio, TipoDePago tipoPago, String username) {

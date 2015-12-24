@@ -70,8 +70,8 @@ public class Vendedor {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("[ id=").append(vendedorId)
-                .append(", nombre=").append(nombre).append(", apellido=").append(apellido)
-                .append(", username=").append(username).append(", password=").append(password).append(" ]").toString();
+        return "[ id=" + vendedorId +
+                ", nombre=" + nombre + ", apellido=" + apellido +
+                ", username=" + username + ", password=" + password + " ]";
     }
 }

@@ -4,14 +4,16 @@ package yporque.model;
  * Created by francisco on 23/12/15.
  */
 public class VentaRequest {
-    private Articulo articulo;
-    private Integer cantidad;
-    private Vendedor vendedor;
-    private String formaPago;
+    private final Articulo articulo;
+    private final Integer cantidad;
+    private final Vendedor vendedor;
+    private final String formaPago;
 
     public VentaRequest() {
         this.formaPago = "Efectivo";
         this.cantidad = 0;
+        this.articulo = null;
+        this.vendedor = null;
     }
 
     public VentaRequest(Articulo articulo, Integer cantidad, Vendedor vendedor, String formaPago) {

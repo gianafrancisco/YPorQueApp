@@ -86,7 +86,7 @@ public class VendedorControllerTest {
 
         Vendedor vendedor = new Vendedor("username1","1234","nombre1","apellido1");
 
-        vendedor = vendedorController.agregar(vendedor);
+        vendedorController.agregar(vendedor);
 
         Page<Vendedor> page = vendedorController.obtenerLista(new PageRequest(0,10));
 
