@@ -69,8 +69,5 @@ public class Item {
         this.cantidad = cantidad;
     }
 
-    public void setArticuloId(Long articuloId) {
-        this.articuloId = articuloId;
-    }
 
 }
