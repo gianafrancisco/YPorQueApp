@@ -105,7 +105,7 @@ articuloApp.controller('VenderController', function ($scope,$http,$window,$locat
     $scope.actualizarCarrito = function(){
         $scope.carrito.forEach(function(current){
             current.vendedor = $scope.vendedor;
-            current.formaPago = $scope.formaPago;
+            current.formaPago = $scope.formaPago.value;
         });
     };
 
@@ -116,6 +116,7 @@ articuloApp.controller('VenderController', function ($scope,$http,$window,$locat
             .success(function(data, status, headers, config) {
                 $scope.carrito = [];
                 $scope.calcularTotal();
+                $scope.buscarArticulo();
             });
         }
 
