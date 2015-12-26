@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="articuloApp">
+<html lang="en" ng-app="mainApp">
 <head>
     <meta charset="UTF-8">
     <title>Agregar Nuevos Articulos</title>
@@ -19,95 +19,25 @@
     </div>
     <div class="container">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/index.html">Articulos</a></li>
-            <li><a href="/vender.html">Venta</a></li>
-            <li ><a href="/venta.html">Ventas</a></li>
+            <li><a href="#articulo">Articulos</a></li>
+            <li><a href="#vender">Venta</a></li>
+            <li><a href="#venta">Ventas</a></li>
         </ul>
     </div>
 </nav>
-
-
-<div ng-controller="ArticuloController">
-    <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
-        <div class="panel-heading">Agregar nuevo articulo</div>
-        <div class="panel-body">
-            <form>
-                <div class="form-group-sm">
-                    <label for="descripcion">Codigo de barra</label>
-                    <input type="text" id="codigo" class="form-control" placeholder="Codigo de barra" ng-model="articulo.codigo" />
-                </div>
-                <div class="form-group-sm">
-                    <label for="descripcion">Descripcion</label>
-                    <input type="text" id="descripcion" class="form-control" placeholder="Descripcion" ng-model="articulo.descripcion" />
-                </div>
-
-                <div class="form-group-sm">
-                    <label for="cantidadStock">Cantidad en Stock</label>
-                    <input type="number" id="cantidadStock" class="form-control" placeholder="Cantidad Stock"  ng-model="articulo.cantidadStock" value=""/>
-                </div>
-                <div class="form-group-sm">
-                    <label for="cantidad">Cantidad</label>
-                    <input type="number" id="cantidad" class="form-control" placeholder="Cantidad"  ng-model="articulo.cantidad" />
-                </div>
-
-                <div style="margin-top: 10px;">
-                    <button ng-click="agregarArticulo();" class="btn btn-success" ng-disabled="!isModificable();">Agregar nuevo</button>
-                    <button ng-click="modificarArticulo();" class="btn btn-primary" ng-disabled="isModificable();">Modificar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="listaArticulos">
-        <div class="panel panel-primary" style="width: 90%; margin: 5%">
-            <div class="panel-heading">Buscar articulos</div>
-            <div class="panel-body">
-                <div class="form-group-sm">
-                    <label for="buscar">Buscar</label>
-                    <input type="text" id="buscar" class="form-control" placeholder="buscar articulo"  ng-model="search" ng-change="buscarArticulo();"/>
-                </div>
-                <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerListaArticulo();"></uib-pagination>
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
-            </div>
-            <table id="tablaListaArticulo" class="table">
-                <thead>
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Precio</th>
-                        <th>Cant. / Stock</th>
-                        <th>Descripcion</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="articulo in listado.content">
-                        <td style="width: 20%">{{articulo.codigo}}</td>
-                        <td style="width: 10%">{{articulo.precio | currency}}</td>
-                        <td style="width: 10%">{{articulo.cantidad}} / {{articulo.cantidadStock}}</td>
-                        <td style="width: 40%">{{articulo.descripcion}}</td>
-                        <td style="width: 20%">
-                            <div class="btn-group">
-                                <button ng-click="modificar(articulo);" class="btn btn-primary btn-sm">Modificar</button>
-                                <button ng-click="copiar(articulo);" class="btn btn-primary btn-sm">Copiar</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="panel-footer">
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
-            </div>
-        </div>
-    </div>
-</div>
+<ng-view />
 
 <script src="js/bower_components/angular/angular.min.js"></script>
+<script src="js/bower_components/angular-route/angular-route.min.js"></script>
 <script src="js/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="js/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
 <script src="js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-
-
 <script src="js/articuloApp.js"></script>
+<script src="js/venderApp.js"></script>
+<script src="js/ventaApp.js"></script>
+<script src="js/mainApp.js"></script>
+
 </body>
 </html>

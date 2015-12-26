@@ -1,139 +1,134 @@
-var articuloApp = angular.module('articuloApp', ['ui.bootstrap']);
-
-articuloApp.controller('ArticuloController', function ($scope,$http,$window,$location) {
+function articuloController($scope,$http,$window,$location) {
 
 
-    $scope.listado = {
-        numberOfElements: 0,
-        number: 0,
-        totalElements: 0
-    };
-    $scope.maxSize = 100;
-    $scope.listadoCodigo = {};
-    $scope.articulo = {};
-    $scope.codigo = {};
-    $scope.ipp = 20;
-    $scope.pageNumber = 1;
+     $scope.listado = {
+         numberOfElements: 0,
+         number: 0,
+         totalElements: 0
+     };
+     $scope.maxSize = 100;
+     $scope.listadoCodigo = {};
+     $scope.articulo = {};
+     $scope.codigo = {};
+     $scope.ipp = 20;
+     $scope.pageNumber = 1;
 
-    $scope.obtenerListaArticulo = function(){
-        var url = "/articulos?page="+($scope.pageNumber-1);
-        if($scope.search != "" && $scope.search != undefined){
-            var search = "&search="+$scope.search;
-            url = "/articulo/search?page="+($scope.pageNumber-1)+search;
-        }
-        $http.get(url)
-        .success(function(data, status, headers, config) {
-            $scope.listado=data;
-            $scope.pageNumber = $scope.listado.number+1;
-        });
-    };
-
-    $scope.buscarArticulo = function(){
-        $scope.obtenerListaArticulo();
-    };
-
-    $scope.obtenerListaCodigo = function(articulo){
-        if(articulo.articuloId != undefined){
-            $http.get("/articulo/"+articulo.articuloId+"/items")
-            .success(function(data, status, headers, config) {
-                $scope.listadoCodigo=data;
-            });
+     $scope.obtenerListaArticulo = function(){
+         var url = "/articulos?page="+($scope.pageNumber-1);
+         if($scope.search != "" && $scope.search != undefined){
+             var search = "&search="+$scope.search;
+             url = "/articulo/search?page="+($scope.pageNumber-1)+search;
          }
-    };
+         $http.get(url)
+         .success(function(data, status, headers, config) {
+             $scope.listado=data;
+             $scope.pageNumber = $scope.listado.number+1;
+         });
+     };
 
-    $scope.agregarArticulo = function(){
-        $scope.articulo.articuloId = null;
-        $scope.save(function(){
-            $scope.articulo = {};
-        });
-    };
+     $scope.buscarArticulo = function(){
+         $scope.obtenerListaArticulo();
+     };
 
-    $scope.modificarArticulo = function(){
-        $scope.save(function(){
-            $scope.articulo = {};
-        });
-    };
+     $scope.obtenerListaCodigo = function(articulo){
+         if(articulo.articuloId != undefined){
+             $http.get("/articulo/"+articulo.articuloId+"/items")
+             .success(function(data, status, headers, config) {
+                 $scope.listadoCodigo=data;
+             });
+          }
+     };
 
-    $scope.agregarCodigo = function(){
-        $scope.codigo.itemId = null;
-        $scope.saveItem();
-    };
+     $scope.agregarArticulo = function(){
+         $scope.articulo.articuloId = null;
+         $scope.save(function(){
+             $scope.articulo = {};
+         });
+     };
 
-    $scope.modificarCodigo = function(){
-        $scope.saveItem();
-    };
+     $scope.modificarArticulo = function(){
+         $scope.save(function(){
+             $scope.articulo = {};
+         });
+     };
 
-    $scope.modificar = function(articulo){
-        $scope.articulo = articulo;
-        $scope.obtenerListaCodigo($scope.articulo);
-    };
+     $scope.agregarCodigo = function(){
+         $scope.codigo.itemId = null;
+         $scope.saveItem();
+     };
 
-    $scope.copiar = function(articulo){
-        $scope.modificar(articulo);
-        $scope.articulo.articuloId = undefined;
-        $scope.articulo.codigo = "";
-        var element = $window.document.getElementById('codigo');
-        if(element){
-            element.focus();
-        }
-    };
+     $scope.modificarCodigo = function(){
+         $scope.saveItem();
+     };
 
-    $scope.save = function(callback){
-        $http.put("/articulo/agregar",$scope.articulo)
-        .success(function(data, status, headers, config) {
-            $scope.articulo=data;
-            $scope.obtenerListaArticulo();
-            if(callback != undefined){
-                callback();
-            }
-        });
-    };
+     $scope.modificar = function(articulo){
+         $scope.articulo = articulo;
+         //$scope.obtenerListaCodigo($scope.articulo);
+     };
 
-    $scope.eliminar = function(articulo){
+     $scope.copiar = function(articulo){
+         $scope.modificar(articulo);
+         $scope.articulo.articuloId = undefined;
+         $scope.articulo.codigo = "";
+         var element = $window.document.getElementById('codigo');
+         if(element){
+             element.focus();
+         }
+     };
 
-        if(confirm("Esta seguro que quiere elimiar el articulo?")){
+     $scope.save = function(callback){
+         $http.put("/articulo/agregar",$scope.articulo)
+         .success(function(data, status, headers, config) {
+             $scope.articulo=data;
+             $scope.obtenerListaArticulo();
+             if(callback != undefined){
+                 callback();
+             }
+         });
+     };
 
-            $http.get("/articulo/delete/"+articulo.articuloId)
-            .success(function(data, status, headers, config) {
-                $scope.obtenerListaArticulo();
-                $scope.obtenerListaCodigo(articulo);
-            });
-        }
-    };
+     $scope.eliminar = function(articulo){
 
-    $scope.eliminarCodigo = function(articulo,item){
-        $http.get("/articulo/"+articulo.articuloId+"/item/delete/"+item.itemId)
-        .success(function(data, status, headers, config) {
-            $scope.obtenerListaCodigo(articulo);
-        });
-    };
+         if(confirm("Esta seguro que quiere elimiar el articulo?")){
 
-    $scope.saveItem = function(){
-        $http.put("/articulo/"+$scope.articulo.articuloId+"/agregar",$scope.codigo)
-        .success(function(data, status, headers, config) {
-            $scope.codigo=data;
-            $scope.obtenerListaCodigo($scope.articulo);
-        });
-    };
+             $http.get("/articulo/delete/"+articulo.articuloId)
+             .success(function(data, status, headers, config) {
+                 $scope.obtenerListaArticulo();
+                 //$scope.obtenerListaCodigo(articulo);
+             });
+         }
+     };
 
-    $scope.init = function(){
-        $scope.obtenerListaArticulo();
+     $scope.eliminarCodigo = function(articulo,item){
+         $http.get("/articulo/"+articulo.articuloId+"/item/delete/"+item.itemId)
+         .success(function(data, status, headers, config) {
+             //$scope.obtenerListaCodigo(articulo);
+         });
+     };
 
-    };
+     $scope.saveItem = function(){
+         $http.put("/articulo/"+$scope.articulo.articuloId+"/agregar",$scope.codigo)
+         .success(function(data, status, headers, config) {
+             $scope.codigo=data;
+             //$scope.obtenerListaCodigo($scope.articulo);
+         });
+     };
 
-    $scope.isModificable = function(){
-        return $scope.articulo.articuloId == undefined;
-    };
+     $scope.init = function(){
+         $scope.obtenerListaArticulo();
 
-    $scope.cerrarSession = function(){
-        $http.post('/logout', {}).success(function() {
-            $location.path("/index.html");
-        }).error(function(data) {
-        });
-    };
-    $scope.init();
+     };
 
-}).config(function($locationProvider) {
-    //$locationProvider.html5Mode(true).hashPrefix('!');
-    //$locationProvider.html5Mode(true);
-});
+     $scope.isModificable = function(){
+         return $scope.articulo.articuloId == undefined;
+     };
+
+     $scope.cerrarSession = function(){
+         $http.post('/logout', {}).success(function() {
+             $location.path("/index.html");
+         }).error(function(data) {
+         });
+     };
+     $scope.init();
+
+ };

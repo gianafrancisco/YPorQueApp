@@ -1,47 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="articuloApp">
-<head>
-    <meta charset="UTF-8">
-    <title>Agregar Nuevos Articulos</title>
-    <link rel="stylesheet" type="text/css" href="js/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="js/bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
-    <style type="text/css">
-        [ng\:cloak], [ng-cloak], .ng-cloak {
-        display: none !important;
-        }
-    </style>
-</head>
-<body ng-cloak class="ng-cloak" ng-controller="VenderController">
-
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#">YPorQue?</a>
-    </div>
-    <div class="container">
-        <ul class="nav navbar-nav">
-            <li ><a href="/index.html">Articulos</a></li>
-            <li class="active"><a href="/vender.html">Venta</a></li>
-            <li ><a href="/venta.html">Ventas</a></li>
-        </ul>
-        <form class="navbar-form navbar-right" role="username">
-            <div class="form-group">
-                <select class="btn btn-default navbar-left" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="actualizarCarrito();"></select>
-            </div>
-        </form>
-
-        <!--
-        <ul class="nav navbar-nav">
-            <li><a href="#agregarArticulo">Agregar Articulo</a></li>
-            <li><a href="#listaArticulos">Buscar</a></li>
-        </ul>
-        -->
-    </div>
-</nav>
-
-
 <div >
     <div id="listaArticulos">
-        <div class="panel panel-primary" style="width: 90%; margin: 5%">
+        <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
             <div class="panel-heading">Buscar articulos</div>
             <div class="panel-body">
                 <div class="form-group-sm">
@@ -83,7 +42,10 @@
             <div class="panel-body">
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
+                    <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="actualizarCarrito();"></select>
+                    <!--
                     <input type="text" size="30" class="form-control" disabled ng-model="vendedor.username">
+                    -->
                 </div>
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="formaPago" style="width: 150px;">Forma de pago</span>
@@ -133,18 +95,4 @@
 
         </div>
     </div>
-
-
 </div>
-
-<script src="js/bower_components/angular/angular.min.js"></script>
-<script src="js/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="js/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script src="js/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
-
-
-<script src="js/venderApp.js"></script>
-</body>
-</html>
