@@ -1,7 +1,6 @@
 package yporque.repository;
 
 import org.junit.*;
-import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,18 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 import yporque.config.MemoryDBConfig;
-import yporque.model.Articulo;
-import yporque.model.Item;
 import yporque.model.TipoDePago;
 import yporque.model.Venta;
 
-import javax.persistence.Transient;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -84,19 +76,37 @@ public class VentaRepositoryTest {
     }
 
     @Test
-    public void test_findByUsername() throws Exception {
+    public void test_findByUsernameCodigoDescripcion() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
-        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3");
         ventaRepository.save(venta);
         ventaRepository.save(venta1);
+        ventaRepository.save(venta3);
 
-        Page<Venta> page = ventaRepository.findByUsernameIgnoreCaseContaining("SERNAME2",new PageRequest(0,1));
+        Page<Venta> page = ventaRepository.findByUsernameIgnoreCaseContainingOrCodigoIgnoreCaseContainingOrDescripcionIgnoreCaseContaining("SERNAME1","OD2","RTICULO3" , new PageRequest(0,10));
 
-        Assert.assertThat(page.getContent(),hasSize(1));
-        Assert.assertThat(page.getContent().get(0).getUsername(),is("username2"));
+        Assert.assertThat(page.getContent(),hasSize(3));
 
     }
+
+    @Test
+    public void test_filtrar() throws Exception {
+
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3");
+        ventaRepository.save(venta);
+        ventaRepository.save(venta1);
+        ventaRepository.save(venta3);
+
+        Page<Venta> page = ventaRepository.filtrar(Instant.parse("2015-12-13T16:30:00Z"),Instant.parse("2015-12-13T17:30:00Z"),"SERNAME", new PageRequest(0,10));
+
+        Assert.assertThat(page.getContent(),hasSize(1));
+
+    }
+
 
 
 }
