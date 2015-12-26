@@ -13,18 +13,16 @@ public class Articulo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "articulo_id", nullable = false)
     private Long articuloId;
-    private Double precio;
     private final Double precioLista;
     private final Double factor1;
     private final Double factor2;
     private String descripcion;
-    private final Integer cantidad;
+    private Integer cantidad;
     private Integer cantidadStock;
     private final String codigo;
 
 
     public Articulo() {
-        this.precio = 0.0;
         this.precioLista = 0.0;
         this.factor1 = 1.0;
         this.factor2 = 1.0;
@@ -42,7 +40,6 @@ public class Articulo {
         this.descripcion = descripcion;
         this.cantidadStock = cantidadStock;
         this.cantidad = cantidad;
-        actualizarPrecio();
     }
 
     public Long getArticuloId() {
@@ -50,7 +47,7 @@ public class Articulo {
     }
 
     public Double getPrecio() {
-        return precio;
+        return actualizarPrecio();
     }
 
     public String getDescripcion() {
@@ -61,8 +58,8 @@ public class Articulo {
         this.descripcion = descripcion;
     }
 
-    private void actualizarPrecio(){
-        precio = Math.ceil(precioLista*factor1*factor2*10)/10;
+    private Double actualizarPrecio(){
+        return Math.ceil(precioLista*factor1*factor2*10)/10;
     }
 
     public Integer getCantidadStock() {
@@ -87,6 +84,10 @@ public class Articulo {
 
     public Double getFactor2() {
         return factor2;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
     }
 }
 
