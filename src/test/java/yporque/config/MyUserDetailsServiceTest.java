@@ -24,6 +24,7 @@ import yporque.repository.ItemRepository;
 import yporque.repository.VendedorRepository;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,6 +46,7 @@ public class MyUserDetailsServiceTest {
     @Before
     public void setUp() throws Exception {
         vendedorRepository.save(new Vendedor("Administrador","123456","Admin","Admin"));
+        vendedorRepository.save(new Vendedor("username1","123456","Admin","Admin"));
     }
 
     @After
@@ -61,6 +63,24 @@ public class MyUserDetailsServiceTest {
         Assert.assertThat(userDetails.getUsername(),is("Administrador"));
         Assert.assertThat(userDetails.getPassword(),is("123456"));
 
+
+    }
+
+    @Test
+    public void test_loadUserByUsername_not_administrador() throws Exception {
+
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername("username1");
+
+        Assert.assertThat(userDetails,nullValue());
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void test_loadUserByUsername_not_exists() throws Exception {
+
+        UserDetails userDetails = myUserDetailsService.loadUserByUsername("username_not_exist");
+
+        Assert.assertThat(userDetails,nullValue());
 
     }
 }

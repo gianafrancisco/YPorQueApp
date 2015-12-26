@@ -29,15 +29,21 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
 
-        Vendedor user = vendedorRepository.findByUsername(username).get(0);
-        List<GrantedAuthority> authorities;
-        User u = null;
-        if (ADMINISTRADOR.equals(user.getUsername())) {
-            authorities =
-                    buildUserAuthority(ADMINISTRADOR);
-            u = buildUserForAuthentication(user, authorities);
+
+        List<Vendedor> vendedorList = vendedorRepository.findByUsername(username);
+        if(!vendedorList.isEmpty()) {
+            Vendedor user = vendedorList.get(0);
+            List<GrantedAuthority> authorities;
+            User u = null;
+            if (ADMINISTRADOR.equals(user.getUsername())) {
+                authorities =
+                        buildUserAuthority(ADMINISTRADOR);
+                u = buildUserForAuthentication(user, authorities);
+            }
+            return u;
+        }else {
+            throw new RuntimeException("Username not found");
         }
-        return u;
 
     }
 
