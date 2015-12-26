@@ -129,4 +129,26 @@ public class VendedorControllerTest {
 
     }
 
+
+    @Test
+    public void test_obtener_vendedor_do_not_delete_administrador() throws Exception {
+
+        Vendedor vendedor = new Vendedor("administrador","1234","nombre1","apellido1");
+
+        vendedor = vendedorRepository.save(vendedor);
+
+        vendedorController.delete(vendedor.getVendedorId());
+
+        Page<Vendedor> page = vendedorController.obtenerLista(new PageRequest(0,10));
+
+        Assert.assertThat(page.getTotalPages(),is(1));
+        Assert.assertThat(page.getTotalElements(),is(1L));
+        Assert.assertThat(page.getNumberOfElements(),is(1));
+        Assert.assertThat(page.getContent().get(0).getUsername(),is("administrador"));
+        Assert.assertThat(page.getContent().get(0).getPassword(),is("1234"));
+        Assert.assertThat(page.getContent().get(0).getNombre(),is("nombre1"));
+        Assert.assertThat(page.getContent().get(0).getApellido(),is("apellido1"));
+
+    }
+
 }
