@@ -1,0 +1,58 @@
+<div ng-controller="RetiroController">
+    <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
+        <div class="panel-heading">Retiros</div>
+        <div class="panel-body">
+            <form>
+
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
+                    <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor"></select>
+                </div>
+
+                <div class="form-group-sm">
+                    <label for="descripcion">Descripcion</label>
+                    <input type="text" id="descripcion" class="form-control" placeholder="Descripcion" ng-model="retiro.descripcion" />
+                </div>
+
+                <div class="form-group-sm">
+                    <label for="precio">Monto</label>
+                    <input type="number" step="0.01" id="precio" class="form-control" placeholder="Monto"  ng-model="retiro.monto" min="0" />
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button ng-click="agregar();" class="btn btn-success">Retirar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="listaRetiros">
+        <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
+            <div class="panel-heading">Retiros</div>
+            <div class="panel-body">
+                <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerLista();"></uib-pagination>
+                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+            </div>
+            <table id="tablaListaRetiros" class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Vendedor</th>
+                        <th>Monto</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="retiro in listado.content">
+                        <td style="width: 20%">{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td style="width: 20%">{{retiro.username}}</td>
+                        <td style="width: 20%">{{retiro.monto | currency}}</td>
+                        <td style="width: 40%">{{retiro.descripcion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer">
+                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+            </div>
+        </div>
+    </div>
+</div>

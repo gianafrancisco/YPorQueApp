@@ -43,9 +43,6 @@
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
                     <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="actualizarCarrito();"></select>
-                    <!--
-                    <input type="text" size="30" class="form-control" disabled ng-model="vendedor.username">
-                    -->
                 </div>
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="formaPago" style="width: 150px;">Forma de pago</span>

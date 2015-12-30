@@ -1,4 +1,4 @@
-function venderController($scope,$http,$window,$location) {
+function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.listado = {
        numberOfElements: 0,
        number: 0,
@@ -117,6 +117,7 @@ function venderController($scope,$http,$window,$location) {
                $scope.carrito = [];
                $scope.calcularTotal();
                $scope.buscarArticulo();
+               $scope.numeroCupon = "";
            });
        }
 

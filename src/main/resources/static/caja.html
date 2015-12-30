@@ -1,0 +1,113 @@
+
+<div ng-controller="CajaController">
+    <div class="panel panel-primary no-print" style="width: 90%; margin: 5%; margin-top: 100px;">
+        <div class="panel-heading">Caja Resumen del dia</div>
+        <div class="panel-body">
+            <div class="input-group" style="margin-bottom: 5px;">
+                <span class="input-group-addon" id="vendedor" style="width: 200px;">Vendedor</span>
+                <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor"></select>
+            </div>
+
+
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
+                <span class="input-group-addon" id="apertura" style="width: 200px;">Apertura de caja</span>
+                <input type="text" class="form-control" disabled value="{{caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}">
+            </div>
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
+                <span class="input-group-addon" id="efectivo" style="width: 200px;">Efectivo</span>
+                <input type="text" class="form-control" disabled value="{{caja.efectivo | currency}}">
+            </div>
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
+                <span class="input-group-addon" id="tarjeta" style="width: 200px;">Tarjeta</span>
+                <input type="text" class="form-control" disabled value="{{caja.tarjeta | currency}}">
+            </div>
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
+                <span class="input-group-addon" id="totalVentaDia" style="width: 200px;">Total venta del dia</span>
+                <input type="text" class="form-control" disabled value="{{caja.totalVentaDia | currency}}">
+            </div>
+
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
+                <span class="input-group-addon" id="efectivoDiaSiguiente" style="width: 200px;">Efectivo dia siguiente</span>
+                <input type="text" class="form-control" disabled value="{{caja.efectivoDiaSiguiente | currency}}">
+            </div>
+
+            <div style="margin-top: 10px;">
+                <button ng-click="abrir();" class="btn btn-success" ng-hide="cajaAbierta">Abrir</button>
+                <button ng-click="cerrar();" class="btn btn-success" ng-show="cajaAbierta">Cerrar e Imprimir</button>
+            </div>
+        </div>
+    </div>
+    <div id="cajaReporteImprimir" ng-hide="cajaAbierta || imprimir.caja.cajaId == undefined" >
+
+        <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
+            <div class="panel-heading">Caja Resumen</div>
+            <div class="panel-body">
+                <button ng-click="print();" class="btn btn-success">Imprimir</button>
+                <h4>Numero de Cierre: {{imprimir.caja.cajaId}}</h4>
+                <h4>Apertura de Caja: {{imprimir.caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.aperturaUsername}})</h4>
+                <h4>Cierre de Caja: {{imprimir.caja.cierre.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.cierreUsername}})</h4>
+                <h4>Efectivo: {{imprimir.caja.efectivo | currency}}</h4>
+                <h4>Tarjeta: {{imprimir.caja.tarjeta | currency}}</h4>
+                <h4>Total ventas del dia: {{imprimir.caja.totalVentaDia | currency}}</h4>
+                <h4>Efectivo dia siguiente: {{imprimir.caja.efectivoDiaSiguiente | currency}}</h4>
+            </div>
+        </div>
+
+        <div id="listaRetiros" style="font-size: x-small;">
+            <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 10px;">
+                <div class="panel-heading">Retiros</div>
+                <table id="tablaListaRetiros" class="table">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Vendedor</th>
+                        <th>Monto</th>
+                        <th>Descripcion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="retiro in imprimir.retiroList">
+                        <td style="width: 20%">{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td style="width: 20%">{{retiro.username}}</td>
+                        <td style="width: 20%">{{retiro.monto | currency}}</td>
+                        <td style="width: 40%">{{retiro.descripcion}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="lista" style="font-size: x-small;">
+            <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 10px;">
+                <div class="panel-heading">Ventas</div>
+                <div class="panel-body">
+                </div>
+                <table id="tablaListaVendedor" class="table">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Username</th>
+                        <th>Codigo</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>Monto</th>
+                        <th>Forma de Pago</th>
+                        <th>Cupon</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="v in imprimir.ventaList">
+                        <td style="width: 15%">{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td style="width: 10%">{{v.username}}</td>
+                        <td style="width: 15%">{{v.codigo}}</td>
+                        <td style="width: 25%">{{v.descripcion}}</td>
+                        <td style="width: 5%">{{v.cantidad}}</td>
+                        <td style="width: 5%">{{v.precio | currency}}</td>
+                        <td style="width: 15%">{{v.tipoPago}}</td>
+                        <td style="width: 10%">{{v.nroCupon}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
