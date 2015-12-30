@@ -13,6 +13,7 @@ import yporque.model.TipoDePago;
 import yporque.model.Venta;
 
 import java.time.Instant;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -76,6 +77,30 @@ public class VentaRepositoryTest {
     }
 
     @Test
+    public void test_findByFecha_find_one_without_page() throws Exception {
+
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1" );
+        ventaRepository.save(venta);
+        List<Venta> ventaList = ventaRepository.findByFechaBetween(Instant.parse("2015-12-10T00:00:00Z"), Instant.parse("2015-12-14T00:00:00Z"));
+
+        Assert.assertThat(ventaList,hasSize(1));
+        Assert.assertThat(ventaList.get(0).getCodigo(),is("123456"));
+        Assert.assertThat(ventaList.get(0).getDescripcion(),is("Articulo 1"));
+        Assert.assertThat(ventaList.get(0).getFecha(),is(Instant.parse("2015-12-13T16:00:00Z")));
+    }
+
+    @Test
+    public void test_findByFecha_find_none_without_page() throws Exception {
+
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
+        ventaRepository.save(venta);
+        List<Venta> ventaList = ventaRepository.findByFechaBetween(Instant.parse("2015-12-10T00:00:00Z"), Instant.parse("2015-12-13T00:00:00Z"));
+
+        Assert.assertThat(ventaList,hasSize(0));
+    }
+
+
+    @Test
     public void test_findByUsernameCodigoDescripcion() throws Exception {
 
         Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
@@ -124,6 +149,22 @@ public class VentaRepositoryTest {
 
     }
 
+
+    @Test
+    public void test_filtrar_GMT_3() throws Exception {
+
+        Venta venta = new Venta(Instant.parse("2015-12-13T22:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T23:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T23:10:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3", "cupon1");
+        ventaRepository.save(venta);
+        ventaRepository.save(venta1);
+        ventaRepository.save(venta3);
+
+        Page<Venta> page = ventaRepository.findByFechaBetween(Instant.parse("2015-12-13T00:00:00Z"),Instant.parse("2015-12-13T23:59:59Z"), new PageRequest(0,10));
+
+        Assert.assertThat(page.getContent(),hasSize(3));
+
+    }
 
 
 }
