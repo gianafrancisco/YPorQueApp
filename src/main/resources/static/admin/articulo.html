@@ -14,26 +14,26 @@
 
                 <div class="form-group-sm">
                     <label for="cantidadStock">Cantidad en Stock</label>
-                    <input type="number" id="cantidadStock" class="form-control" placeholder="Cantidad Stock"  ng-model="articulo.cantidadStock" value=""/>
+                    <input type="number" id="cantidadStock" class="form-control" placeholder="Cantidad Stock"  ng-model="articulo.cantidadStock" value="" disabled min="0" max="9999"/>
                 </div>
                 <div class="form-group-sm">
                     <label for="cantidad">Cantidad</label>
-                    <input type="number" id="cantidad" class="form-control" placeholder="Cantidad"  ng-model="articulo.cantidad" />
+                    <input type="number" id="cantidad" class="form-control" placeholder="Cantidad"  ng-model="articulo.cantidad" min="0" max="9999" />
                 </div>
 
                 <div class="form-group-sm">
                     <label for="precio">Precio de lista</label>
-                    <input type="number" step="0.01" id="precio" class="form-control" placeholder="Precio lista"  ng-model="articulo.precioLista" />
+                    <input type="number" step="0.01" id="precio" class="form-control" placeholder="Precio lista"  ng-model="articulo.precioLista" min="0"/>
                 </div>
 
                 <div class="form-group-sm">
                     <label for="factor1">Factor 1</label>
-                    <input type="number" step="0.01" id="factor1" class="form-control" placeholder="factor 1"  ng-model="articulo.factor1" value="1.0"/>
+                    <input type="number" step="0.01" id="factor1" class="form-control" placeholder="factor 1"  ng-model="articulo.factor1" value="1.0" min="0"/>
                 </div>
 
                 <div class="form-group-sm">
                     <label for="factor2">Factor 2</label>
-                    <input type="number" step="0.01" id="factor2" class="form-control" placeholder="factor 2"  ng-model="articulo.factor2" value="1.0"/>
+                    <input type="number" step="0.01" id="factor2" class="form-control" placeholder="factor 2"  ng-model="articulo.factor2" value="1.0" min="0"/>
                 </div>
 
                 <div style="margin-top: 10px;">
@@ -60,7 +60,7 @@
                     <th>Codigo</th>
                     <th>Precio / Lista</th>
                     <th>f1 / f2</th>
-                    <th>Cant. / Stock</th>
+                    <th>Stock</th>
                     <th>Descripcion</th>
                     <th>Acciones</th>
                 </tr>
@@ -70,7 +70,7 @@
                     <td style="width: 20%">{{articulo.codigo}}</td>
                     <td style="width: 10%">{{articulo.precio | currency}} / {{articulo.precioLista | currency}}</td>
                     <td style="width: 10%">{{articulo.factor1 | number:2}} / {{articulo.factor2 | number:2}}</td>
-                    <td style="width: 10%">{{articulo.cantidad}} / {{articulo.cantidadStock}}</td>
+                    <td style="width: 10%">{{articulo.cantidadStock}}</td>
                     <td style="width: 30%">{{articulo.descripcion}}</td>
                     <td style="width: 20%">
                         <div class="btn-group">

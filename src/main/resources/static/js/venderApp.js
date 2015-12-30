@@ -63,7 +63,8 @@ function venderController($scope,$http,$window,$location) {
                cantidad: 1,
                articulo: articulo,
                vendedor: $scope.vendedor,
-               formaPago: $scope.formaPago.value
+               formaPago: $scope.formaPago.value,
+               nroCupon: $scope.numeroCupon
            });
        }
        $scope.calcularTotal();
@@ -101,12 +102,16 @@ function venderController($scope,$http,$window,$location) {
        $scope.carrito.forEach(function(current){
            current.vendedor = $scope.vendedor;
            current.formaPago = $scope.formaPago.value;
+           current.nroCupon = $scope.numeroCupon;
        });
    };
 
    $scope.vender = function(){
 
        if(confirm("Esta seguro de realizar la venta?")){
+
+           $scope.actualizarCarrito();
+
            $http.put("/venta/confirmar",$scope.carrito)
            .success(function(data, status, headers, config) {
                $scope.carrito = [];
@@ -122,6 +127,7 @@ function venderController($scope,$http,$window,$location) {
        if(confirm("Esta seguro de cancelar la venta?")){
            $scope.carrito = [];
            $scope.calcularTotal();
+           $scope.numeroCupon = "";
        }
 
 
