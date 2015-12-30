@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
 import yporque.repository.ArticuloRepository;
-import yporque.repository.VendedorRepository;
 import yporque.repository.VentaRepository;
 import yporque.utils.VentaFunction;
 
@@ -67,7 +66,7 @@ public class VentaControllerTest {
         articulo = articuloRepository.save(articulo);
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
 
         List<VentaRequest> list = new ArrayList<>();
         list.add(ventaRequest);
@@ -90,6 +89,7 @@ public class VentaControllerTest {
         Assert.assertThat(ventas.get(0).getFactor1(),is(1.0));
         Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
         Assert.assertThat(ventas.get(0).getPrecio(),is(50.0));
+        Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
 
     }
 
@@ -106,8 +106,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo", "cupon2");
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -127,6 +127,7 @@ public class VentaControllerTest {
         Assert.assertThat(page1.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page1.getContent().get(0).getNroCupon(),is("cupon1"));
         Assert.assertThat(page1.isFirst(),is(true));
         Assert.assertThat(page1.isLast(),is(false));
 
@@ -142,6 +143,7 @@ public class VentaControllerTest {
         Assert.assertThat(page2.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page2.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page2.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page2.getContent().get(0).getNroCupon(),is("cupon2"));
         Assert.assertThat(page2.isFirst(),is(false));
         Assert.assertThat(page2.isLast(),is(true));
 
@@ -160,8 +162,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo", "cupon2");
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -181,6 +183,7 @@ public class VentaControllerTest {
         Assert.assertThat(page1.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page1.getContent().get(0).getNroCupon(),is("cupon1"));
         Assert.assertThat(page1.isFirst(),is(true));
         Assert.assertThat(page1.isLast(),is(false));
 
@@ -196,6 +199,7 @@ public class VentaControllerTest {
         Assert.assertThat(page2.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page2.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page2.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page2.getContent().get(0).getNroCupon(),is("cupon2"));
         Assert.assertThat(page2.isFirst(),is(false));
         Assert.assertThat(page2.isLast(),is(true));
 
@@ -212,8 +216,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo", "cupon2");
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -233,6 +237,7 @@ public class VentaControllerTest {
         Assert.assertThat(page1.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page1.getContent().get(0).getNroCupon(),is("cupon1"));
         Assert.assertThat(page1.isFirst(),is(true));
         Assert.assertThat(page1.isLast(),is(true));
 
@@ -249,8 +254,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,5, vendedor,"Efectivo", "cupon2");
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -270,6 +275,7 @@ public class VentaControllerTest {
         Assert.assertThat(page1.getContent().get(0).getFactor1(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getFactor2(),is(1.0));
         Assert.assertThat(page1.getContent().get(0).getPrecio(),is(50.0));
+        Assert.assertThat(page1.getContent().get(0).getNroCupon(),is("cupon1"));
         Assert.assertThat(page1.isFirst(),is(true));
         Assert.assertThat(page1.isLast(),is(true));
 

@@ -2,10 +2,6 @@ package yporque.model;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
 
 /**
  * Created by francisco on 13/12/2015.
@@ -29,6 +25,7 @@ public class Venta {
     private final Double precio;
     private final TipoDePago tipoPago;
     private final String username;
+    private final String nroCupon;
 
     public Venta() {
         this.codigo = "";
@@ -41,9 +38,10 @@ public class Venta {
         this.precioLista = 0.0;
         this.username = "";
         this.cantidad = 0;
+        this.nroCupon = "";
     }
 
-    public Venta(Instant fecha, String codigo, String descripcion, Integer cantidad, Double factor1, Double factor2, Double precioLista, Double precio, TipoDePago tipoPago, String username) {
+    public Venta(Instant fecha, String codigo, String descripcion, Integer cantidad, Double factor1, Double factor2, Double precioLista, Double precio, TipoDePago tipoPago, String username, String nroCupon) {
         this.fecha = fecha;
         this.codigo = codigo;
         this.descripcion = descripcion;
@@ -54,6 +52,8 @@ public class Venta {
         this.precio = precio;
         this.tipoPago = tipoPago;
         this.username = username;
+        this.nroCupon = nroCupon;
+
     }
 
     public Long getVentaId() {
@@ -98,5 +98,9 @@ public class Venta {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getNroCupon() {
+        return nroCupon;
     }
 }

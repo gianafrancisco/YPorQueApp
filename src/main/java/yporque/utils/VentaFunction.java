@@ -5,7 +5,6 @@ import yporque.model.*;
 
 import java.time.Instant;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Created by francisco on 24/12/15.
@@ -26,7 +25,8 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
                         articulo.getPrecioLista(),
                         articulo.getPrecio()*ventaRequest.getCantidad(),
                         tipoDePago,
-                        vendedor.getUsername()
-                );
+                        vendedor.getUsername(),
+                        ventaRequest.getNroCupon()
+        );
     }
 }

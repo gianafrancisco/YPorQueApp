@@ -8,19 +8,22 @@ public class VentaRequest {
     private final Integer cantidad;
     private final Vendedor vendedor;
     private final String formaPago;
+    private final String nroCupon;
 
     public VentaRequest() {
         this.formaPago = "Efectivo";
         this.cantidad = 0;
         this.articulo = null;
         this.vendedor = null;
+        this.nroCupon = "";
     }
 
-    public VentaRequest(Articulo articulo, Integer cantidad, Vendedor vendedor, String formaPago) {
+    public VentaRequest(Articulo articulo, Integer cantidad, Vendedor vendedor, String formaPago, String nroCupon) {
         this.articulo = articulo;
         this.cantidad = cantidad;
         this.vendedor = vendedor;
         this.formaPago = formaPago;
+        this.nroCupon = nroCupon;
     }
 
     public Articulo getArticulo() {
@@ -37,5 +40,9 @@ public class VentaRequest {
 
     public String getFormaPago() {
         return formaPago;
+    }
+
+    public String getNroCupon() {
+        return nroCupon;
     }
 }

@@ -3,12 +3,10 @@ package yporque.utils;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 import yporque.model.*;
 
 import java.time.Instant;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static org.hamcrest.Matchers.is;
 
@@ -23,7 +21,7 @@ public class VentaFunctionTest {
         BiFunction<Instant,VentaRequest,Venta> converter = new VentaFunction();
 
         Articulo articulo = new Articulo("123456","Articulo 1",20.0,1.0,1.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1");
 
         Venta venta = converter.apply(Instant.parse("2015-12-13T16:00:00Z"),ventaRequest);
 
@@ -37,6 +35,7 @@ public class VentaFunctionTest {
         Assert.assertThat(venta.getFactor1(), Is.is(1.0));
         Assert.assertThat(venta.getFactor2(), Is.is(1.0));
         Assert.assertThat(venta.getUsername(), Is.is("username1"));
+        Assert.assertThat(venta.getNroCupon(), Is.is("cupon1"));
 
     }
 
@@ -46,7 +45,7 @@ public class VentaFunctionTest {
         BiFunction<Instant,VentaRequest,Venta> converter = new VentaFunction();
 
         Articulo articulo = new Articulo("123456","Articulo 1",20.0,1.0,1.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"", "cupon1");
 
         Venta venta = converter.apply(Instant.parse("2015-12-13T16:00:00Z"),ventaRequest);
 
@@ -60,6 +59,7 @@ public class VentaFunctionTest {
         Assert.assertThat(venta.getFactor1(), Is.is(1.0));
         Assert.assertThat(venta.getFactor2(), Is.is(1.0));
         Assert.assertThat(venta.getUsername(), Is.is("username1"));
+        Assert.assertThat(venta.getNroCupon(), Is.is("cupon1"));
 
     }
 

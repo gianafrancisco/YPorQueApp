@@ -36,7 +36,7 @@ public class VentaRepositoryTest {
     @Test
     public void test_insert_new_venta() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
         ventaRepository.save(venta);
         Venta ventadb = ventaRepository.findOne(venta.getVentaId());
         Assert.assertThat(ventadb.getCodigo(),is("123456"));
@@ -49,13 +49,13 @@ public class VentaRepositoryTest {
         Assert.assertThat(ventadb.getFactor1(),is(1.0));
         Assert.assertThat(ventadb.getFactor2(),is(1.0));
         Assert.assertThat(ventadb.getUsername(),is("username1"));
-
+        Assert.assertThat(ventadb.getNroCupon(),is("cupon1"));
     }
 
     @Test
     public void test_findByFecha_find_one() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1" );
         ventaRepository.save(venta);
         Page<Venta> page = ventaRepository.findByFechaBetween(Instant.parse("2015-12-10T00:00:00Z"), Instant.parse("2015-12-14T00:00:00Z"),new PageRequest(0,1));
 
@@ -68,7 +68,7 @@ public class VentaRepositoryTest {
     @Test
     public void test_findByFecha_find_none() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"123456","Articulo 1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
         ventaRepository.save(venta);
         Page<Venta> page = ventaRepository.findByFechaBetween(Instant.parse("2015-12-10T00:00:00Z"), Instant.parse("2015-12-13T00:00:00Z"),new PageRequest(0,1));
 
@@ -78,9 +78,9 @@ public class VentaRepositoryTest {
     @Test
     public void test_findByUsernameCodigoDescripcion() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
-        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2");
-        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3", "cupon1");
         ventaRepository.save(venta);
         ventaRepository.save(venta1);
         ventaRepository.save(venta3);
@@ -94,14 +94,31 @@ public class VentaRepositoryTest {
     @Test
     public void test_filtrar() throws Exception {
 
-        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1");
-        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2");
-        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3");
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username3", "cupon1");
         ventaRepository.save(venta);
         ventaRepository.save(venta1);
         ventaRepository.save(venta3);
 
         Page<Venta> page = ventaRepository.filtrar(Instant.parse("2015-12-13T16:30:00Z"),Instant.parse("2015-12-13T17:30:00Z"),"SERNAME", new PageRequest(0,10));
+
+        Assert.assertThat(page.getContent(),hasSize(1));
+
+    }
+
+    @Test
+    @Ignore
+    public void test_filtrar_formaPago() throws Exception {
+
+        Venta venta = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon1");
+        Venta venta1 = new Venta(Instant.parse("2015-12-13T16:00:00Z"),"COD2","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta3 = new Venta(Instant.parse("2015-12-13T17:00:00Z"),"COD3","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.TARJETA,"username3", "cupon1");
+        ventaRepository.save(venta);
+        ventaRepository.save(venta1);
+        ventaRepository.save(venta3);
+
+        Page<Venta> page = ventaRepository.filtrar(Instant.parse("2015-12-12T16:30:00Z"),Instant.parse("2015-12-13T17:30:00Z"),"ARJET", new PageRequest(0,10));
 
         Assert.assertThat(page.getContent(),hasSize(1));
 

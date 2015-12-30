@@ -15,7 +15,7 @@ public class VentaRequestTest {
     @Test
     public void test_new_VentaRequest() throws Exception {
         Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1");
 
         Assert.assertThat(ventaRequest.getCantidad(),is(10));
         Assert.assertThat(ventaRequest.getArticulo().getCodigo(),is("1234"));
@@ -25,6 +25,7 @@ public class VentaRequestTest {
         Assert.assertThat(ventaRequest.getVendedor().getNombre(),is("nombre1"));
         Assert.assertThat(ventaRequest.getVendedor().getApellido(),is("apellido1"));
         Assert.assertThat(ventaRequest.getVendedor().getPassword(),is("1234"));
+        Assert.assertThat(ventaRequest.getNroCupon(),is("cupon1"));
 
     }
 
@@ -37,6 +38,7 @@ public class VentaRequestTest {
         Assert.assertThat(ventaRequest.getArticulo(),nullValue());
         Assert.assertThat(ventaRequest.getFormaPago(),is("Efectivo"));
         Assert.assertThat(ventaRequest.getVendedor(),nullValue());
+        Assert.assertThat(ventaRequest.getNroCupon(),is(""));
 
     }
 
