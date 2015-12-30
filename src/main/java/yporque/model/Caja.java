@@ -100,4 +100,12 @@ public class Caja {
     public void setCierreUsername(String cierreUsername) {
         this.cierreUsername = cierreUsername;
     }
+
+    public Long getCajaId() {
+        return cajaId;
+    }
+
+    public void setCajaId(Long cajaId) {
+        this.cajaId = cajaId;
+    }
 }
