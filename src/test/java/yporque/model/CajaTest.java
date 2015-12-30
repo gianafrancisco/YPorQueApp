@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.time.Instant;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -24,6 +25,7 @@ public class CajaTest {
         Assert.assertThat(caja.getTarjeta(),is(0.0));
         Assert.assertThat(caja.getTotalVentaDia(),is(0.0));
         Assert.assertThat(caja.getEfectivoDiaSiguiente(),is(0.0));
+        Assert.assertThat(caja.getCajaId(),nullValue());
 
     }
 
@@ -40,6 +42,7 @@ public class CajaTest {
         Assert.assertThat(caja.getTarjeta(),is(0.0));
         Assert.assertThat(caja.getTotalVentaDia(),is(0.0));
         Assert.assertThat(caja.getEfectivoDiaSiguiente(),is(0.0));
+        Assert.assertThat(caja.getCajaId(),nullValue());
 
     }
 

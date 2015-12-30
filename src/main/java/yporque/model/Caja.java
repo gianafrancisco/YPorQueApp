@@ -105,7 +105,4 @@ public class Caja {
         return cajaId;
     }
 
-    public void setCajaId(Long cajaId) {
-        this.cajaId = cajaId;
-    }
 }

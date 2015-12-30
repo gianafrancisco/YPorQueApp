@@ -58,7 +58,8 @@ public class CierreFunction implements BiFunction<Instant, String, Caja> {
             //TODO: check offset transporte and cambio about $400
             abierta.setEfectivoDiaSiguiente(efectivo - retiros);
             return abierta;
+        }else{
+            throw new RuntimeException("Caja open not found");
         }
-        return null;
     }
 }
