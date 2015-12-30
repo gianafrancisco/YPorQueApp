@@ -38,6 +38,7 @@ public class ArticuloController {
 
     @RequestMapping("/articulo/agregar")
     public Articulo agregar(@RequestBody Articulo articulo){
+        articulo.setCantidadStock(articulo.getCantidadStock()+articulo.getCantidad());
         return articuloRepository.saveAndFlush(articulo);
     }
 

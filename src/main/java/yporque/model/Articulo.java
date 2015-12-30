@@ -17,6 +17,7 @@ public class Articulo {
     private final Double factor1;
     private final Double factor2;
     private String descripcion;
+    @Transient
     private Integer cantidad;
     private Integer cantidadStock;
     private final String codigo;
