@@ -37,7 +37,7 @@ var app = angular.module('mainApp', ['ngRoute','ui.bootstrap']).
                   controller: 'CajaController'
               })
             .otherwise({
-                 redirectTo: '/vender'
+                 redirectTo: '/caja'
                });
            $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
            }
