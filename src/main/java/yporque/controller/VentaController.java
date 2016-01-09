@@ -55,20 +55,26 @@ public class VentaController {
 
         devoluciones.stream().forEach(devolucionRequest -> {
                 Venta articuloDevuelto = devolucionRequest.getVenta();
-                TipoDePago tipoDePago = (devolucionRequest.getFormaPago().equals("Efectivo")?TipoDePago.EFECTIVO:TipoDePago.TARJETA);
-                Venta devolucion = new Venta(fecha,
-                                articuloDevuelto.getCodigo(),
-                                articuloDevuelto.getDescripcion(),
-                                devolucionRequest.getCantidad(),
-                                articuloDevuelto.getFactor1(),
-                                articuloDevuelto.getFactor2(),
-                                articuloDevuelto.getPrecioLista(),
-                                -1*articuloDevuelto.getPrecio(),
-                                tipoDePago,
-                                devolucionRequest.getVendedor().getUsername(),
-                                devolucionRequest.getNroCupon()
-                            );
-                ventaRepository.saveAndFlush(devolucion);
+                TipoDePago tipoDePago = (devolucionRequest.getFormaPago().equals("Efectivo") ? TipoDePago.EFECTIVO : TipoDePago.TARJETA);
+                List<Articulo> list = articuloRepository.findByCodigo(articuloDevuelto.getCodigo());
+                if(!list.isEmpty()) {
+                    Articulo art = list.get(0);
+                    art.setCantidadStock(art.getCantidadStock()+1);
+                    articuloRepository.saveAndFlush(art);
+                    Venta devolucion = new Venta(fecha,
+                            articuloDevuelto.getCodigo(),
+                            articuloDevuelto.getDescripcion(),
+                            devolucionRequest.getCantidad(),
+                            articuloDevuelto.getFactor1(),
+                            articuloDevuelto.getFactor2(),
+                            articuloDevuelto.getPrecioLista(),
+                            -1 * articuloDevuelto.getPrecio(),
+                            tipoDePago,
+                            devolucionRequest.getVendedor().getUsername(),
+                            devolucionRequest.getNroCupon()
+                    );
+                    ventaRepository.saveAndFlush(devolucion);
+                }
             }
         );
 

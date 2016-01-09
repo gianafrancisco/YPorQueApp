@@ -15,4 +15,5 @@ import java.util.List;
  */
 public interface ArticuloRepository extends JpaRepository<Articulo, Long> {
     Page<Articulo> findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase(String descripcion,String codigo, Pageable pageable);
+    List<Articulo> findByCodigo(String codigo);
 }
