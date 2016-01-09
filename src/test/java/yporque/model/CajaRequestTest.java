@@ -2,6 +2,7 @@ package yporque.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import yporque.request.CajaRequest;
 
 import java.time.Instant;
 

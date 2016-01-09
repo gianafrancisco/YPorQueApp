@@ -1,8 +1,6 @@
 package yporque.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,12 +10,11 @@ import yporque.model.*;
 import yporque.repository.CajaRepository;
 import yporque.repository.RetiroRepository;
 import yporque.repository.VentaRepository;
-import yporque.utils.CierreFunction;
+import yporque.request.CajaRequest;
 
 import java.time.*;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Created by francisco on 23/12/15.
@@ -55,7 +52,7 @@ public class CajaController {
 
     @RequestMapping("/caja/resumen")
     public Caja resumen(@RequestBody CajaRequest cajaRequest) {
-        return cierreFunction.apply(cajaRequest.getFecha(),cajaRequest.getUsername());
+        return cierreFunction.apply(cajaRequest.getFecha(), cajaRequest.getUsername());
     }
 
     @RequestMapping("/caja/imprimir/{id}")

@@ -1,4 +1,4 @@
-package yporque.model;
+package yporque.request;
 
 import java.time.Instant;
 

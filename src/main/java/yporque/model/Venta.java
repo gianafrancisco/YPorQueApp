@@ -26,6 +26,7 @@ public class Venta {
     private final TipoDePago tipoPago;
     private final String username;
     private final String nroCupon;
+    private final String codigoDevolucion;
 
     public Venta() {
         this.codigo = "";
@@ -39,6 +40,7 @@ public class Venta {
         this.username = "";
         this.cantidad = 0;
         this.nroCupon = "";
+        this.codigoDevolucion = String.format("%x",this.fecha.getEpochSecond());
     }
 
     public Venta(Instant fecha, String codigo, String descripcion, Integer cantidad, Double factor1, Double factor2, Double precioLista, Double precio, TipoDePago tipoPago, String username, String nroCupon) {
@@ -53,8 +55,10 @@ public class Venta {
         this.tipoPago = tipoPago;
         this.username = username;
         this.nroCupon = nroCupon;
-
+        this.codigoDevolucion = String.format("%x",this.fecha.getEpochSecond());
     }
+
+
 
     public Long getVentaId() {
         return ventaId;
@@ -102,5 +106,9 @@ public class Venta {
 
     public String getNroCupon() {
         return nroCupon;
+    }
+
+    public String getCodigoDevolucion() {
+        return codigoDevolucion;
     }
 }

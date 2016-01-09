@@ -5,14 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import yporque.model.Articulo;
-import yporque.model.Venta;
-import yporque.model.VentaRequest;
+import yporque.model.*;
 import yporque.repository.ArticuloRepository;
 import yporque.repository.VentaRepository;
+import yporque.request.ConfirmarVentaRequest;
+import yporque.request.DevolucionRequest;
+import yporque.request.VentaRequest;
 import yporque.utils.VentaFunction;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,18 +36,46 @@ public class VentaController {
     private VentaFunction ventaFunction;
 
     @RequestMapping("/venta/confirmar")
-    public Double confirmar(@RequestBody List<VentaRequest> ventas){
+    public HashMap<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
+
+        List<VentaRequest> ventas = params.getArticulos();
+        List<DevolucionRequest> devoluciones = params.getDevoluciones();
 
         Instant fecha = Instant.now();
 
         ventas.stream().forEach(ventaRequest -> {
-            Articulo art = articuloRepository.findOne(ventaRequest.getArticulo().getArticuloId());
-            art.setCantidadStock(art.getCantidadStock()-ventaRequest.getCantidad());
-            articuloRepository.saveAndFlush(art);
-            ventaRepository.save(ventaFunction.apply(fecha,ventaRequest));
+            for(int i = 0; i<ventaRequest.getCantidad(); i++) {
+                Articulo art = articuloRepository.findOne(ventaRequest.getArticulo().getArticuloId());
+                art.setCantidadStock(art.getCantidadStock() - 1);
+                articuloRepository.saveAndFlush(art);
+                ventaRepository.save(ventaFunction.apply(fecha, ventaRequest));
+            }
         });
 
-        return ventas.stream().mapToDouble(ventaRequest -> ventaRequest.getCantidad()*ventaRequest.getArticulo().getPrecio()).sum();
+
+        devoluciones.stream().forEach(devolucionRequest -> {
+                Venta articuloDevuelto = devolucionRequest.getVenta();
+                TipoDePago tipoDePago = (devolucionRequest.getFormaPago().equals("Efectivo")?TipoDePago.EFECTIVO:TipoDePago.TARJETA);
+                Venta devolucion = new Venta(fecha,
+                                articuloDevuelto.getCodigo(),
+                                articuloDevuelto.getDescripcion(),
+                                devolucionRequest.getCantidad(),
+                                articuloDevuelto.getFactor1(),
+                                articuloDevuelto.getFactor2(),
+                                articuloDevuelto.getPrecioLista(),
+                                -1*articuloDevuelto.getPrecio(),
+                                tipoDePago,
+                                devolucionRequest.getVendedor().getUsername(),
+                                devolucionRequest.getNroCupon()
+                            );
+                ventaRepository.saveAndFlush(devolucion);
+            }
+        );
+
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("codigoDevolucion",String.format("%x", fecha.getEpochSecond()));
+        return map;
 
     }
 
@@ -79,6 +109,13 @@ public class VentaController {
 
         return ventaRepository.filtrar(start, end, search, pageRequest);
     }
+
+
+    @RequestMapping("/venta/devolucion")
+    public List<Venta> filtrarPorCodigoDevolucion(@RequestParam(required = true) String codigoDevolucion){
+        return ventaRepository.findByCodigoDevolucion(codigoDevolucion);
+    }
+
 
 }
 

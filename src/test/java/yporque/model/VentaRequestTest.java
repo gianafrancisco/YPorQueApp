@@ -2,6 +2,7 @@ package yporque.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+import yporque.request.VentaRequest;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;

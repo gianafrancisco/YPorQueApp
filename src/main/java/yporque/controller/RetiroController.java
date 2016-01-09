@@ -6,16 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import yporque.model.*;
-import yporque.repository.ArticuloRepository;
 import yporque.repository.RetiroRepository;
-import yporque.repository.VentaRepository;
-import yporque.utils.VentaFunction;
+import yporque.request.RetiroRequest;
 
 import java.time.*;
-import java.util.List;
 import java.util.function.Function;
 
 /**

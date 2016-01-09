@@ -2,6 +2,7 @@ package yporque.utils;
 
 import org.springframework.stereotype.Component;
 import yporque.model.*;
+import yporque.request.VentaRequest;
 
 import java.time.Instant;
 import java.util.function.BiFunction;
@@ -19,11 +20,11 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
         return new Venta(instant,
                         articulo.getCodigo(),
                         articulo.getDescripcion(),
-                        ventaRequest.getCantidad(),
+                        1,
                         articulo.getFactor1(),
                         articulo.getFactor2(),
                         articulo.getPrecioLista(),
-                        articulo.getPrecio()*ventaRequest.getCantidad(),
+                        articulo.getPrecio(),
                         tipoDePago,
                         vendedor.getUsername(),
                         ventaRequest.getNroCupon()

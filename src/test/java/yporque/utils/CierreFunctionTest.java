@@ -1,6 +1,5 @@
 package yporque.utils;
 
-import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +14,7 @@ import yporque.model.*;
 import yporque.repository.CajaRepository;
 import yporque.repository.RetiroRepository;
 import yporque.repository.VentaRepository;
+import yporque.request.VentaRequest;
 
 import java.time.Instant;
 import java.util.function.BiFunction;
@@ -43,12 +43,16 @@ public class CierreFunctionTest {
     public void setUp() throws Exception {
         converter = new VentaFunction();
         Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
-        Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
-        Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
-        ventaRepository.save(venta);
-        ventaRepository.save(venta1);
+        for(int i = 0;i < 10; i++) {
+            VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
+            Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
+            ventaRepository.save(venta);
+        }
+        for(int i = 0; i < 5; i++) {
+            VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
+            Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
+            ventaRepository.save(venta1);
+        }
 
         retiroRepository.save(new Retiro(1000.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
         retiroRepository.save(new Retiro(50.0, "taxi", Instant.parse("2015-12-30T12:10:00Z"), "username1"));

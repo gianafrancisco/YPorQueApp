@@ -18,6 +18,8 @@ import yporque.model.*;
 import yporque.repository.CajaRepository;
 import yporque.repository.RetiroRepository;
 import yporque.repository.VentaRepository;
+import yporque.request.CajaRequest;
+import yporque.request.VentaRequest;
 import yporque.utils.CierreFunction;
 import yporque.utils.VentaFunction;
 
@@ -82,14 +84,14 @@ public class CajaControllerTest {
 
         converter = new VentaFunction();
         Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
         Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
         Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
         ventaRepository.save(venta);
         ventaRepository.save(venta1);
 
-        retiroRepository.save(new Retiro(1000.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
+        retiroRepository.save(new Retiro(100.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
         retiroRepository.save(new Retiro(50.0, "taxi", Instant.parse("2015-12-30T12:10:00Z"), "username1"));
 
         Caja caja = new Caja(Instant.parse("2015-12-30T09:00:00Z"), "username1");
@@ -100,10 +102,10 @@ public class CajaControllerTest {
 
         Boolean isOpen = cajaController.isOpen();
 
-        Assert.assertThat(caja1.getEfectivo(), Matchers.is(4000.0));
-        Assert.assertThat(caja1.getTarjeta(), Matchers.is(2000.0));
-        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(4000.0 + 2000.0 - 1050.0));
-        Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(4000.0 - 1050.0));
+        Assert.assertThat(caja1.getEfectivo(), Matchers.is(400.0));
+        Assert.assertThat(caja1.getTarjeta(), Matchers.is(400.0));
+        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0 - 150.0));
+        Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(400.0 - 150.0));
         Assert.assertThat(caja1.getCierreUsername(), Matchers.is("username2"));
         Assert.assertThat(caja1.getCierre(), Matchers.is(Instant.parse("2015-12-30T21:00:00Z")));
         Assert.assertThat(isOpen,is(false));
@@ -115,14 +117,14 @@ public class CajaControllerTest {
 
         converter = new VentaFunction();
         Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
+        VentaRequest ventaRequest1 = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
         Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
         Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
         ventaRepository.save(venta);
         ventaRepository.save(venta1);
 
-        retiroRepository.save(new Retiro(1000.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
+        retiroRepository.save(new Retiro(100.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
         retiroRepository.save(new Retiro(50.0, "taxi", Instant.parse("2015-12-30T12:10:00Z"), "username1"));
 
         Caja caja = new Caja(Instant.parse("2015-12-30T09:00:00Z"), "username1");
@@ -132,10 +134,10 @@ public class CajaControllerTest {
 
         Boolean isOpen = cajaController.isOpen();
 
-        Assert.assertThat(caja1.getEfectivo(), Matchers.is(4000.0));
-        Assert.assertThat(caja1.getTarjeta(), Matchers.is(2000.0));
-        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(4000.0 + 2000.0 - 1050.0));
-        Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(4000.0 - 1050.0));
+        Assert.assertThat(caja1.getEfectivo(), Matchers.is(400.0));
+        Assert.assertThat(caja1.getTarjeta(), Matchers.is(400.0));
+        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0 - 150.0));
+        Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(400.0 - 150.0));
         Assert.assertThat(caja1.getCierreUsername(), Matchers.is("username2"));
         Assert.assertThat(caja1.getCierre(), Matchers.is(Instant.parse("2015-12-30T21:00:00Z")));
         Assert.assertThat(isOpen,is(true));

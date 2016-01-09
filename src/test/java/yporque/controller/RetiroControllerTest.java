@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,15 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
-import yporque.repository.ArticuloRepository;
 import yporque.repository.RetiroRepository;
-import yporque.repository.VentaRepository;
-import yporque.utils.VentaFunction;
+import yporque.request.RetiroRequest;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
@@ -77,7 +72,8 @@ public class RetiroControllerTest {
     @Test
     public void test_retiros_today() throws Exception {
 
-        Retiro retiro = new Retiro(100.0,"retiro 1",Instant.parse("2015-12-30T10:00:00Z"),"username1");
+        Instant today = Instant.now();
+        Retiro retiro = new Retiro(100.0,"retiro 1", today,"username1");
         retiroRepository.saveAndFlush(retiro);
         retiro = new Retiro(200.0,"retiro 2",Instant.parse("2015-12-29T10:00:00Z"),"username1");
         retiroRepository.saveAndFlush(retiro);
@@ -90,7 +86,7 @@ public class RetiroControllerTest {
         Assert.assertThat(retiroPage.getContent().get(0).getUsername(),is("username1"));
         Assert.assertThat(retiroPage.getContent().get(0).getDescripcion(),is("retiro 1"));
         Assert.assertThat(retiroPage.getContent().get(0).getMonto(),is(100.0));
-        Assert.assertThat(retiroPage.getContent().get(0).getFecha(),is(Instant.parse("2015-12-30T10:00:00Z")));
+        Assert.assertThat(retiroPage.getContent().get(0).getFecha(),is(today));
         Assert.assertThat(retiroPage.isFirst(),is(true));
         Assert.assertThat(retiroPage.isLast(),is(true));
 

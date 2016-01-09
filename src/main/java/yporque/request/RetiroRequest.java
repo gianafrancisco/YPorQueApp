@@ -1,4 +1,4 @@
-package yporque.model;
+package yporque.request;
 
 public class RetiroRequest {
 

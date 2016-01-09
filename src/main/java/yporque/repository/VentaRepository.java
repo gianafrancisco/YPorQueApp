@@ -21,8 +21,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
             "and ( UPPER(username) like CONCAT('%',UPPER(?3),'%') or UPPER(codigo) like CONCAT('%',UPPER(?3),'%') or UPPER(descripcion) like CONCAT('%',UPPER(?3),'%') or UPPER(tipoPago) like CONCAT('%',UPPER(?3),'%')" +
             " )")
     Page<Venta> filtrar(Instant startTime, Instant endTime, String search, Pageable pageable);
-
     List<Venta> findByFechaBetween(Instant startTime, Instant stopTime);
-
+    List<Venta> findByCodigoDevolucion(String codigoDevolucion);
 
 }

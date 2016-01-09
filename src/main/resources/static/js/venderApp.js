@@ -13,10 +13,11 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.vendedores = {};
    $scope.vendedor = {};
    $scope.carrito = [];
+   $scope.listDevolucion = [];
    $scope.pagos = [{ id: 1, value: "Efectivo"},{ id: 2, value: "Tarjeta"}];
    $scope.formaPago = $scope.pagos[0];
    $scope.montoTotal = 0.0;
-
+   $scope.mensajeConfirmacionVenta = "";
 
    $scope.obtenerListaArticulo = function(){
        var url = "/articulos?page="+($scope.pageNumber-1);
@@ -31,7 +32,16 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        });
    };
 
-
+   $scope.buscarArticuloDevolucion = function(){
+       var url = "/venta/devolucion?codigoDevolucion="+$scope.codigoDevolucion;
+       $http.get(url)
+       .success(function(data, status, headers, config) {
+           $scope.listadoDevolucion=data;
+           $scope.listadoDevolucion.forEach(function(current){
+                current.fecha = undefined;
+            });
+       });
+   };
 
    $scope.buscarArticulo = function(){
        $scope.obtenerListaArticulo();
@@ -70,6 +80,24 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        $scope.calcularTotal();
    }
 
+   $scope.agregarDevolucion = function(venta){
+       var existe = false;
+       $scope.listDevolucion.forEach(function(current,index,array){
+           if(current.venta.ventaId == venta.ventaId ){
+               existe = true;
+           }
+       });
+       if(!existe){
+           $scope.listDevolucion.push({
+               cantidad: 1,
+               venta: venta,
+               vendedor: $scope.vendedor,
+               formaPago: $scope.formaPago.value,
+               nroCupon: $scope.numeroCupon
+           });
+       }
+       $scope.calcularTotal();
+   }
    $scope.removerCarrito = function(articulo){
        var eliminar = -1;
        $scope.carrito.forEach(function(current,index,array){
@@ -86,11 +114,32 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        $scope.calcularTotal();
    }
 
+  $scope.removerDevolucion = function(venta){
+      var eliminar = -1;
+      $scope.listDevolucion.forEach(function(current,index,array){
+          if(current.venta.ventaId == venta.ventaId){
+              current.cantidad--;
+              if(current.cantidad == 0){
+                  eliminar = index;
+              }
+          }
+      });
+      if(eliminar >= 0){
+          $scope.listDevolucion.splice(eliminar,1);
+      }
+      $scope.calcularTotal();
+  }
+
    $scope.calcularTotal = function(){
        var total = 0;
        $scope.carrito.forEach(function(current){
            total+=current.cantidad*current.articulo.precio;
        });
+
+       $scope.listDevolucion.forEach(function(current){
+           total-=current.cantidad*current.venta.precio;
+       });
+
        $scope.montoTotal = total;
    };
 
@@ -104,6 +153,13 @@ function venderController($scope,$http,$window,$location,$rootScope) {
            current.formaPago = $scope.formaPago.value;
            current.nroCupon = $scope.numeroCupon;
        });
+
+      $scope.listDevolucion.forEach(function(current){
+          current.vendedor = $scope.vendedor;
+          current.formaPago = $scope.formaPago.value;
+          current.nroCupon = $scope.numeroCupon;
+      });
+
    };
 
    $scope.vender = function(){
@@ -112,12 +168,19 @@ function venderController($scope,$http,$window,$location,$rootScope) {
 
            $scope.actualizarCarrito();
 
-           $http.put("/venta/confirmar",$scope.carrito)
+           $http.put("/venta/confirmar",{
+                articulos: $scope.carrito,
+                devoluciones: $scope.listDevolucion
+           })
            .success(function(data, status, headers, config) {
                $scope.carrito = [];
+               $scope.listDevolucion = [];
                $scope.calcularTotal();
                $scope.buscarArticulo();
                $scope.numeroCupon = "";
+               $scope.mensajeConfirmacionVenta = data.codigoDevolucion;
+               $scope.listadoDevolucion = [];
+               $('#confirmacionVenta').modal('show');
            });
        }
 
@@ -127,6 +190,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
 
        if(confirm("Esta seguro de cancelar la venta?")){
            $scope.carrito = [];
+           $scope.listDevolucion = [];
            $scope.calcularTotal();
            $scope.numeroCupon = "";
        }
@@ -136,6 +200,14 @@ function venderController($scope,$http,$window,$location,$rootScope) {
 
    $scope.init = function(){
        $scope.obtenerListaVendedores();
+   };
+
+   $scope.devolucion = function(){
+        $('#dialogDevolucion').modal('show');
+   };
+
+   $scope.devolucionCerrar = function(){
+       $('#dialogDevolucion').modal('close');
    };
 
    $scope.init();
