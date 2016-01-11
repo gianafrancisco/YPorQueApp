@@ -1,7 +1,7 @@
 <div >
     <div id="listaArticulos">
         <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
-            <div class="panel-heading">Buscar articulos</div>
+            <div class="panel-heading">Buscar artículos</div>
             <div class="panel-body">
                 <div class="form-group-sm">
                     <label for="buscar">Buscar</label>
@@ -12,10 +12,10 @@
             <table id="tablaListaArticulo" class="table">
                 <thead>
                 <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Precio</th>
                     <th>Stock</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -38,7 +38,7 @@
 
     <div id="listaCarrito">
         <div class="panel panel-primary" style="width: 90%; margin: 5%">
-            <div class="panel-heading">Articulos en carrito de compras</div>
+            <div class="panel-heading">Artículos en el carrito de compras</div>
             <div class="panel-body">
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
@@ -53,13 +53,14 @@
                     <input type="text" class="form-control" disabled ng-model="montoTotal">
                 </div>
                 <div class="input-group" style="margin-bottom: 5px;">
-                    <span class="input-group-addon" id="numeroCupon" style="width: 150px;">Numero Cupon</span>
+                    <span class="input-group-addon" id="numeroCupon" style="width: 150px;">Número Cupon</span>
                     <input type="text" class="form-control" ng-model="numeroCupon" placeholder="Numero de cupon">
                 </div>
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="finalizarVenta" style="width: 150px;">Finalizar Venta</span>
                     <div class="btn-group">
                         <button class="btn btn-success btn-sm" ng-click="vender();">Confirmar Venta</button>
+                        <button class="btn btn-info btn-sm" ng-click="notaCredito();">Generar nota crédito</button>
                         <button class="btn btn-danger btn-sm" ng-click="cancelar();">Cancelar Venta</button>
                     </div>
                 </div>
@@ -68,8 +69,8 @@
                 <thead>
                 <tr>
                     <th>Vendedor</th>
-                    <th>Codigo</th>
-                    <th>Descripcion</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
@@ -95,12 +96,12 @@
                 <thead>
                 <tr >
                     <th colspan="6">Devoluciones</th>
-                    <th><button class="btn btn-danger btn-sm" ng-click="devolucion();">Cargar Devolucion</button></th>
+                    <th><button class="btn btn-danger btn-sm" ng-click="devolucion();">Cargar Devolución</button></th>
                 </tr>
                 <tr>
                     <th>Vendedor</th>
-                    <th>Codigo</th>
-                    <th>Descripcion</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
@@ -133,10 +134,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Confirmacion de la venta</h4>
+                    <h4 class="modal-title">Confirmación de la venta</h4>
                 </div>
                 <div class="modal-body">
-                    <p>La venta se ha realizado con exito, el codigo de venta es: <h3>{{mensajeConfirmacionVenta}}</h3></p>
+                    <p>La venta se ha realizado con éxito, el código de venta es: <h3>{{mensajeConfirmacionVenta}}</h3></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -157,16 +158,16 @@
                     <div class="panel panel-primary">
                         <div class="panel-body">
                             <div class="form-group-sm">
-                                <label for="buscar">Ingresar Codigo</label>
+                                <label for="buscar">Ingresar Código</label>
                                 <input type="text" id="buscarDevolucion" class="form-control" placeholder="codigo"  ng-model="codigoDevolucion" ng-change="buscarArticuloDevolucion();"/>
                             </div>
                         </div>
                         <table id="tablaListaArticuloDevolucion" class="table">
                             <thead>
                             <tr>
-                                <th>Codigo</th>
+                                <th>Código</th>
                                 <th>Precio</th>
-                                <th>Descripcion</th>
+                                <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
                             </thead>

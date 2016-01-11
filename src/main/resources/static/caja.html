@@ -1,7 +1,7 @@
 
 <div ng-controller="CajaController">
     <div class="panel panel-primary no-print" style="width: 90%; margin: 5%; margin-top: 100px;">
-        <div class="panel-heading">Caja Resumen del dia</div>
+        <div class="panel-heading">Caja Resumen del día</div>
         <div class="panel-body">
             <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="vendedor" style="width: 200px;">Vendedor</span>
@@ -22,12 +22,12 @@
                 <input type="text" class="form-control" disabled value="{{caja.tarjeta | currency}}">
             </div>
             <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
-                <span class="input-group-addon" id="totalVentaDia" style="width: 200px;">Total venta del dia</span>
+                <span class="input-group-addon" id="totalVentaDia" style="width: 200px;">Total venta del día</span>
                 <input type="text" class="form-control" disabled value="{{caja.totalVentaDia | currency}}">
             </div>
 
             <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
-                <span class="input-group-addon" id="efectivoDiaSiguiente" style="width: 200px;">Efectivo dia siguiente</span>
+                <span class="input-group-addon" id="efectivoDiaSiguiente" style="width: 200px;">Efectivo día siguiente</span>
                 <input type="text" class="form-control" disabled value="{{caja.efectivoDiaSiguiente | currency}}">
             </div>
 
@@ -43,13 +43,13 @@
             <div class="panel-heading">Caja Resumen</div>
             <div class="panel-body">
                 <button ng-click="print();" class="btn btn-success">Imprimir</button>
-                <h4>Numero de Cierre: {{imprimir.caja.cajaId}}</h4>
+                <h4>Número de Cierre: {{imprimir.caja.cajaId}}</h4>
                 <h4>Apertura de Caja: {{imprimir.caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.aperturaUsername}})</h4>
                 <h4>Cierre de Caja: {{imprimir.caja.cierre.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.cierreUsername}})</h4>
                 <h4>Efectivo: {{imprimir.caja.efectivo | currency}}</h4>
                 <h4>Tarjeta: {{imprimir.caja.tarjeta | currency}}</h4>
-                <h4>Total ventas del dia: {{imprimir.caja.totalVentaDia | currency}}</h4>
-                <h4>Efectivo dia siguiente: {{imprimir.caja.efectivoDiaSiguiente | currency}}</h4>
+                <h4>Total ventas del día: {{imprimir.caja.totalVentaDia | currency}}</h4>
+                <h4>Efectivo día siguiente: {{imprimir.caja.efectivoDiaSiguiente | currency}}</h4>
             </div>
         </div>
 
@@ -62,7 +62,7 @@
                         <th>Fecha</th>
                         <th>Vendedor</th>
                         <th>Monto</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,8 +86,8 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Username</th>
-                        <th>Codigo</th>
-                        <th>Descripcion</th>
+                        <th>Código</th>
+                        <th>Descripción</th>
                         <th>Cantidad</th>
                         <th>Monto</th>
                         <th>Forma de Pago</th>

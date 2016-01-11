@@ -33,15 +33,15 @@
                 </div>
 
                 <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerLista();"></uib-pagination>
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
             <table id="tablaListaVendedor" class="table">
                 <thead>
                 <tr>
                     <th>Fecha</th>
                     <th>Username</th>
-                    <th>Codigo</th>
-                    <th>Descripcion</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>f1 / f2 / Lista</th>
                     <th>Monto</th>
@@ -57,14 +57,14 @@
                     <td style="width: 15%">{{v.descripcion}}</td>
                     <td style="width: 5%">{{v.cantidad}}</td>
                     <td style="width: 15%">{{v.factor1 | number:2}} / {{v.factor2 | number:2}} / {{v.precioLista | currency}}</td>
-                    <td style="width: 5%">{{v.precio | currency}}</td>
-                    <td style="width: 10%">{{v.tipoPago}}</td>
+                    <td style="width: 15%">{{v.precio | currency}}</td>
+                    <td style="width: 5%">{{v.tipoPago}}</td>
                     <td style="width: 10%">{{v.nroCupon}}</td>
                 </tr>
                 </tbody>
             </table>
             <div class="panel-footer">
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
         </div>
     </div>

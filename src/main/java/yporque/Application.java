@@ -37,6 +37,7 @@ public class Application {
 
 			List<Articulo> articulos = articuloRepository.findAll();
 			if(articulos.isEmpty()){
+				articuloRepository.save(new Articulo("N.CREDITO","Nota de credito por la diferencia",0.0,1.0,1.1,1000000,1000000));
 				articuloRepository.save(new Articulo("100001","Remera",300.0,1.0,1.5,50,50));
 				articuloRepository.save(new Articulo("100002","Pantalon",450.0,1.0,2.0,10,10));
 				articuloRepository.save(new Articulo("100003","Campera",500.0,2.0,2.0,5,5));

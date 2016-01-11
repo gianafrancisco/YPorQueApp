@@ -1,14 +1,14 @@
 <div>
     <div id="agregarArticulo" class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
-        <div class="panel-heading"></a>Agregar nuevo articulo</div>
+        <div class="panel-heading"></a>Agregar nuevo artículo</div>
         <div class="panel-body">
             <form>
                 <div class="form-group-sm">
-                    <label for="descripcion">Codigo de barra</label>
+                    <label for="descripcion">Código de barra</label>
                     <input type="text" id="codigo" class="form-control" placeholder="Codigo de barra" ng-model="articulo.codigo" />
                 </div>
                 <div class="form-group-sm">
-                    <label for="descripcion">Descripcion</label>
+                    <label for="descripcion">Descripción</label>
                     <input type="text" id="descripcion" class="form-control" placeholder="Descripcion" ng-model="articulo.descripcion" />
                 </div>
 
@@ -45,23 +45,23 @@
     </div>
     <div id="listaArticulos">
         <div class="panel panel-primary" style="width: 90%; margin: 5%">
-            <div class="panel-heading">Buscar articulos</div>
+            <div class="panel-heading">Buscar artículos</div>
             <div class="panel-body">
                 <div class="form-group-sm">
                     <label for="buscar">Buscar</label>
                     <input type="text" id="buscar" class="form-control" placeholder="buscar articulo"  ng-model="search" ng-change="buscarArticulo();"/>
                 </div>
                 <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerListaArticulo();"></uib-pagination>
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
             <table id="tablaListaArticulo" class="table">
                 <thead>
                 <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Precio / Lista</th>
                     <th>f1 / f2</th>
                     <th>Stock</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -83,7 +83,7 @@
                 </tbody>
             </table>
             <div class="panel-footer">
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
         </div>
     </div>

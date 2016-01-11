@@ -198,6 +198,25 @@ function venderController($scope,$http,$window,$location,$rootScope) {
 
    };
 
+   $scope.notaCredito = function(){
+        var monto = new Number($scope.montoTotal);
+        if(monto < 0){
+            monto = -1*monto;
+            var notaCredito = {
+                articuloId: 6,
+                codigo: "N.CREDITO",
+                descripcion: "Nota de credito por la diferencia",
+                factor1: 1,
+                factor2: 1,
+                precioLista: monto,
+                precio: monto,
+                cantidadStock: 1,
+                cantidad: 1
+            };
+            $scope.agregarCarrito(notaCredito);
+        }
+   };
+
    $scope.init = function(){
        $scope.obtenerListaVendedores();
    };

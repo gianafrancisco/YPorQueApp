@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="form-group-sm">
-                    <label for="descripcion">Descripcion</label>
+                    <label for="descripcion">Descripción</label>
                     <input type="text" id="descripcion" class="form-control" placeholder="Descripcion" ng-model="retiro.descripcion" />
                 </div>
 
@@ -30,7 +30,7 @@
             <div class="panel-heading">Retiros</div>
             <div class="panel-body">
                 <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerLista();"></uib-pagination>
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
             <table id="tablaListaRetiros" class="table">
                 <thead>
@@ -38,7 +38,7 @@
                         <th>Fecha</th>
                         <th>Vendedor</th>
                         <th>Monto</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                 </tbody>
             </table>
             <div class="panel-footer">
-                <pre>Pagina: {{pageNumber}} / {{listado.totalPages}}</pre>
+                <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
         </div>
     </div>
