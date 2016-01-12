@@ -59,7 +59,7 @@
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="finalizarVenta" style="width: 150px;">Finalizar Venta</span>
                     <div class="btn-group">
-                        <button class="btn btn-success btn-sm" ng-click="vender();">Confirmar Venta</button>
+                        <button class="btn btn-success btn-sm" ng-click="vender();" ng-disabled="montoTotal < 0">Confirmar Venta</button>
                         <button class="btn btn-info btn-sm" ng-click="notaCredito();">Generar nota crédito</button>
                         <button class="btn btn-danger btn-sm" ng-click="cancelar();">Cancelar Venta</button>
                     </div>

@@ -19,17 +19,26 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.montoTotal = 0.0;
    $scope.mensajeConfirmacionVenta = "";
 
+   $scope.limpiarBusqueda = function(){
+       $scope.listado = [];
+       $scope.search = "";
+   };
+
    $scope.obtenerListaArticulo = function(){
-       var url = "/articulos?page="+($scope.pageNumber-1);
-       if($scope.search != "" && $scope.search != undefined){
-           var search = "&search="+$scope.search;
-           url = "/articulo/search?page="+($scope.pageNumber-1)+search;
+       if($scope.search != ""){
+           var url = "/articulos?page="+($scope.pageNumber-1);
+           if($scope.search != "" && $scope.search != undefined){
+               var search = "&search="+$scope.search;
+               url = "/articulo/search?page="+($scope.pageNumber-1)+search;
+           }
+           $http.get(url)
+           .success(function(data, status, headers, config) {
+               $scope.listado=data;
+               $scope.pageNumber = $scope.listado.number+1;
+           });
+       }else{
+            $scope.limpiarBusqueda();
        }
-       $http.get(url)
-       .success(function(data, status, headers, config) {
-           $scope.listado=data;
-           $scope.pageNumber = $scope.listado.number+1;
-       });
    };
 
    $scope.buscarArticuloDevolucion = function(){
@@ -78,7 +87,10 @@ function venderController($scope,$http,$window,$location,$rootScope) {
            });
        }
        $scope.calcularTotal();
+       $scope.limpiarBusqueda();
    }
+
+
 
    $scope.agregarDevolucion = function(venta){
        var existe = false;
@@ -176,7 +188,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
                $scope.carrito = [];
                $scope.listDevolucion = [];
                $scope.calcularTotal();
-               $scope.buscarArticulo();
+               $scope.limpiarBusqueda();
                $scope.numeroCupon = "";
                $scope.mensajeConfirmacionVenta = data.codigoDevolucion;
                $scope.listadoDevolucion = [];
@@ -211,6 +223,8 @@ function venderController($scope,$http,$window,$location,$rootScope) {
                 var notaCredito = data.content[0];
                 notaCredito.precioLista = monto;
                 notaCredito.precio = monto;
+                notaCredito.cantidadStock = 1;
+                notaCredito.cantidad = 1;
                 /*
                 var notaCredito = {
                     articuloId: 6,
