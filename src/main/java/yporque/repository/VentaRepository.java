@@ -18,7 +18,8 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     //TODO: allow filter by tipoPago
     @Query("from Venta v where v.fecha between ?1 and ?2 " +
-            "and ( UPPER(username) like CONCAT('%',UPPER(?3),'%') or UPPER(codigo) like CONCAT('%',UPPER(?3),'%') or UPPER(descripcion) like CONCAT('%',UPPER(?3),'%') or UPPER(tipoPago) like CONCAT('%',UPPER(?3),'%')" +
+            "and ( UPPER(username) like CONCAT('%',UPPER(?3),'%') or UPPER(codigo) like CONCAT('%',UPPER(?3),'%') or UPPER(descripcion) like CONCAT('%',UPPER(?3),'%') " +
+            //" or UPPER(tipoPago) like CONCAT('%',UPPER(?3),'%') " +
             " )")
     Page<Venta> filtrar(Instant startTime, Instant endTime, String search, Pageable pageable);
     List<Venta> findByFechaBetween(Instant startTime, Instant stopTime);

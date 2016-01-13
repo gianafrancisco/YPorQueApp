@@ -11,8 +11,8 @@ import java.time.Instant;
 public class Caja {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name="caja_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="caja_id", unique = true, nullable = false)
     private Long cajaId;
     private Instant apertura;
     @Column(name = "apertura_username")

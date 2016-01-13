@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class Vendedor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "vendedor_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vendedor_id", unique = true, nullable = false)
     private Long vendedorId;
 
     private String username;

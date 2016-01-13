@@ -12,8 +12,8 @@ import java.time.Instant;
 public class Venta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "venta_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "venta_id", unique = true, nullable = false)
     private Long ventaId;
     private final Instant fecha;
     private final String codigo;

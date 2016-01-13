@@ -9,9 +9,9 @@ import javax.persistence.*;
 @Table(name="articulo")
 public class Articulo {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "articulo_id", unique = true, nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "articulo_id", nullable = false)
     private Long articuloId;
     @Column(name = "precio_lista")
     private final Double precioLista;

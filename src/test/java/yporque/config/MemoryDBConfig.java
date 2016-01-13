@@ -86,6 +86,10 @@ public class MemoryDBConfig {
         ps.put("hibernate.archive.autodetection","class");
         ps.put("hibernate.show_sql","true");
 
+        ps.put("hibernate.order_inserts", "true");
+        ps.put("hibernate.order_updates", "true");
+        ps.put("hibernate.jdbc.batch_size", "2");
+
         entityManagerFactoryBean.setJpaProperties(ps);
         entityManagerFactoryBean.afterPropertiesSet();
         return entityManagerFactoryBean;

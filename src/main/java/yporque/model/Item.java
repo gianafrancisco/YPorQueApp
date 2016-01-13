@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="item_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="item_id", unique = true, nullable = false)
     private Long itemId;
     @Column(name="articulo_id", nullable = false)
     private Long articuloId;
