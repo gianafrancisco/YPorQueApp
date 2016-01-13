@@ -11,7 +11,7 @@ import java.time.Instant;
 public class Retiro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name="retiro_id")
     private Long retiroId;
     private Double monto;

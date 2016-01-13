@@ -10,15 +10,17 @@ import javax.persistence.*;
 public class Articulo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "articulo_id", nullable = false)
     private Long articuloId;
+    @Column(name = "precio_lista")
     private final Double precioLista;
     private final Double factor1;
     private final Double factor2;
     private String descripcion;
     @Transient
     private Integer cantidad;
+    @Column(name = "cantidad_stock")
     private Integer cantidadStock;
     private final String codigo;
 

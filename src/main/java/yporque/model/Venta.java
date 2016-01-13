@@ -12,7 +12,7 @@ import java.time.Instant;
 public class Venta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "venta_id")
     private Long ventaId;
     private final Instant fecha;
@@ -21,11 +21,15 @@ public class Venta {
     private final Integer cantidad;
     private final Double factor1;
     private final Double factor2;
+    @Column(name = "precio_lista")
     private final Double precioLista;
     private final Double precio;
+    @Column(name = "tipo_pago")
     private final TipoDePago tipoPago;
     private final String username;
+    @Column(name = "nro_cupon")
     private final String nroCupon;
+    @Column(name = "codigo_devolucion")
     private final String codigoDevolucion;
 
     public Venta() {

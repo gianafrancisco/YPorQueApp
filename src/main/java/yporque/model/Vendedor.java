@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Vendedor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "vendedor_id", nullable = false)
     private Long vendedorId;
 

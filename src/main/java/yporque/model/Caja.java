@@ -11,16 +11,20 @@ import java.time.Instant;
 public class Caja {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name="caja_id")
     private Long cajaId;
     private Instant apertura;
+    @Column(name = "apertura_username")
     private String aperturaUsername;
     private Instant cierre;
+    @Column(name = "cierre_username")
     private String cierreUsername;
     private Double efectivo;
     private Double tarjeta;
+    @Column(name = "total_venta_dia")
     private Double totalVentaDia;
+    @Column(name = "efectivo_dia_siguiente")
     private Double efectivoDiaSiguiente;
 
     public Caja() {
