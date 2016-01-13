@@ -27,13 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `articulo` (
-  `articulo_id` bigint(20) NOT NULL,
+  `articulo_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
   `precio_lista` double NOT NULL,
   `factor1` double NOT NULL,
   `factor2` double NOT NULL,
   `descripcion` varchar(512) NOT NULL,
   `cantidad_stock` bigint(20) NOT NULL,
-  `codigo` varchar(256) NOT NULL
+  `codigo` varchar(256) NOT NULL,
+  INDEX (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `articulo` (
 --
 
 CREATE TABLE IF NOT EXISTS `caja` (
-  `caja_id` bigint(20) NOT NULL,
+  `caja_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
   `apertura` datetime DEFAULT NULL,
   `apertura_username` varchar(100) NOT NULL,
   `cierre` datetime DEFAULT NULL,
@@ -61,11 +62,12 @@ CREATE TABLE IF NOT EXISTS `caja` (
 --
 
 CREATE TABLE IF NOT EXISTS `retiro` (
-  `retiro_id` bigint(20) NOT NULL,
+  `retiro_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
   `monto` double NOT NULL,
   `descripcion` varchar(512) NOT NULL,
   `fecha` datetime DEFAULT NULL,
-  `username` varchar(100) NOT NULL
+  `username` varchar(100) NOT NULL,
+  INDEX (`fecha`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -75,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `retiro` (
 --
 
 CREATE TABLE IF NOT EXISTS `vendedor` (
-  `vendedor_id` bigint(20) NOT NULL,
+  `vendedor_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
   `username` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(100) NOT NULL,
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `vendedor` (
 --
 
 CREATE TABLE IF NOT EXISTS `venta` (
-  `venta_id` bigint(20) NOT NULL,
+  `venta_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
   `fecha` datetime DEFAULT NULL,
   `codigo` varchar(256) NOT NULL,
   `descripcion` varchar(512) NOT NULL,
@@ -101,72 +103,10 @@ CREATE TABLE IF NOT EXISTS `venta` (
   `tipo_pago` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `nro_cupon` varchar(100) NOT NULL,
-  `codigo_devolucion` varchar(100) NOT NULL
+  `codigo_devolucion` varchar(100) NOT NULL,
+  INDEX (`fecha`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `articulo`
---
-ALTER TABLE `articulo`
-  ADD PRIMARY KEY (`articulo_id`), ADD UNIQUE KEY `articulo_id` (`articulo_id`), ADD KEY `codigo` (`codigo`);
-
---
--- Indices de la tabla `caja`
---
-ALTER TABLE `caja`
-  ADD PRIMARY KEY (`caja_id`), ADD UNIQUE KEY `caja_id` (`caja_id`);
-
---
--- Indices de la tabla `retiro`
---
-ALTER TABLE `retiro`
-  ADD PRIMARY KEY (`retiro_id`), ADD UNIQUE KEY `retido_id` (`retiro_id`);
-
---
--- Indices de la tabla `vendedor`
---
-ALTER TABLE `vendedor`
-  ADD PRIMARY KEY (`vendedor_id`), ADD UNIQUE KEY `vendedor_id` (`vendedor_id`);
-
---
--- Indices de la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD PRIMARY KEY (`venta_id`), ADD UNIQUE KEY `venta_id` (`venta_id`), ADD KEY `fecha` (`fecha`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `articulo`
---
-ALTER TABLE `articulo`
-  MODIFY `articulo_id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `caja`
---
-ALTER TABLE `caja`
-  MODIFY `caja_id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `retiro`
---
-ALTER TABLE `retiro`
-  MODIFY `retiro_id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `vendedor`
---
-ALTER TABLE `vendedor`
-  MODIFY `vendedor_id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `venta`
---
-ALTER TABLE `venta`
-  MODIFY `venta_id` bigint(20) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
