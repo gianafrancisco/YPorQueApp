@@ -92,6 +92,7 @@
                         <th>Monto</th>
                         <th>Forma de Pago</th>
                         <th>Cupon</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -102,8 +103,9 @@
                         <td style="width: 25%">{{v.descripcion}}</td>
                         <td style="width: 5%">{{v.cantidad}}</td>
                         <td style="width: 5%">{{v.precio | currency}}</td>
-                        <td style="width: 15%">{{v.tipoPago}}</td>
+                        <td style="width: 10%">{{v.tipoPago}}</td>
                         <td style="width: 10%">{{v.nroCupon}}</td>
+                        <td style="width: 5%"><h6 ng-show="v.precio < 0"><span class="label label-danger">Devolución</span></h6></td>
                     </tr>
                     </tbody>
                 </table>
