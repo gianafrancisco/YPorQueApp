@@ -104,7 +104,7 @@ public class CajaControllerTest {
 
         Assert.assertThat(caja1.getEfectivo(), Matchers.is(400.0));
         Assert.assertThat(caja1.getTarjeta(), Matchers.is(400.0));
-        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0 - 150.0));
+        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0));
         Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(400.0 - 150.0));
         Assert.assertThat(caja1.getCierreUsername(), Matchers.is("username2"));
         Assert.assertThat(caja1.getCierre(), Matchers.is(Instant.parse("2015-12-30T21:00:00Z")));
@@ -136,7 +136,7 @@ public class CajaControllerTest {
 
         Assert.assertThat(caja1.getEfectivo(), Matchers.is(400.0));
         Assert.assertThat(caja1.getTarjeta(), Matchers.is(400.0));
-        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0 - 150.0));
+        Assert.assertThat(caja1.getTotalVentaDia(), Matchers.is(400.0 + 400.0));
         Assert.assertThat(caja1.getEfectivoDiaSiguiente(), Matchers.is(400.0 - 150.0));
         Assert.assertThat(caja1.getCierreUsername(), Matchers.is("username2"));
         Assert.assertThat(caja1.getCierre(), Matchers.is(Instant.parse("2015-12-30T21:00:00Z")));

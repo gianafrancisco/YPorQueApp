@@ -75,7 +75,7 @@ public class CierreFunctionTest {
 
         Assert.assertThat(caja.getEfectivo(), is(4000.0));
         Assert.assertThat(caja.getTarjeta(), is(2000.0));
-        Assert.assertThat(caja.getTotalVentaDia(), is(4000.0 + 2000.0 - 1050.0));
+        Assert.assertThat(caja.getTotalVentaDia(), is(4000.0 + 2000.0));
         Assert.assertThat(caja.getEfectivoDiaSiguiente(), is(4000.0 - 1050.0));
         Assert.assertThat(caja.getCierreUsername(), is("username2"));
         Assert.assertThat(caja.getCierre(), is(Instant.parse("2015-12-30T21:00:00Z")));

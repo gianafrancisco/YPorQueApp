@@ -13,8 +13,8 @@ import java.util.Properties;
 /**
  * Created by francisco on 04/12/2015.
  */
-@Configuration
-@EnableJpaRepositories("yporque.repository")
+//@Configuration
+//@EnableJpaRepositories("yporque.repository")
 class ApplicationConfigurationMysql extends ApplicationConfiguration {
 
     @Value("${spring.datasource.driverClassName:'com.mysql.jdbc.Driver'}")

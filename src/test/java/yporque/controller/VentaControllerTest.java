@@ -20,6 +20,7 @@ import yporque.model.*;
 import yporque.repository.ArticuloRepository;
 import yporque.repository.VentaRepository;
 import yporque.request.ConfirmarVentaRequest;
+import yporque.request.DevolucionRequest;
 import yporque.request.VentaRequest;
 import yporque.utils.VentaFunction;
 
@@ -56,6 +57,7 @@ public class VentaControllerTest {
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(ventaController).setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
+
     }
 
     @After
@@ -67,25 +69,43 @@ public class VentaControllerTest {
     @Test
     public void test_confirmar_venta() throws Exception {
 
-        Articulo articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
+        Articulo articulo = new Articulo("123457", "articulo 2", 10.0, 1.0, 1.0, 10, 10);
+        articuloRepository.save(articulo);
+        Instant fecha = Instant.parse("2016-01-18T18:00:00Z");
+        Venta ventaDevuelta = new Venta(fecha,"123457","articulo 2",1,1.0,1.0,10.0,10.0,TipoDePago.EFECTIVO,"username1","111");
+        ventaDevuelta = ventaRepository.saveAndFlush(ventaDevuelta);
+
+        String codigoDevolucion1 = ventaDevuelta.getCodigoDevolucion();
+
+
+        articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
         articulo = articuloRepository.save(articulo);
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
+
+
+        DevolucionRequest devolucionRequest = new DevolucionRequest(ventaDevuelta,1,vendedor,"Efectivo","111");
 
         VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
 
         List<VentaRequest> list = new ArrayList<>();
         list.add(ventaRequest);
-        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, Collections.emptyList());
+
+        List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
+        devolucionRequestList.add(devolucionRequest);
+
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList);
 
         HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
 
         Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
 
-        List<Venta> ventas = ventaRepository.findAll();
+        List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
+
+        List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));
-        Assert.assertThat(ventas,hasSize(5));
+        Assert.assertThat(ventas,hasSize(6));
         Assert.assertThat(ventas.get(0).getCantidad(),is(1));
         Assert.assertThat(ventas.get(0).getTipoPago(),is(TipoDePago.EFECTIVO));
         Assert.assertThat(ventas.get(0).getCodigo(),is("123456"));
@@ -96,6 +116,8 @@ public class VentaControllerTest {
         Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
         Assert.assertThat(ventas.get(0).getPrecio(),is(10.0));
         Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
+
+        Assert.assertThat(devolucion,hasSize(0));
 
     }
 

@@ -31,6 +31,7 @@ public class Venta {
     private final String nroCupon;
     @Column(name = "codigo_devolucion")
     private final String codigoDevolucion;
+    private Boolean devuelto;
 
     public Venta() {
         this.codigo = "";
@@ -45,6 +46,7 @@ public class Venta {
         this.cantidad = 0;
         this.nroCupon = "";
         this.codigoDevolucion = String.format("%x",this.fecha.getEpochSecond());
+        this.devuelto = false;
     }
 
     public Venta(Instant fecha, String codigo, String descripcion, Integer cantidad, Double factor1, Double factor2, Double precioLista, Double precio, TipoDePago tipoPago, String username, String nroCupon) {
@@ -60,9 +62,12 @@ public class Venta {
         this.username = username;
         this.nroCupon = nroCupon;
         this.codigoDevolucion = String.format("%x",this.fecha.getEpochSecond());
+        this.devuelto = false;
     }
 
-
+    public void setDevuelto(Boolean devuelto) {
+        this.devuelto = devuelto;
+    }
 
     public Long getVentaId() {
         return ventaId;

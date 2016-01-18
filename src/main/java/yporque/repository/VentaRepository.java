@@ -23,6 +23,8 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
             " )")
     Page<Venta> filtrar(Instant startTime, Instant endTime, String search, Pageable pageable);
     List<Venta> findByFechaBetween(Instant startTime, Instant stopTime);
+
+    @Query("from Venta v where codigoDevolucion = ?1 and devuelto = false")
     List<Venta> findByCodigoDevolucion(String codigoDevolucion);
 
 }

@@ -1,6 +1,7 @@
 package yporque.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,26 @@ public class CajaController {
 
     @RequestMapping("/caja/abrir")
     public Caja abrir(@RequestBody CajaRequest cajaRequest){
-        return cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(),cajaRequest.getUsername()));
+
+        List<Caja> cajaList = cajaRepository.findAll(new Sort(Sort.Direction.DESC,"cierre"));
+        Caja caja = cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(), cajaRequest.getUsername()));
+        if(!cajaList.isEmpty()) {
+            Double monto = cajaList.get(0).getEfectivoDiaSiguiente();
+            Venta venta = new Venta(Instant.now(),
+                        "CAJA",
+                        "Apertura de caja: Efectivo disponible",
+                        1,
+                        1.0,
+                        1.0,
+                        monto,
+                        monto,
+                        TipoDePago.EFECTIVO,
+                        cajaRequest.getUsername(),
+                        ""
+                    );
+            ventaRepository.save(venta);
+        }
+        return cierreFunction.apply(cajaRequest.getFecha(), cajaRequest.getUsername());
     }
 
     @RequestMapping("/caja/cerrar")

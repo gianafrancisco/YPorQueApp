@@ -16,15 +16,15 @@ import java.util.Properties;
 /**
  * Created by francisco on 04/12/2015.
  */
-//@Configuration
-//@EnableJpaRepositories("yporque.repository")
+@Configuration
+@EnableJpaRepositories("yporque.repository")
 class ApplicationConfiguration {
 
     @Bean
     public DataSource dataSource(){
         DataSource dataSource = new DataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("jdbc:hsqldb:file:./db/datos;shutdown=true");
+        dataSource.setUrl("jdbc:hsqldb:file:./db/datos");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
 
@@ -55,7 +55,7 @@ class ApplicationConfiguration {
 
         Properties ps = new Properties();
         ps.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-        ps.put("hibernate.hbm2ddl.auto", "validate | create");
+        ps.put("hibernate.hbm2ddl.auto", "none");
         ps.put("hibernate.archive.autodetection","class");
         ps.put("hibernate.show_sql","true");
 

@@ -54,7 +54,7 @@ public class CierreFunction implements BiFunction<Instant, String, Caja> {
 
             abierta.setEfectivo(efectivo);
             abierta.setTarjeta(tarjeta);
-            abierta.setTotalVentaDia(efectivo + tarjeta - retiros);
+            abierta.setTotalVentaDia(efectivo + tarjeta);
             //TODO: check offset transporte and cambio about $400
             abierta.setEfectivoDiaSiguiente(efectivo - retiros);
             return abierta;
