@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
 import yporque.repository.CajaRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.RetiroRepository;
 import yporque.repository.VentaRepository;
 import yporque.request.CajaRequest;
@@ -50,6 +51,10 @@ public class CajaControllerTest {
     private RetiroRepository retiroRepository;
     @Autowired
     private CierreFunction cierreFunction;
+    @Autowired
+    private ResumenRepository resumenRepository;
+
+
     private BiFunction<Instant, VentaRequest, Venta> converter;
 
     @Autowired
@@ -65,6 +70,7 @@ public class CajaControllerTest {
         ventaRepository.deleteAll();
         cajaRepository.deleteAll();
         retiroRepository.deleteAll();
+        resumenRepository.deleteAll();
     }
 
     @Test
@@ -82,14 +88,16 @@ public class CajaControllerTest {
     @Test
     public void test_cerrar_caja() throws Exception {
 
-        converter = new VentaFunction();
-        Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
-        Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
-        Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
-        ventaRepository.save(venta);
-        ventaRepository.save(venta1);
+        Resumen resumen = new Resumen(Instant.parse("2015-12-30T16:00:00Z"),TipoDePago.EFECTIVO,200.0,0.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:10:00Z"),TipoDePago.EFECTIVO,100.0,0.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:20:00Z"),TipoDePago.TARJETA,0.0,200.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:30:00Z"),TipoDePago.TARJETA,0.0,100.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:30:00Z"),TipoDePago.MIXTO,100.0,100.0);
+        resumenRepository.save(resumen);
 
         retiroRepository.save(new Retiro(100.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
         retiroRepository.save(new Retiro(50.0, "taxi", Instant.parse("2015-12-30T12:10:00Z"), "username1"));
@@ -115,14 +123,17 @@ public class CajaControllerTest {
     @Test
     public void test_resumen_caja() throws Exception {
 
-        converter = new VentaFunction();
-        Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 1, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
-        Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
-        Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
-        ventaRepository.save(venta);
-        ventaRepository.save(venta1);
+        Resumen resumen = new Resumen(Instant.parse("2015-12-30T16:00:00Z"),TipoDePago.EFECTIVO,200.0,0.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:10:00Z"),TipoDePago.EFECTIVO,100.0,0.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:20:00Z"),TipoDePago.TARJETA,0.0,200.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:30:00Z"),TipoDePago.TARJETA,0.0,100.0);
+        resumenRepository.save(resumen);
+        resumen = new Resumen(Instant.parse("2015-12-30T16:30:00Z"),TipoDePago.MIXTO,100.0,100.0);
+        resumenRepository.save(resumen);
+
 
         retiroRepository.save(new Retiro(100.0, "Retiro efectivo del dia", Instant.parse("2015-12-30T12:00:00Z"), "username1"));
         retiroRepository.save(new Retiro(50.0, "taxi", Instant.parse("2015-12-30T12:10:00Z"), "username1"));

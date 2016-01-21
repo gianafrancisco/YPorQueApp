@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
 import yporque.repository.ArticuloRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.VentaRepository;
 import yporque.request.ConfirmarVentaRequest;
 import yporque.request.DevolucionRequest;
@@ -26,7 +27,6 @@ import yporque.utils.VentaFunction;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -52,7 +52,11 @@ public class VentaControllerTest {
     private VentaRepository ventaRepository;
 
     @Autowired
+    private ResumenRepository resumenRepository;
+
+    @Autowired
     private VentaController ventaController;
+
 
     @Before
     public void setUp() throws Exception {
@@ -64,6 +68,7 @@ public class VentaControllerTest {
     public void tearDown() throws Exception {
         articuloRepository.deleteAll();
         ventaRepository.deleteAll();
+        resumenRepository.deleteAll();
     }
 
     @Test
@@ -93,7 +98,7 @@ public class VentaControllerTest {
         List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
         devolucionRequestList.add(devolucionRequest);
 
-        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList);
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Efectivo", 100.0, 150.0);
 
         HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
 
@@ -102,6 +107,14 @@ public class VentaControllerTest {
         List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
 
         List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
+
+        List<Resumen> resumenList = resumenRepository.findAll();
+
+        Assert.assertThat(resumenList, hasSize(1));
+        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.EFECTIVO));
+        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
+        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));

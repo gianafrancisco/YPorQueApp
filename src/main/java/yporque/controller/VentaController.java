@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import yporque.model.*;
 import yporque.repository.ArticuloRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.VentaRepository;
 import yporque.request.ConfirmarVentaRequest;
 import yporque.request.DevolucionRequest;
@@ -35,6 +36,9 @@ public class VentaController {
     @Autowired
     private VentaFunction ventaFunction;
 
+    @Autowired
+    private ResumenRepository resumenRepository;
+
     @RequestMapping("/venta/confirmar")
     public HashMap<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
 
@@ -57,7 +61,7 @@ public class VentaController {
             Venta articuloDevuelto = devolucionRequest.getVenta();
             articuloDevuelto.setDevuelto(true);
             ventaRepository.saveAndFlush(articuloDevuelto);
-            TipoDePago tipoDePago = (devolucionRequest.getFormaPago().equals("Efectivo") ? TipoDePago.EFECTIVO : TipoDePago.TARJETA);
+            TipoDePago tipoDePago = getTipoDePago(devolucionRequest.getFormaPago());
             List<Articulo> list = articuloRepository.findByCodigo(articuloDevuelto.getCodigo());
                 if(!list.isEmpty()) {
                     Articulo art = list.get(0);
@@ -81,11 +85,24 @@ public class VentaController {
             }
         );
 
+        Resumen resumen = new Resumen(fecha,getTipoDePago(params.getFormaPago()),params.getEfectivo(),params.getTarjeta());
+        resumenRepository.saveAndFlush(resumen);
 
         HashMap<String,String> map = new HashMap<>();
         map.put("codigoDevolucion",String.format("%x", fecha.getEpochSecond()));
         return map;
 
+    }
+
+    private TipoDePago getTipoDePago(String tipo) {
+        switch(tipo){
+            case "Efectivo":
+                return TipoDePago.EFECTIVO;
+            case "Tajeta":
+                return TipoDePago.TARJETA;
+            default:
+                return TipoDePago.MIXTO;
+        }
     }
 
 

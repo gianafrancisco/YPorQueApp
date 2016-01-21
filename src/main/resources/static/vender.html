@@ -50,8 +50,18 @@
                 </div>
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="montoTotal" style="width: 150px;">Monto total</span>
-                    <input type="text" class="form-control" disabled ng-model="montoTotal">
+                    <input type="number" class="form-control" disabled ng-model="montoTotal" min="0" step="1">
                 </div>
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-addon" id="efectivo" style="width: 150px;">Efectivo</span>
+                    <input type="number" class="form-control" ng-model="efectivo" ng-disabled="!(formaPago.id == 3)" ng-change="actualizarTarjeta();" min="0" step="1">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 5px;">
+                    <span class="input-group-addon" id="tarjeta" style="width: 150px;">Tarjeta</span>
+                    <input type="number" class="form-control" ng-model="tarjeta" disabled min="0" step="1">
+                </div>
+
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="numeroCupon" style="width: 150px;">Número Cupon</span>
                     <input type="text" class="form-control" ng-model="numeroCupon" placeholder="Numero de cupon">

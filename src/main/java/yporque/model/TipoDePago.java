@@ -5,7 +5,8 @@ package yporque.model;
  */
 public enum TipoDePago {
     EFECTIVO("Efectivo"),
-    TARJETA("Tarjeta");
+    TARJETA("Tarjeta"),
+    MIXTO("Mixto");
 
     private final String type;
 

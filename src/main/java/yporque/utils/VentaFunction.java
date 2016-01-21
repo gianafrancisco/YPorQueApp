@@ -16,7 +16,7 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
     public Venta apply(Instant instant, VentaRequest ventaRequest) {
         Articulo articulo = ventaRequest.getArticulo();
         Vendedor vendedor = ventaRequest.getVendedor();
-        TipoDePago tipoDePago = (ventaRequest.getFormaPago().equals("Efectivo")?TipoDePago.EFECTIVO:TipoDePago.TARJETA);
+        TipoDePago tipoDePago = getTipoDePago(ventaRequest.getFormaPago());
         return new Venta(instant,
                         articulo.getCodigo(),
                         articulo.getDescripcion(),
@@ -30,4 +30,16 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
                         ventaRequest.getNroCupon()
         );
     }
+
+    private TipoDePago getTipoDePago(String tipo) {
+        switch(tipo){
+            case "Efectivo":
+                return TipoDePago.EFECTIVO;
+            case "Mixto":
+                return TipoDePago.MIXTO;
+            default:
+                return TipoDePago.TARJETA;
+        }
+    }
+
 }

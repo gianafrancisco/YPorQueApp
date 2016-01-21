@@ -14,10 +14,13 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.vendedor = {};
    $scope.carrito = [];
    $scope.listDevolucion = [];
-   $scope.pagos = [{ id: 1, value: "Efectivo"},{ id: 2, value: "Tarjeta"}];
+   $scope.pagos = [{ id: 1, value: "Efectivo"},{ id: 2, value: "Tarjeta"},{ id: 3, value: "Mixto"}];
    $scope.formaPago = $scope.pagos[0];
    $scope.montoTotal = 0.0;
    $scope.mensajeConfirmacionVenta = "";
+   $scope.efectivo = 0.0;
+   $scope.tarjeta = 0.0;
+
 
    $scope.limpiarBusqueda = function(){
        $scope.listado = [];
@@ -151,12 +154,22 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        $scope.listDevolucion.forEach(function(current){
            total-=current.cantidad*current.venta.precio;
        });
-
        $scope.montoTotal = total;
+       $scope.actualizarTipoPago();
    };
 
    $scope.datosVendedor=function(){
        return $scope.vendedor.nombre+" "+$scope.vendedor.apellido;
+   };
+
+   $scope.actualizarTipoPago = function (){
+         if( $scope.formaPago.id == 1 || $scope.formaPago.id == 3 ){
+             $scope.efectivo = $scope.montoTotal;
+             $scope.tarjeta = 0;
+         }else if( $scope.formaPago.id == 2 ){
+             $scope.efectivo = 0;
+             $scope.tarjeta = $scope.montoTotal;
+         }
    };
 
    $scope.actualizarCarrito = function(){
@@ -172,28 +185,54 @@ function venderController($scope,$http,$window,$location,$rootScope) {
           current.nroCupon = $scope.numeroCupon;
       });
 
+      $scope.actualizarTipoPago();
+
+   };
+
+
+
+   $scope.actualizarTarjeta = function (){
+
+        if($scope.efectivo > $scope.montoTotal){
+            $scope.efectivo = $scope.montoTotal;
+        }
+
+        $scope.tarjeta = $scope.montoTotal - $scope.efectivo;
    };
 
    $scope.vender = function(){
 
-       if(confirm("Esta seguro de realizar la venta?")){
+       if($scope.efectivo + $scope.tarjeta === $scope.montoTotal){
 
-           $scope.actualizarCarrito();
+           if(confirm("Esta seguro de realizar la venta?")){
 
-           $http.put("/venta/confirmar",{
-                articulos: $scope.carrito,
-                devoluciones: $scope.listDevolucion
-           })
-           .success(function(data, status, headers, config) {
-               $scope.carrito = [];
-               $scope.listDevolucion = [];
-               $scope.calcularTotal();
-               $scope.limpiarBusqueda();
-               $scope.numeroCupon = "";
-               $scope.mensajeConfirmacionVenta = data.codigoDevolucion;
-               $scope.listadoDevolucion = [];
-               $('#confirmacionVenta').modal('show');
-           });
+               var efectivo = $scope.efectivo;
+               var tarjeta = $scope.tarjeta;
+
+               $scope.actualizarCarrito();
+
+               $http.put("/venta/confirmar",{
+                    articulos: $scope.carrito,
+                    devoluciones: $scope.listDevolucion,
+                    efectivo: efectivo,
+                    tarjeta: tarjeta,
+                    formaPago: $scope.formaPago.value
+               })
+               .success(function(data, status, headers, config) {
+                   $scope.carrito = [];
+                   $scope.listDevolucion = [];
+                   $scope.calcularTotal();
+                   $scope.limpiarBusqueda();
+                   $scope.numeroCupon = "";
+                   $scope.mensajeConfirmacionVenta = data.codigoDevolucion;
+                   $scope.listadoDevolucion = [];
+                   $('#confirmacionVenta').modal('show');
+                   $scope.efectivo = 0.0;
+                   $scope.tarjeta = 0.0;
+               });
+           }
+       }else {
+            alert("Verifique que el importe a pagar con tarjeta y con efectivo sea igual al monto total de venta");
        }
 
    };

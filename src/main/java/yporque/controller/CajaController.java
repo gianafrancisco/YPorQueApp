@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yporque.model.*;
 import yporque.repository.CajaRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.RetiroRepository;
 import yporque.repository.VentaRepository;
 import yporque.request.CajaRequest;
@@ -28,6 +29,9 @@ public class CajaController {
     private CajaRepository cajaRepository;
 
     @Autowired
+    private ResumenRepository resumenRepository;
+
+    @Autowired
     private VentaRepository ventaRepository;
 
     @Autowired
@@ -40,10 +44,11 @@ public class CajaController {
     public Caja abrir(@RequestBody CajaRequest cajaRequest){
 
         List<Caja> cajaList = cajaRepository.findAll(new Sort(Sort.Direction.DESC,"cierre"));
-        Caja caja = cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(), cajaRequest.getUsername()));
+        cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(), cajaRequest.getUsername()));
         if(!cajaList.isEmpty()) {
             Double monto = cajaList.get(0).getEfectivoDiaSiguiente();
-            Venta venta = new Venta(Instant.now(),
+            Instant fecha = Instant.now();
+            Venta venta = new Venta(fecha,
                         "CAJA",
                         "Apertura de caja: Efectivo disponible",
                         1,
@@ -55,6 +60,9 @@ public class CajaController {
                         cajaRequest.getUsername(),
                         ""
                     );
+            Resumen resumen = new Resumen(fecha,TipoDePago.EFECTIVO,monto,0.0);
+            resumenRepository.saveAndFlush(resumen);
+
             ventaRepository.save(venta);
         }
         return cierreFunction.apply(cajaRequest.getFecha(), cajaRequest.getUsername());
