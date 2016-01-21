@@ -104,6 +104,22 @@ CREATE TABLE IF NOT EXISTS `venta` (
   `username` varchar(100) NOT NULL,
   `nro_cupon` varchar(100) NOT NULL,
   `codigo_devolucion` varchar(100) NOT NULL,
+  `devuelto` boolean NOT NULL,
+  INDEX (`fecha`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `resumen`
+--
+
+CREATE TABLE IF NOT EXISTS `resumen` (
+  `resumen_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
+  `fecha` datetime DEFAULT NULL,
+  `tipo_pago` varchar(100) NOT NULL,
+  `efectivo` double NOT NULL,
+  `tarjeta` double NOT NULL,
   INDEX (`fecha`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
