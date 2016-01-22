@@ -16,7 +16,7 @@ public class VentaRequestTest {
     @Test
     public void test_new_VentaRequest() throws Exception {
         Articulo articulo = new Articulo("1234","articulo 1",1.0,2.0,2.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1", 0.0);
 
         Assert.assertThat(ventaRequest.getCantidad(),is(10));
         Assert.assertThat(ventaRequest.getArticulo().getCodigo(),is("1234"));

@@ -78,24 +78,26 @@
             <table id="tablaListaArticuloCarrito" class="table">
                 <thead>
                 <tr>
-                    <th>Vendedor</th>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
+                    <th style="width: 10%">Vendedor</th>
+                    <th style="width: 20%">Código</th>
+                    <th style="width: 30%">Descripción</th>
+                    <th style="width: 5%">Descuento</th>
+                    <th style="width: 5%">Precio</th>
+                    <th style="width: 5%">Cantidad</th>
+                    <th style="width: 10%">Subtotal</th>
+                    <th style="width: 15%">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in carrito">
-                    <td style="width: 10%">{{item.vendedor.username}}</td>
-                    <td style="width: 20%">{{item.articulo.codigo}}</td>
-                    <td style="width: 30%">{{item.articulo.descripcion}}</td>
-                    <td style="width: 5%">{{item.articulo.precio | currency}}</td>
-                    <td style="width: 5%">{{item.cantidad}}</td>
-                    <td style="width: 10%">{{(item.cantidad*item.articulo.precio) | currency}}</td>
-                    <td style="width: 20%">
+                    <td >{{item.vendedor.username}}</td>
+                    <td >{{item.articulo.codigo}}</td>
+                    <td >{{item.articulo.descripcion}}</td>
+                    <td ><input type="number" min=0 max=20 step=5 ng-model="item.descuento" ng-change="calcularTotal();"/></td>
+                    <td >{{item.articulo.precio*(1-item.descuento/100) | currency}}</td>
+                    <td >{{item.cantidad}}</td>
+                    <td >{{(item.cantidad*item.articulo.precio*(1-item.descuento/100)) | currency}}</td>
+                    <td >
                         <div class="btn-group">
                             <button ng-click="agregarCarrito(item.articulo);" class="btn btn-primary btn-sm" ng-show="item.articulo.precio >= 0" ><span class="glyphicon glyphicon-plus"></span></button>
                             <button ng-click="removerCarrito(item.articulo);" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
@@ -105,32 +107,34 @@
                 </tbody>
                 <thead>
                 <tr >
-                    <th colspan="6">Devoluciones</th>
+                    <th colspan="7">Devoluciones</th>
                     <th><button class="btn btn-danger btn-sm" ng-click="devolucion();">Cargar Devolución</button></th>
                 </tr>
                 <tr>
-                    <th>Vendedor</th>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
+                    <th style="width: 10%">Vendedor</th>
+                    <th style="width: 20%">Código</th>
+                    <th style="width: 30%">Descripción</th>
+                    <th style="width: 5%">Precio</th>
+                    <th style="width: 5%">Cantidad</th>
+                    <th style="width: 10%">Subtotal</th>
+                    <th style="width: 20%">Acciones</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in listDevolucion">
-                    <td style="width: 10%">{{item.vendedor.username}}</td>
-                    <td style="width: 20%">{{item.venta.codigo}}</td>
-                    <td style="width: 30%">{{item.venta.descripcion}}</td>
-                    <td style="width: 5%">{{item.venta.precio | currency}}</td>
-                    <td style="width: 5%">{{item.cantidad}}</td>
-                    <td style="width: 10%">{{(item.cantidad*item.venta.precio) | currency}}</td>
-                    <td style="width: 20%">
+                    <td>{{item.vendedor.username}}</td>
+                    <td>{{item.venta.codigo}}</td>
+                    <td>{{item.venta.descripcion}}</td>
+                    <td>{{item.venta.precio | currency}}</td>
+                    <td>{{item.cantidad}}</td>
+                    <td>{{(item.cantidad*item.venta.precio) | currency}}</td>
+                    <td>
                         <div class="btn-group">
                             <button ng-click="removerDevolucion(item.venta);" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
                         </div>
                     </td>
+                    <td></td>
                 </tr>
 
                 </tbody>

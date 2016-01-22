@@ -83,6 +83,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        if(!existe && articulo.cantidadStock > 0){
            $scope.carrito.push({
                cantidad: 1,
+               descuento: 0,
                articulo: articulo,
                vendedor: $scope.vendedor,
                formaPago: $scope.formaPago.value,
@@ -148,7 +149,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.calcularTotal = function(){
        var total = 0;
        $scope.carrito.forEach(function(current){
-           total+=current.cantidad*current.articulo.precio;
+           total+=current.cantidad*current.articulo.precio*(1-current.descuento/100);
        });
 
        $scope.listDevolucion.forEach(function(current){
@@ -264,19 +265,6 @@ function venderController($scope,$http,$window,$location,$rootScope) {
                 notaCredito.precio = monto;
                 notaCredito.cantidadStock = 1;
                 notaCredito.cantidad = 1;
-                /*
-                var notaCredito = {
-                    articuloId: 6,
-                    codigo: "N.CREDITO",
-                    descripcion: "Nota de credito por la diferencia",
-                    factor1: 1,
-                    factor2: 1,
-                    precioLista: monto,
-                    precio: monto,
-                    cantidadStock: 1,
-                    cantidad: 1
-                };
-                */
                 $scope.agregarCarrito(notaCredito);
             }
         });

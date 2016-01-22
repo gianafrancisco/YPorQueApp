@@ -22,7 +22,7 @@ public class VentaFunctionTest {
         BiFunction<Instant,VentaRequest,Venta> converter = new VentaFunction();
 
         Articulo articulo = new Articulo("123456","Articulo 1",20.0,1.0,1.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"Efectivo", "cupon1", 0.0);
 
         Instant fecha = Instant.parse("2015-12-13T16:00:00Z");
         String codigoDevolucion = String.format("%x", fecha.getEpochSecond());
@@ -49,7 +49,7 @@ public class VentaFunctionTest {
         BiFunction<Instant,VentaRequest,Venta> converter = new VentaFunction();
 
         Articulo articulo = new Articulo("123456","Articulo 1",20.0,1.0,1.0,10,10);
-        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"", "cupon1");
+        VentaRequest ventaRequest = new VentaRequest(articulo,10,new Vendedor("username1","1234","nombre1","apellido1"),"", "cupon1", 0.0);
 
         Instant fecha = Instant.parse("2015-12-13T16:00:00Z");
         String codigoDevolucion = String.format("%x", fecha.getEpochSecond());

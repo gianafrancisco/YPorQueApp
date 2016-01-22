@@ -38,30 +38,31 @@
             <table id="tablaListaVendedor" class="table">
                 <thead>
                 <tr>
-                    <th>Fecha</th>
-                    <th>Username</th>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
-                    <th>f1 / f2 / Lista</th>
-                    <th>Monto</th>
-                    <th>Forma de Pago</th>
-                    <th>Cupon</th>
-                    <th></th>
+                    <th style="width: 15%">Fecha</th>
+                    <th style="width: 10%">Username</th>
+                    <th style="width: 15%">Código</th>
+                    <th style="width: 15%">Descripción</th>
+                    <th style="width: 5%">Cantidad</th>
+                    <th style="width: 15%">f1 / f2 / Lista</th>
+                    <th style="width: 15%">Monto</th>
+                    <th style="width: 5%">Forma de Pago</th>
+                    <th style="width: 5%">Cupon</th>
+                    <th style="width: 5%"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="v in listado.content">
-                    <td style="width: 15%">{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                    <td style="width: 10%">{{v.username}}</td>
-                    <td style="width: 15%">{{v.codigo}}</td>
-                    <td style="width: 15%">{{v.descripcion}}</td>
-                    <td style="width: 5%">{{v.cantidad}}</td>
-                    <td style="width: 15%">{{v.factor1 | number:2}} / {{v.factor2 | number:2}} / {{v.precioLista | currency}}</td>
-                    <td style="width: 15%">{{v.precio | currency}}</td>
-                    <td style="width: 5%">{{v.tipoPago}}</td>
-                    <td style="width: 5%">{{v.nroCupon}}</td>
-                    <td style="width: 5%"><h5 ng-show="v.precio < 0"><span class="label label-danger">Devolución</span></h5></td>
+                    <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{v.username}}</td>
+                    <td>{{v.codigo}}</td>
+                    <td>{{v.descripcion}}</td>
+                    <td>{{v.cantidad}}</td>
+                    <td>{{v.factor1 | number:2}} / {{v.factor2 | number:2}} / {{v.precioLista | currency}}</td>
+                    <td>{{v.precio | currency}}</td>
+                    <td>{{v.tipoPago}}</td>
+                    <td>{{v.nroCupon}}</td>
+                    <td><h5 ng-show="v.precio < 0"><span class="label label-danger">Devolución</span></h5>
+                    <h5 ng-show="(v.factor1*v.factor2*v.precioLista) > v.precio"><span class="label label-info">Descuento</span></h5></td>
                 </tr>
                 </tbody>
             </table>

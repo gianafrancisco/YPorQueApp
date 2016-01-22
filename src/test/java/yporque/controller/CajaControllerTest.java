@@ -179,8 +179,8 @@ public class CajaControllerTest {
 
         converter = new VentaFunction();
         Articulo articulo = new Articulo("123456", "Articulo 1", 200.0, 1.0, 2.0, 20, 20);
-        VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo, 10, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo, 5, new Vendedor("username1", "1234", "nombre1", "apellido1"), "Tarjeta", "cupon2", 0.0);
         Venta venta = converter.apply(Instant.parse("2015-12-30T16:00:00Z"), ventaRequest);
         Venta venta1 = converter.apply(Instant.parse("2015-12-30T16:10:00Z"), ventaRequest1);
         ventaRepository.save(venta);

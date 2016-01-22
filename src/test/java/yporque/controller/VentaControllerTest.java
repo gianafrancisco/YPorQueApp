@@ -90,7 +90,8 @@ public class VentaControllerTest {
 
         DevolucionRequest devolucionRequest = new DevolucionRequest(ventaDevuelta,1,vendedor,"Efectivo","111");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1");
+        double descuento = 20.0;
+        VentaRequest ventaRequest = new VentaRequest(articulo,5, vendedor,"Efectivo", "cupon1", descuento);
 
         List<VentaRequest> list = new ArrayList<>();
         list.add(ventaRequest);
@@ -127,7 +128,7 @@ public class VentaControllerTest {
         Assert.assertThat(ventas.get(0).getPrecioLista(),is(10.0));
         Assert.assertThat(ventas.get(0).getFactor1(),is(1.0));
         Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
-        Assert.assertThat(ventas.get(0).getPrecio(),is(10.0));
+        Assert.assertThat(ventas.get(0).getPrecio(),is(8.0));
         Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
 
         Assert.assertThat(devolucion,hasSize(0));
@@ -147,8 +148,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2", 0.0);
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -203,8 +204,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2", 0.0);
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -257,8 +258,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2", 0.0);
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -295,8 +296,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2", 0.0);
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
@@ -332,8 +333,8 @@ public class VentaControllerTest {
 
         Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
 
-        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1");
-        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2");
+        VentaRequest ventaRequest = new VentaRequest(articulo,1, vendedor,"Efectivo", "cupon1", 0.0);
+        VentaRequest ventaRequest1 = new VentaRequest(articulo1,1, vendedor,"Efectivo", "cupon2", 0.0);
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
