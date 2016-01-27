@@ -42,14 +42,16 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
 
       $scope.resumen = function(){
 
-           var request = {
-              username: $scope.vendedor.username
-           };
+           if($scope.vendedor.username != undefined){
+               var request = {
+                  username: $scope.vendedor.username
+               };
 
-          $http.put("/caja/resumen",request)
-          .success(function(data, status, headers, config) {
-              $scope.caja=data;
-          });
+              $http.put("/caja/resumen",request)
+              .success(function(data, status, headers, config) {
+                  $scope.caja=data;
+              });
+           }
       };
 
 
@@ -58,10 +60,11 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
            $http.get(url)
            .success(function(data, status, headers, config) {
                $scope.vendedores=data;
+               /*
                if($scope.vendedores.content.length > 0){
                    $scope.vendedor = $scope.vendedores.content[0];
                    callback();
-               }
+               }*/
            });
        };
 
@@ -79,7 +82,7 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
      $scope.init = function(){
         $scope.isOpen();
         $scope.obtenerListaVendedores(function(){
-            $scope.resumen();
+            //$scope.resumen();
         });
 
      };

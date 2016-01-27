@@ -5,7 +5,9 @@
         <div class="panel-body">
             <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="vendedor" style="width: 200px;">Vendedor</span>
-                <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor"></select>
+                <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="resumen();">
+                    <option value=""></option>
+                </select>
             </div>
 
 
@@ -32,8 +34,8 @@
             </div>
 
             <div style="margin-top: 10px;">
-                <button ng-click="abrir();" class="btn btn-success" ng-hide="cajaAbierta">Abrir</button>
-                <button ng-click="cerrar();" class="btn btn-success" ng-show="cajaAbierta">Cerrar e Imprimir</button>
+                <button ng-click="abrir();" class="btn btn-success" ng-hide="cajaAbierta" ng-disabled="vendedor.username == undefined">Abrir</button>
+                <button ng-click="cerrar();" class="btn btn-success" ng-show="cajaAbierta" ng-disabled="vendedor.username == undefined">Cerrar e Imprimir</button>
             </div>
         </div>
     </div>

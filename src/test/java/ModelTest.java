@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import yporque.model.Articulo;
-import yporque.model.Item;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;

@@ -64,9 +64,9 @@ function venderController($scope,$http,$window,$location,$rootScope) {
        $http.get(url)
        .success(function(data, status, headers, config) {
            $scope.vendedores=data;
-           if($scope.vendedores.content.length > 0){
+           /*if($scope.vendedores.content.length > 0){
                $scope.vendedor = $scope.vendedores.content[0];
-           }
+           }*/
        });
    };
 

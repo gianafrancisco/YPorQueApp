@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
 import yporque.repository.RetiroRepository;
-import yporque.request.RetiroRequest;
 
 import java.time.Instant;
 import java.util.List;
@@ -55,9 +54,9 @@ public class RetiroControllerTest {
     @Test
     public void test_agregar_retiro() throws Exception {
 
-        RetiroRequest retiroRequest = new RetiroRequest(100.0,"retiro 1","username1");
+        Retiro retiro = new Retiro(100.0, "retiro 1", Instant.now(), "username1");
 
-        Retiro retiro = retiroController.agregar(retiroRequest);
+        retiroController.agregar(retiro);
 
         List<Retiro> retiroList = retiroRepository.findAll();
 

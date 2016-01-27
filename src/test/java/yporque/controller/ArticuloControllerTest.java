@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.Articulo;
 import yporque.repository.ArticuloRepository;
-import yporque.repository.ItemRepository;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -33,9 +32,6 @@ public class ArticuloControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
     private ArticuloRepository articuloRepository;
 
     @Autowired
@@ -48,7 +44,6 @@ public class ArticuloControllerTest {
 
     @After
     public void tearDown() throws Exception {
-        itemRepository.deleteAll();
         articuloRepository.deleteAll();
     }
 

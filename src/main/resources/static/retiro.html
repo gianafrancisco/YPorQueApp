@@ -6,7 +6,9 @@
 
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
-                    <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor"></select>
+                    <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor">
+                        <option value=""></option>
+                    </select>
                 </div>
 
                 <div class="form-group-sm">
@@ -20,7 +22,8 @@
                 </div>
 
                 <div style="margin-top: 10px;">
-                    <button ng-click="agregar();" class="btn btn-success">Retirar</button>
+                    <button ng-click="agregar();" class="btn btn-success" ng-disabled="vendedor.username == undefined || retiro.retiroId != undefined">Retirar</button>
+                    <button ng-click="modificarRetiro();" class="btn btn-info" ng-disabled="vendedor.username == undefined || retiro.retiroId == undefined">Modificar</button>
                 </div>
             </form>
         </div>
@@ -35,18 +38,24 @@
             <table id="tablaListaRetiros" class="table">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Vendedor</th>
-                        <th>Monto</th>
-                        <th>Descripción</th>
+                        <th style="width: 20%">Fecha</th>
+                        <th style="width: 20%">Vendedor</th>
+                        <th style="width: 20%">Monto</th>
+                        <th style="width: 30%">Descripción</th>
+                        <th style="width: 10%"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="retiro in listado.content">
-                        <td style="width: 20%">{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                        <td style="width: 20%">{{retiro.username}}</td>
-                        <td style="width: 20%">{{retiro.monto | currency}}</td>
-                        <td style="width: 40%">{{retiro.descripcion}}</td>
+                        <td>{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{retiro.username}}</td>
+                        <td>{{retiro.monto | currency}}</td>
+                        <td>{{retiro.descripcion}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button ng-click="modificar(retiro);" class="btn btn-primary btn-sm">Modificar</button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

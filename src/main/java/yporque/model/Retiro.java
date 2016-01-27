@@ -48,4 +48,12 @@ public class Retiro {
     public String getUsername() {
         return username;
     }
+
+    public void setFecha(Instant fecha) {
+        this.fecha = fecha;
+    }
+
+    public Long getRetiroId() {
+        return retiroId;
+    }
 }

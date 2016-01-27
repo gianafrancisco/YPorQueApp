@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yporque.model.*;
 import yporque.repository.RetiroRepository;
-import yporque.request.RetiroRequest;
 
 import java.time.*;
-import java.util.function.Function;
 
 /**
  * Created by francisco on 23/12/15.
@@ -24,21 +22,12 @@ public class RetiroController {
     @Autowired
     private RetiroRepository retiroRepository;
 
-    public static Function<RetiroRequest, Retiro> convertRetiro(){
-        Function<RetiroRequest, Retiro> function = retiroRequest1 -> {
-            return new Retiro(retiroRequest1.getMonto(), retiroRequest1.getDescripcion(), Instant.now(), retiroRequest1.getUsername());
-        };
-        return function;
-    }
-
     @RequestMapping("/retiro/agregar")
-    public Retiro agregar(@RequestBody RetiroRequest retiroRequest){
-
-        Retiro retiro = convertRetiro().apply(retiroRequest);
+    public Retiro agregar(@RequestBody Retiro retiro){
+        retiro.setFecha(Instant.now());
         retiroRepository.saveAndFlush(retiro);
         return retiro;
     }
-
 
     @RequestMapping("/retiro/today")
     public Page<Retiro> obtenerListado(Pageable pageRequest) {

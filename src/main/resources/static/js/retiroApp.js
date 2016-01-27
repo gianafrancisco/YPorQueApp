@@ -29,10 +29,19 @@ function retiroController($scope,$http,$window,$location) {
      };
 
      $scope.agregar = function(){
+         $scope.retiro.retiroId = undefined;
+         $scope.retiro.fecha = undefined;
          $scope.save(function(){
              $scope.retiro = {};
          });
      };
+
+      $scope.modificarRetiro = function(){
+          $scope.retiro.fecha = undefined;
+          $scope.save(function(){
+              $scope.retiro = {};
+          });
+      };
 
      $scope.save = function(callback){
          $scope.retiro.username = $scope.vendedor.username;
@@ -52,12 +61,17 @@ function retiroController($scope,$http,$window,$location) {
        $http.get(url)
        .success(function(data, status, headers, config) {
            $scope.vendedores=data;
+           /*
            if($scope.vendedores.content.length > 0){
                $scope.vendedor = $scope.vendedores.content[0];
            }
+           */
        });
    };
 
+     $scope.modificar = function(retiro){
+         $scope.retiro = retiro;
+     };
 
      $scope.init = function(){
          $scope.obtenerLista();
