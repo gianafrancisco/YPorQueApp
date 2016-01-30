@@ -51,7 +51,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="v in listado.content">
-                    <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}</td>
                     <td>{{v.username}}</td>
                     <td>{{v.codigo}}</td>
                     <td>{{v.descripcion}}</td>

@@ -13,7 +13,7 @@
 
             <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
                 <span class="input-group-addon" id="apertura" style="width: 200px;">Apertura de caja</span>
-                <input type="text" class="form-control" disabled value="{{caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}">
+                <input type="text" class="form-control" disabled value="{{caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}">
             </div>
             <div class="input-group" style="margin-bottom: 5px;" ng-show="cajaAbierta">
                 <span class="input-group-addon" id="efectivo" style="width: 200px;">Efectivo</span>
@@ -46,8 +46,8 @@
             <div class="panel-body">
                 <button ng-click="print();" class="btn btn-success">Imprimir</button>
                 <h4>Número de Cierre: {{imprimir.caja.cajaId}}</h4>
-                <h4>Apertura de Caja: {{imprimir.caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.aperturaUsername}})</h4>
-                <h4>Cierre de Caja: {{imprimir.caja.cierre.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}} ({{imprimir.caja.cierreUsername}})</h4>
+                <h4>Apertura de Caja: {{imprimir.caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}} ({{imprimir.caja.aperturaUsername}})</h4>
+                <h4>Cierre de Caja: {{imprimir.caja.cierre.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}} ({{imprimir.caja.cierreUsername}})</h4>
                 <h4>Efectivo: {{imprimir.caja.efectivo | currency}}</h4>
                 <h4>Tarjeta: {{imprimir.caja.tarjeta | currency}}</h4>
                 <h4>Total ventas del día: {{imprimir.caja.totalVentaDia | currency}}</h4>
@@ -69,7 +69,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="retiro in imprimir.retiroList">
-                        <td style="width: 20%">{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td style="width: 20%">{{retiro.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}</td>
                         <td style="width: 20%">{{retiro.username}}</td>
                         <td style="width: 20%">{{retiro.monto | currency}}</td>
                         <td style="width: 40%">{{retiro.descripcion}}</td>
@@ -99,7 +99,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="v in imprimir.ventaList">
-                        <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}</td>
                         <td>{{v.username}}</td>
                         <td>{{v.codigo}}</td>
                         <td>{{v.descripcion}}</td>
