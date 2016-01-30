@@ -24,7 +24,7 @@ public class RetiroController {
 
     @RequestMapping("/retiro/agregar")
     public Retiro agregar(@RequestBody Retiro retiro){
-        retiro.setFecha(Instant.now());
+        retiro.setFecha(LocalDateTime.now().toInstant(ZoneOffset.UTC));
         retiroRepository.saveAndFlush(retiro);
         return retiro;
     }

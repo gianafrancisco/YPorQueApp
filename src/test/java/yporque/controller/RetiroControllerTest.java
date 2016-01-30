@@ -19,6 +19,8 @@ import yporque.model.*;
 import yporque.repository.RetiroRepository;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -54,7 +56,7 @@ public class RetiroControllerTest {
     @Test
     public void test_agregar_retiro() throws Exception {
 
-        Retiro retiro = new Retiro(100.0, "retiro 1", Instant.now(), "username1");
+        Retiro retiro = new Retiro(100.0, "retiro 1", LocalDateTime.now().toInstant(ZoneOffset.UTC), "username1");
 
         retiroController.agregar(retiro);
 
@@ -71,7 +73,7 @@ public class RetiroControllerTest {
     @Test
     public void test_retiros_today() throws Exception {
 
-        Instant today = Instant.now();
+        Instant today = LocalDateTime.now().toInstant(ZoneOffset.UTC);
         Retiro retiro = new Retiro(100.0,"retiro 1", today,"username1");
         retiroRepository.saveAndFlush(retiro);
         retiro = new Retiro(200.0,"retiro 2",Instant.parse("2015-12-29T10:00:00Z"),"username1");

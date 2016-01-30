@@ -15,6 +15,8 @@ import yporque.request.VentaRequest;
 import yporque.utils.VentaFunction;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class VentaController {
         List<VentaRequest> ventas = params.getArticulos();
         List<DevolucionRequest> devoluciones = params.getDevoluciones();
 
-        Instant fecha = Instant.now();
+        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
 
         ventas.stream().forEach(ventaRequest -> {
             for(int i = 0; i<ventaRequest.getCantidad(); i++) {

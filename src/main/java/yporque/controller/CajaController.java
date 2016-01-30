@@ -47,7 +47,7 @@ public class CajaController {
         cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(), cajaRequest.getUsername()));
         if(!cajaList.isEmpty()) {
             Double monto = cajaList.get(0).getEfectivoDiaSiguiente();
-            Instant fecha = Instant.now();
+            Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);;
             Venta venta = new Venta(fecha,
                         "CAJA",
                         "Apertura de caja: Efectivo disponible",

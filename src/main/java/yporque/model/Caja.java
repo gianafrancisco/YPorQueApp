@@ -2,6 +2,8 @@ package yporque.model;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 /**
  * Created by francisco on 30/12/15.
@@ -28,7 +30,7 @@ public class Caja {
     private Double efectivoDiaSiguiente;
 
     public Caja() {
-        this.apertura = Instant.now();
+        this.apertura = LocalDateTime.now().toInstant(ZoneOffset.UTC);
         this.cierre = Instant.EPOCH;
         this.efectivo = 0.0;
         this.tarjeta = 0.0;

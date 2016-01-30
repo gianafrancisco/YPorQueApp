@@ -1,6 +1,8 @@
 package yporque.request;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 /**
  * Created by francisco on 30/12/15.
@@ -17,7 +19,7 @@ public class CajaRequest {
 
     public CajaRequest() {
         this.username = "";
-        this.fecha = Instant.now();
+        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
     }
 
     public String getUsername() {

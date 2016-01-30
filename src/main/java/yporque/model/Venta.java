@@ -2,6 +2,8 @@ package yporque.model;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 /**
  * Created by francisco on 13/12/2015.
@@ -36,7 +38,7 @@ public class Venta {
     public Venta() {
         this.codigo = "";
         this.descripcion = "";
-        this.fecha = Instant.now();
+        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
         this.factor1 = 1.0;
         this.factor2 = 1.0;
         this.tipoPago = TipoDePago.EFECTIVO;
