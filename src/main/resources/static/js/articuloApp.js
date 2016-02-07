@@ -70,6 +70,8 @@ function articuloController($scope,$http,$window,$location) {
          $scope.modificar(articulo);
          $scope.articulo.articuloId = undefined;
          $scope.articulo.codigo = "";
+         $scope.articulo.cantidadStock = 0;
+         $scope.articulo.cantidad = 0;
          var element = $window.document.getElementById('codigo');
          if(element){
              element.focus();
