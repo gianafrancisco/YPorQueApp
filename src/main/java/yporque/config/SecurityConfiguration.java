@@ -40,8 +40,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/venta.html","/vender.html","/articulo.html","/index.html", "/js/**","/articulos","/articulo/**","/vendedores","/venta/**","/ventas",
-                "/retiro.html","/retiro/**","/caja.html","/caja/**").permitAll()
+                .antMatchers("/",
+                        "/index.html",
+                        "/images/**",
+                        "/fonts/**",
+                        "/styles/**",
+                        "/scripts/**",
+                        "/articulos",
+                        "/articulo/**",
+                        "/vendedores",
+                        "/venta/**",
+                        "/ventas",
+                        "/retiro/**",
+                        "/caja/**")
+                .permitAll()
                 .anyRequest().authenticated().and()
                 .logout().logoutUrl("/logout").invalidateHttpSession(true).and()
                 .csrf().csrfTokenRepository(csrfTokenRepository()).and()
