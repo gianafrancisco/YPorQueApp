@@ -21,25 +21,29 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    
+  
     <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <a class="navbar-brand" href="#">YPorQue?</a>
           </div>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li ><a href="#articulo">Artículos</a></li>
-                <li ng-show="cajaAbierta"><a href="#vender">Venta</a></li>
-                <li ><a href="#venta">Historial de ventas</a></li>
-                <li ng-show="cajaAbierta"><a href="#retiro">Retiros y Gastos</a></li>
-                <li><a href="#caja">Caja</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                  <li ><a href="#articulo">Artículos</a></li>
+                  <li ng-show="cajaAbierta"><a href="#vender">Venta</a></li>
+                  <li ><a href="#venta">Historial de ventas</a></li>
+                  <li ng-show="cajaAbierta"><a href="#retiro">Retiros y Gastos</a></li>
+                  <li><a href="#caja">Caja</a></li>
+              </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+    
     </div>
 
     <div class="container-fluid">
@@ -48,7 +52,7 @@
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> Y Porque no?</p>
+        <p><span class="glyphicon glyphicon-heart"></span> Y Porque?</p>
       </div>
     </div>
 
@@ -76,15 +80,15 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/controllers/articuloApp.js"></script>
-        <script src="scripts/controllers/venderApp.js"></script>
-        <script src="scripts/controllers/ventaApp.js"></script>
-        <script src="scripts/controllers/retiroApp.js"></script>
-        <script src="scripts/controllers/cajaApp.js"></script>
-        <script src="scripts/controllers/mainApp.js"></script>
-        <script src="scripts/app.js"></script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/controllers/articuloApp.js"></script>
+    <script src="scripts/controllers/venderApp.js"></script>
+    <script src="scripts/controllers/ventaApp.js"></script>
+    <script src="scripts/controllers/retiroApp.js"></script>
+    <script src="scripts/controllers/cajaApp.js"></script>
+    <script src="scripts/controllers/mainApp.js"></script>
+    <script src="scripts/app.js"></script>
+    <!-- endbuild -->
 
-        <!-- endbuild -->
 </body>
 </html>

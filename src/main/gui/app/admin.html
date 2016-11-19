@@ -22,22 +22,24 @@
 
     <!-- Add your site or application content here -->
     <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <a class="navbar-brand" href="#">YPorQue?</a>
           </div>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="#articulo">Artículos</a></li>
                 <li><a href="#vendedor">Vendedores</a></li>
                 <li><a href="#venta">Historial ventas</a></li>
             </ul>
-          </div>
-        </div>
-      </div>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
     </div>
 
     <div class="container-fluid">
@@ -46,7 +48,7 @@
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p><span class="glyphicon glyphicon-heart"></span> Y Porque?</p>
       </div>
     </div>
 
@@ -74,12 +76,12 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scriptsAdmin.js -->
-        <script src="scripts/controllers/articuloApp.js"></script>
-        <script src="scripts/controllers/ventaApp.js"></script>
-        <script src="scripts/controllers/vendedorApp.js"></script>
-        <script src="scripts/controllers/mainAdminApp.js"></script>
-        <script src="scripts/appAdmin.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scriptsAdmin.js -->
+    <script src="scripts/controllers/articuloApp.js"></script>
+    <script src="scripts/controllers/ventaApp.js"></script>
+    <script src="scripts/controllers/vendedorApp.js"></script>
+    <script src="scripts/appAdmin.js"></script>
+    <!-- endbuild -->
+
 </body>
 </html>

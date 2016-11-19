@@ -33,29 +33,41 @@ angular
       });
   });
   */
-angular.module('mainApp', ['ngRoute','ui.bootstrap']).
+angular.module('mainApp',
+  [
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ui.bootstrap'
+  ]).
     config(function($routeProvider, $httpProvider) {
 
              $routeProvider.
                when('/articulo', {
                  templateUrl: 'views/articulo.html',
-                 controller: 'ArticuloController'
+                 controller: 'ArticuloController',
+                 controllerAs: 'articulo'
                }).
               when('/vender', {
                 templateUrl: 'views/vender.html',
-                controller: 'VenderController'
+                controller: 'VenderController',
+                controllerAs: 'vender'
               }).
               when('/venta', {
                 templateUrl: 'views/venta.html',
-                controller: 'VentaController'
+                controller: 'VentaController',
+                controllerAs: 'venta'
               }).
               when('/retiro', {
                   templateUrl: 'views/retiro.html',
-                  controller: 'RetiroController'
+                  controller: 'RetiroController',
+                  controllerAs: 'retiro'
               }).
               when('/caja', {
                   templateUrl: 'views/caja.html',
-                  controller: 'CajaController'
+                  controller: 'CajaController',
+                  controllerAs: 'cata'
               })
             .otherwise({
                  redirectTo: '/caja'

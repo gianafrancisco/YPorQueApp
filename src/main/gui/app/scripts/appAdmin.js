@@ -1,23 +1,35 @@
-var app = angular.module('mainAdminApp', ['ngRoute','ui.bootstrap']).
-    config(function($routeProvider, $httpProvider) {
+'use strict';
+
+angular.module('mainAdminApp',
+    [
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ui.bootstrap'
+    ]).
+    config(function($routeProvider) {
 
              $routeProvider.
                when('/articulo', {
                  templateUrl: 'views/admin/articulo.html',
-                 controller: 'ArticuloController'
+                 controller: 'ArticuloController',
+                 controllerAs: 'articulo'
                }).
               when('/vendedor', {
                 templateUrl: 'views/admin/vendedor.html',
-                controller: 'VendedorController'
+                controller: 'VendedorController',
+                controllerAs: 'vendedor'
               }).
               when('/venta', {
                 templateUrl: 'views/admin/venta.html',
-                controller: 'VentaController'
+                controller: 'VentaController',
+                controllerAs: 'venta'
               })
             .otherwise({
                  redirectTo: '/articulo'
                });
-           $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+           //$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
            }
 )
 .controller('VentaController',ventaController)

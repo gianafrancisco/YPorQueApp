@@ -22,7 +22,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: '../resources/static'
+    //dist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -336,18 +337,29 @@ module.exports = function (grunt) {
     },
 
     ngtemplates: {
-      dist: {
-        options: {
-          module: 'guiApp',
+      user: {
+        options: 
+        {
+          module: 'mainApp',
           htmlmin: '<%= htmlmin.dist.options %>',
           usemin: 'scripts/scripts.js'
         },
         cwd: '<%= yeoman.app %>',
-        src: 'views/{,*/}*.html',
+        src: ['views/{,*/}*.html'],
         dest: '.tmp/templateCache.js'
+      },
+      admin: {
+        options: 
+        {
+          module: 'mainAdminApp',
+          htmlmin: '<%= htmlmin.dist.options %>',
+          usemin: 'scripts/scriptsAdmin.js'
+        },
+        cwd: '<%= yeoman.app %>',
+        src: [ 'views/admin/{,*/}*.html' ],
+        dest: '.tmp/templateCacheAdmin.js'
       }
     },
-
     // ng-annotate tries to make the code safe for minification automatically
     // by using the Angular long form for dependency injection.
     ngAnnotate: {
@@ -462,7 +474,8 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'postcss',
-    'ngtemplates',
+    'ngtemplates:user',
+    'ngtemplates:admin',
     'concat',
     'ngAnnotate',
     'copy:dist',

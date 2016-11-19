@@ -1,6 +1,6 @@
 
 <div ng-controller="CajaController">
-    <div class="panel panel-primary no-print" style="width: 90%; margin: 5%; margin-top: 100px;">
+    <div class="panel panel-primary no-print">
         <div class="panel-heading">Caja Resumen del día</div>
         <div class="panel-body">
             <div class="input-group" style="margin-bottom: 5px;">
@@ -42,7 +42,7 @@
     </div>
     <div id="cajaReporteImprimir" ng-hide="cajaAbierta || imprimir.caja.cajaId == undefined" >
 
-        <div class="panel panel-primary" style="width: 90%; margin: 5%; margin-top: 100px;">
+        <div class="panel panel-primary">
             <div class="panel-heading">Caja Resumen</div>
             <div class="panel-body">
                 <button ng-click="print();" class="btn btn-success">Imprimir</button>
