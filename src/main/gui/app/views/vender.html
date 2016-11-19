@@ -71,7 +71,7 @@
                 <div class="input-group" style="margin-bottom: 5px;">
                     <span class="input-group-addon" id="finalizarVenta" style="width: 150px;" >Finalizar Venta</span>
                     <div class="btn-group">
-                        <button class="btn btn-success btn-sm" ng-click="vender();" ng-disabled="montoTotal < 0 || vendedor.username == undefined">Confirmar Venta</button>
+                        <button class="btn btn-success btn-sm" ng-click="confirmarVenta();" ng-disabled="montoTotal < 0 || vendedor.username == undefined">Confirmar Venta</button>
                         <button class="btn btn-info btn-sm" ng-click="notaCredito();">Generar nota crédito</button>
                         <button class="btn btn-danger btn-sm" ng-click="cancelar();">Cancelar Venta</button>
                     </div>
@@ -95,10 +95,10 @@
                     <td >{{item.vendedor.username}}</td>
                     <td >{{item.articulo.codigo}}</td>
                     <td >{{item.articulo.descripcion}}</td>
-                    <td ><input type="number" min=0 max=20 step=5 ng-model="item.descuento" ng-change="calcularTotal();"/></td>
-                    <td >{{item.articulo.precio*(1-item.descuento/100) | currency}}</td>
+                    <td ><input type="number" min=0 max=50 step=5 ng-model="item.descuento" ng-change="calcularTotal();"/></td>
+                    <td >{{item.articulo.precio | currency}}</td>
                     <td >{{item.cantidad}}</td>
-                    <td >{{(item.cantidad*item.articulo.precio*(1-item.descuento/100)) | currency}}</td>
+                    <td >{{precioConDescuento(item.cantidad*item.articulo.precio, item.descuento) | currency}}</td>
                     <td >
                         <div class="btn-group">
                             <button ng-click="agregarCarrito(item.articulo);" class="btn btn-primary btn-sm" ng-show="item.articulo.precio >= 0" ><span class="glyphicon glyphicon-plus"></span></button>

@@ -149,14 +149,19 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.calcularTotal = function(){
        var total = 0;
        $scope.carrito.forEach(function(current){
-           total+=current.cantidad*current.articulo.precio*(1-current.descuento/100);
+           precio = Math.ceil(current.articulo.precio*(1-current.descuento/100));
+           total+=current.cantidad*precio;
        });
-
        $scope.listDevolucion.forEach(function(current){
            total-=current.cantidad*current.venta.precio;
        });
        $scope.montoTotal = total;
        $scope.actualizarTipoPago();
+   };
+
+
+   $scope.precioConDescuento = function(precio, descuento){
+      return Math.ceil(precio*(1-descuento/100))
    };
 
    $scope.datosVendedor=function(){
@@ -201,7 +206,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
         $scope.tarjeta = $scope.montoTotal - $scope.efectivo;
    };
 
-   $scope.vender = function(){
+   $scope.confirmarVenta = function() {
 
        if($scope.efectivo + $scope.tarjeta === $scope.montoTotal){
 

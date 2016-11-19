@@ -39,9 +39,10 @@
                 <thead>
                 <tr>
                     <th style="width: 15%">Fecha</th>
+                    <th style="width: 10%">Venta</th>
                     <th style="width: 10%">Username</th>
                     <th style="width: 15%">Código</th>
-                    <th style="width: 25%">Descripción</th>
+                    <th style="width: 15%">Descripción</th>
                     <th style="width: 5%">Cantidad</th>
                     <th style="width: 15%">Monto</th>
                     <th style="width: 5%">Forma de Pago</th>
@@ -52,6 +53,7 @@
                 <tbody>
                 <tr ng-repeat="v in listado.content">
                     <td>{{v.fecha.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}</td>
+                    <td>{{v.codigoDevolucion}}</td>
                     <td>{{v.username}}</td>
                     <td>{{v.codigo}}</td>
                     <td>{{v.descripcion}}</td>
