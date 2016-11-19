@@ -11,7 +11,7 @@ install:
   - cd src/main/gui/ && npm install && bower install
   - grunt build --force
   - cd ../../../
-  - mvn -Dmaven.test.skip=true install
+  - mvn -DskipTests install
   #- mvn install -Dmaven.javadoc.skip=true -B -V
 
 before_install:
