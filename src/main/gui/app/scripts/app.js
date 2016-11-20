@@ -67,7 +67,12 @@ angular.module('mainApp',
               when('/caja', {
                   templateUrl: 'views/caja.html',
                   controller: 'CajaController',
-                  controllerAs: 'cata'
+                  controllerAs: 'caja'
+              }).
+              when('/cuenta', {
+                  templateUrl: 'views/cuenta.html',
+                  controller: 'CuentaController',
+                  controllerAs: 'cuenta'
               })
             .otherwise({
                  redirectTo: '/caja'
@@ -80,4 +85,5 @@ angular.module('mainApp',
 .controller('VenderController',venderController)
 .controller('RetiroController',retiroController)
 .controller('CajaController',cajaController)
-.controller('ArticuloController',articuloController);
+.controller('ArticuloController',articuloController)
+.controller('CuentaController',cuentaController);
