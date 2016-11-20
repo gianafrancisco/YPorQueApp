@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import yporque.model.Articulo;
 import yporque.repository.ArticuloRepository;
+import yporque.repository.VentaRepository;
+
 /**
  * Created by francisco on 18/12/15.
  */
@@ -17,14 +19,27 @@ public class ArticuloController {
     @Autowired
     private ArticuloRepository articuloRepository;
 
+    @Autowired
+    private VentaRepository ventaRepository;
+
     @RequestMapping("/articulos")
     public Page<Articulo> obtenerListaArticulos(Pageable pageRequest){
-        return articuloRepository.findAll(pageRequest);
+        Page<Articulo> articulos = articuloRepository.findAll(pageRequest);
+        articulos.getContent().stream().forEach(
+                articulo ->
+                        articulo.setUnidadesVendidas(ventaRepository.unidadesVendidas(articulo.getCodigo()))
+        );
+        return articulos;
     }
 
     @RequestMapping("/articulo/search")
     public Page<Articulo> filtrarArticulos(@RequestParam(value = "") String search, Pageable pageRequest){
-        return articuloRepository.findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase(search, search, pageRequest);
+        Page<Articulo> articulos = articuloRepository.findByDescripcionContainingIgnoreCaseOrCodigoContainingIgnoreCase(search, search, pageRequest);
+        articulos.getContent().stream().forEach(
+                articulo ->
+                        articulo.setUnidadesVendidas(ventaRepository.unidadesVendidas(articulo.getCodigo()))
+        );
+        return articulos;
     }
 
 

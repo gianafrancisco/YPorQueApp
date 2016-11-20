@@ -23,7 +23,8 @@ public class Articulo {
     @Column(name = "cantidad_stock")
     private Integer cantidadStock;
     private final String codigo;
-
+    @Transient
+    private long unidadesVendidas;
 
     public Articulo() {
         this.precioLista = 0.0;
@@ -33,6 +34,7 @@ public class Articulo {
         this.codigo = "";
         this.cantidad = 0;
         this.cantidadStock = 0;
+        this.unidadesVendidas = 0;
     }
 
     public Articulo(String codigo, String descripcion, Double precioLista, Double factor1, Double factor2, Integer cantidad, Integer cantidadStock) {
@@ -91,6 +93,14 @@ public class Articulo {
 
     public Integer getCantidad() {
         return cantidad;
+    }
+
+    public long getUnidadesVendidas() {
+        return unidadesVendidas;
+    }
+
+    public void setUnidadesVendidas(long unidadesVendidas) {
+        this.unidadesVendidas = unidadesVendidas;
     }
 }
 

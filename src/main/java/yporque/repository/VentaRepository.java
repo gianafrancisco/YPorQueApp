@@ -27,4 +27,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     @Query("from Venta v where codigoDevolucion = ?1 and devuelto = false")
     List<Venta> findByCodigoDevolucion(String codigoDevolucion);
 
+    @Query("select count(v) from Venta v where codigo = ?1 and devuelto = false")
+    long unidadesVendidas(String codigo);
+
 }

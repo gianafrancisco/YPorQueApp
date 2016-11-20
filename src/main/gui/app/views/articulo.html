@@ -20,7 +20,7 @@
                 <div class="form-group-sm">
                     <label for="cantidadStock">Stock</label>
                     <input type="number" id="cantidadStock" class="form-control" placeholder="Stock"  ng-model="articulo.cantidadStock" value="" disabled min="0" max="9999"/>
-                </div>
+                </div>              
                 <div class="form-group-sm">
                     <label for="cantidad">Cantidad</label>
                     <input type="number" id="cantidad" class="form-control" placeholder="Cantidad"  ng-model="articulo.cantidad" min="0" max="9999"/>
@@ -58,7 +58,7 @@
                     <tr ng-repeat="articulo in listado.content">
                         <td style="width: 20%">{{articulo.codigo}}</td>
                         <td style="width: 10%">{{articulo.precio | currency}}</td>
-                        <td style="width: 10%">{{articulo.cantidadStock}}</td>
+                        <td style="width: 10%">{{articulo.cantidadStock}} ({{articulo.unidadesVendidas}})</td>
                         <td style="width: 40%">{{articulo.descripcion}}</td>
                         <td style="width: 20%">
                             <div class="btn-group">

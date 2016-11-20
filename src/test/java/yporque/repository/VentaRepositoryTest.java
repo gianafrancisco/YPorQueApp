@@ -191,6 +191,25 @@ public class VentaRepositoryTest {
 
     }
 
+    @Test
+    public void test_filtrar_cantidadesVendidas() throws Exception {
+
+        Instant fecha = Instant.parse("2015-12-13T23:00:00Z");
+        Venta venta = new Venta(Instant.parse("2015-12-13T22:00:00Z"),"COD1","Articulo1",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username1", "cupon2");
+        Venta venta1 = new Venta(fecha,"COD1","Articulo2",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta3 = new Venta(fecha,"COD1","Articulo3",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        Venta venta4 = new Venta(fecha,"COD1","Articulo4",10,1.0,1.0,20.0,200.0,TipoDePago.EFECTIVO,"username2", "cupon1");
+        venta4.setDevuelto(true);
+        ventaRepository.save(venta);
+        ventaRepository.save(venta1);
+        ventaRepository.save(venta3);
+        ventaRepository.save(venta4);
+
+        long cant = ventaRepository.unidadesVendidas("COD1");
+
+        Assert.assertThat(cant, is(3L));
+
+    }
 
 
 }
