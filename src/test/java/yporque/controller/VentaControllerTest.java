@@ -17,12 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import yporque.config.MemoryDBConfig;
 import yporque.model.*;
-import yporque.repository.ArticuloRepository;
-import yporque.repository.ResumenRepository;
-import yporque.repository.VentaRepository;
+import yporque.repository.*;
 import yporque.request.ConfirmarVentaRequest;
 import yporque.request.DevolucionRequest;
 import yporque.request.VentaRequest;
+import yporque.utils.MovimientoFunction;
 import yporque.utils.VentaFunction;
 
 import java.time.Instant;
@@ -40,7 +39,10 @@ import static org.hamcrest.core.Is.is;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan("yporque")
-@ContextConfiguration(classes = {MemoryDBConfig.class,VentaController.class, VentaFunction.class})
+@ContextConfiguration(classes = {MemoryDBConfig.class, VentaController.class,
+        VentaFunction.class, MovimientoFunction.class, CuentaRepository.class, MovimientoRepository.class
+
+})
 public class VentaControllerTest {
 
     private MockMvc mockMvc;
@@ -57,15 +59,25 @@ public class VentaControllerTest {
     @Autowired
     private VentaController ventaController;
 
+    @Autowired
+    private CuentaRepository cuentaRepository;
+
+    @Autowired
+    private MovimientoRepository movimientoRepository;
+
+    private Cuenta cuenta;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(ventaController).setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
-
+        cuenta = new Cuenta("name1", "surname1", "phone", "email", 99888777);
+        cuentaRepository.saveAndFlush(cuenta);
     }
 
     @After
     public void tearDown() throws Exception {
+        cuentaRepository.deleteAll();
+        movimientoRepository.deleteAll();
         articuloRepository.deleteAll();
         ventaRepository.deleteAll();
         resumenRepository.deleteAll();
@@ -99,7 +111,7 @@ public class VentaControllerTest {
         List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
         devolucionRequestList.add(devolucionRequest);
 
-        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Efectivo", 100.0, 150.0);
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Efectivo", 100.0, 150.0, "99888777", 0);
 
         HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
 
@@ -133,7 +145,146 @@ public class VentaControllerTest {
 
         Assert.assertThat(devolucion,hasSize(0));
 
+        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));
+
+        Assert.assertThat(movimientos.getTotalElements(), is(0L));
+
     }
+
+    @Test
+    public void test_confirmar_venta_cuenta_corriente() throws Exception {
+
+        Articulo articulo = new Articulo("123457", "articulo 2", 10.0, 1.0, 1.0, 10, 10);
+        articuloRepository.save(articulo);
+
+        Instant fecha = Instant.parse("2016-01-18T18:00:00Z");
+        Venta ventaDevuelta = new Venta(fecha, "123457", "articulo 2", 1, 1.0, 1.0, 10.0, 10.0, TipoDePago.EFECTIVO, "username1", "111");
+        ventaDevuelta = ventaRepository.saveAndFlush(ventaDevuelta);
+
+        String codigoDevolucion1 = ventaDevuelta.getCodigoDevolucion();
+
+        articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
+        articulo = articuloRepository.save(articulo);
+        Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
+
+        DevolucionRequest devolucionRequest = new DevolucionRequest(ventaDevuelta, 1, vendedor, "Efectivo", "111");
+
+        double descuento = 20.0;
+        VentaRequest ventaRequest = new VentaRequest(articulo, 5, vendedor, "Cuenta Corriente", "cupon1", descuento);
+
+        List<VentaRequest> list = new ArrayList<>();
+        list.add(ventaRequest);
+
+        List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
+        devolucionRequestList.add(devolucionRequest);
+
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888777", 0);
+
+        HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
+
+        Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
+
+        List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
+
+        List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
+
+        List<Resumen> resumenList = resumenRepository.findAll();
+
+        Assert.assertThat(resumenList, hasSize(1));
+        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
+        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
+        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+
+        Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
+        Assert.assertThat(articulo1.getCantidadStock(),is(5));
+        Assert.assertThat(ventas,hasSize(6));
+        Assert.assertThat(ventas.get(0).getCantidad(),is(1));
+        Assert.assertThat(ventas.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
+        Assert.assertThat(ventas.get(0).getCodigo(),is("123456"));
+        Assert.assertThat(ventas.get(0).getDescripcion(),is("articulo 1"));
+        Assert.assertThat(ventas.get(0).getUsername(),is("username1"));
+        Assert.assertThat(ventas.get(0).getPrecioLista(),is(10.0));
+        Assert.assertThat(ventas.get(0).getFactor1(),is(1.0));
+        Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
+        Assert.assertThat(ventas.get(0).getPrecio(),is(8.0));
+        Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
+
+        Assert.assertThat(devolucion,hasSize(0));
+
+        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));
+
+        Assert.assertThat(movimientos.getTotalElements(), is(5L));
+
+    }
+
+    @Test
+    public void test_confirmar_venta_cuenta_corriente_con_entrega_inicial() throws Exception {
+
+        Articulo articulo = new Articulo("123457", "articulo 2", 10.0, 1.0, 1.0, 10, 10);
+        articuloRepository.save(articulo);
+
+        Instant fecha = Instant.parse("2016-01-18T18:00:00Z");
+        Venta ventaDevuelta = new Venta(fecha, "123457", "articulo 2", 1, 1.0, 1.0, 10.0, 10.0, TipoDePago.EFECTIVO, "username1", "111");
+        ventaDevuelta = ventaRepository.saveAndFlush(ventaDevuelta);
+
+        String codigoDevolucion1 = ventaDevuelta.getCodigoDevolucion();
+
+        articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
+        articulo = articuloRepository.save(articulo);
+        Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
+
+        DevolucionRequest devolucionRequest = new DevolucionRequest(ventaDevuelta, 1, vendedor, "Efectivo", "111");
+
+        double descuento = 20.0;
+        VentaRequest ventaRequest = new VentaRequest(articulo, 5, vendedor, "Cuenta Corriente", "cupon1", descuento);
+
+        List<VentaRequest> list = new ArrayList<>();
+        list.add(ventaRequest);
+
+        List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
+        devolucionRequestList.add(devolucionRequest);
+
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888777", 150.0);
+
+        HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
+
+        Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
+
+        List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
+
+        List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
+
+        List<Resumen> resumenList = resumenRepository.findAll();
+
+        Assert.assertThat(resumenList, hasSize(1));
+        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
+        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
+        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+
+        Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
+        Assert.assertThat(articulo1.getCantidadStock(),is(5));
+        Assert.assertThat(ventas,hasSize(6));
+        Assert.assertThat(ventas.get(0).getCantidad(),is(1));
+        Assert.assertThat(ventas.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
+        Assert.assertThat(ventas.get(0).getCodigo(),is("123456"));
+        Assert.assertThat(ventas.get(0).getDescripcion(),is("articulo 1"));
+        Assert.assertThat(ventas.get(0).getUsername(),is("username1"));
+        Assert.assertThat(ventas.get(0).getPrecioLista(),is(10.0));
+        Assert.assertThat(ventas.get(0).getFactor1(),is(1.0));
+        Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
+        Assert.assertThat(ventas.get(0).getPrecio(),is(8.0));
+        Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
+
+        Assert.assertThat(devolucion,hasSize(0));
+
+        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));
+
+        Assert.assertThat(movimientos.getTotalElements(), is(6L));
+        Assert.assertThat(movimientos.getContent().get(5).getDescripcion(), is("Entrega Inicial"));
+        Assert.assertThat(movimientos.getContent().get(5).getImporte(), is(150.0));
+
+    }
+
 
     @Test
     public void test_ventas() throws Exception {

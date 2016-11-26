@@ -12,13 +12,17 @@ public class ConfirmarVentaRequest {
     private String formaPago;
     private Double efectivo;
     private Double tarjeta;
+    private String dni;
+    private double entregaInicial;
 
-    public ConfirmarVentaRequest(List<VentaRequest> articulos, List<DevolucionRequest> devoluciones, String formaPago, Double efectivo, Double tarjeta) {
+    public ConfirmarVentaRequest(List<VentaRequest> articulos, List<DevolucionRequest> devoluciones, String formaPago, Double efectivo, Double tarjeta, String dni, double entregaInicial) {
         this.articulos = articulos;
         this.devoluciones = devoluciones;
         this.tarjeta = tarjeta;
         this.efectivo = efectivo;
         this.formaPago = formaPago;
+        this.dni = dni;
+        this.entregaInicial = entregaInicial;
     }
 
     public List<VentaRequest> getArticulos() {
@@ -35,6 +39,7 @@ public class ConfirmarVentaRequest {
         this.formaPago = "Efectivo";
         this.efectivo = 0.0;
         this.tarjeta = 0.0;
+        this.dni = "";
     }
 
     public String getFormaPago() {
@@ -47,5 +52,13 @@ public class ConfirmarVentaRequest {
 
     public Double getTarjeta() {
         return tarjeta;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public double getEntregaInicial() {
+        return entregaInicial;
     }
 }

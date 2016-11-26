@@ -6,12 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import yporque.model.*;
-import yporque.repository.ArticuloRepository;
-import yporque.repository.ResumenRepository;
-import yporque.repository.VentaRepository;
+import yporque.repository.*;
 import yporque.request.ConfirmarVentaRequest;
 import yporque.request.DevolucionRequest;
 import yporque.request.VentaRequest;
+import yporque.utils.MovimientoFunction;
 import yporque.utils.VentaFunction;
 
 import java.time.Instant;
@@ -39,7 +38,18 @@ public class VentaController {
     private VentaFunction ventaFunction;
 
     @Autowired
+    private MovimientoFunction movimientoFunction;
+
+    @Autowired
     private ResumenRepository resumenRepository;
+
+    @Autowired
+    private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private CuentaRepository cuentaRepository;
+
+    private Cuenta cuenta;
 
     @RequestMapping("/venta/confirmar")
     public HashMap<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
@@ -49,21 +59,37 @@ public class VentaController {
 
         Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
 
+        if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
+            cuenta = cuentaRepository.findByDni(Long.valueOf(params.getDni()));
+        }
+
         ventas.stream().forEach(ventaRequest -> {
             for(int i = 0; i<ventaRequest.getCantidad(); i++) {
                 Articulo art = articuloRepository.findOne(ventaRequest.getArticulo().getArticuloId());
                 art.setCantidadStock(art.getCantidadStock() - 1);
                 articuloRepository.saveAndFlush(art);
-                ventaRepository.save(ventaFunction.apply(fecha, ventaRequest));
+                Venta venta = ventaFunction.apply(fecha, ventaRequest);
+                ventaRepository.save(venta);
+                if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
+                    Movimiento movimiento = movimientoFunction.apply(fecha, ventaRequest);
+                    movimiento.setCuentaId(cuenta.getId());
+                    movimientoRepository.saveAndFlush(movimiento);
+                }
             }
         });
 
+        if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
+            if(params.getEntregaInicial() > 0){
+                Movimiento entrega = Movimiento.generarEntrega(fecha, "Entrega Inicial", cuenta.getId(), params.getEntregaInicial());
+                movimientoRepository.saveAndFlush(entrega);
+            }
+        }
 
         devoluciones.stream().forEach(devolucionRequest -> {
             Venta articuloDevuelto = devolucionRequest.getVenta();
             articuloDevuelto.setDevuelto(true);
             ventaRepository.saveAndFlush(articuloDevuelto);
-            TipoDePago tipoDePago = getTipoDePago(devolucionRequest.getFormaPago());
+            TipoDePago tipoDePago = VentaFunction.getTipoDePago(devolucionRequest.getFormaPago());
             List<Articulo> list = articuloRepository.findByCodigo(articuloDevuelto.getCodigo());
                 if(!list.isEmpty()) {
                     Articulo art = list.get(0);
@@ -87,7 +113,7 @@ public class VentaController {
             }
         );
 
-        Resumen resumen = new Resumen(fecha,getTipoDePago(params.getFormaPago()),params.getEfectivo(),params.getTarjeta());
+        Resumen resumen = new Resumen(fecha,VentaFunction.getTipoDePago(params.getFormaPago()),params.getEfectivo(),params.getTarjeta());
         resumenRepository.saveAndFlush(resumen);
 
         HashMap<String,String> map = new HashMap<>();
@@ -95,18 +121,6 @@ public class VentaController {
         return map;
 
     }
-
-    private TipoDePago getTipoDePago(String tipo) {
-        switch(tipo){
-            case "Efectivo":
-                return TipoDePago.EFECTIVO;
-            case "Tajeta":
-                return TipoDePago.TARJETA;
-            default:
-                return TipoDePago.MIXTO;
-        }
-    }
-
 
     @RequestMapping("/ventas")
     public Page<Venta> obtenerListado(@RequestParam(required = false) Instant startTime, @RequestParam(required = false) Instant endTime, Pageable pageRequest) {

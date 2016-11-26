@@ -15,7 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import yporque.config.MemoryDBConfig;
 import yporque.model.Cuenta;
+import yporque.model.Entrega;
+import yporque.model.Movimiento;
 import yporque.repository.CuentaRepository;
+import yporque.repository.MovimientoRepository;
 
 import java.util.List;
 
@@ -36,10 +39,15 @@ public class CuentaControllerTest {
     @Autowired
     private CuentaController cuentaController;
 
+    @Autowired
+    private MovimientoRepository movimientoRepository;
+
+    private Cuenta cuentam;
+
     @Before
     public void setUp() throws Exception {
         cuentaRepository.saveAndFlush(new Cuenta("name", "surname", "+543513111111", "name@do.com", 32654223));
-        cuentaRepository.saveAndFlush(new Cuenta("name 1", "surname 1", "+543513111111", "name@do.com", 32654224));
+        cuentam = cuentaRepository.saveAndFlush(new Cuenta("name 1", "surname 1", "+543513111111", "name@do.com", 32654224));
     }
 
     @Test
@@ -133,8 +141,21 @@ public class CuentaControllerTest {
 
     }
 
+    @Test
+    public void registrar_entrega() throws Exception {
+        Entrega entrega = new Entrega("Entrega parcial", 100.0);
+        ResponseEntity<Movimiento> response = cuentaController.postMovimeinto(cuentam.getId(), entrega);
+        Assert.assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
+        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuentam.getId(), new PageRequest(0, 100));
+        Assert.assertThat(movimientos.getTotalElements(), is(1L));
+        Assert.assertThat(movimientos.getContent().get(0).getImporte(), is(100.0));
+        Assert.assertThat(movimientos.getContent().get(0).getDescripcion(), is("Entrega parcial"));
+
+    }
+
     @After
     public void tearDown() throws Exception {
+        movimientoRepository.deleteAll();
         cuentaRepository.deleteAll();
     }
 

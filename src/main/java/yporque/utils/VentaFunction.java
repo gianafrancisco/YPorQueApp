@@ -31,12 +31,14 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
         );
     }
 
-    private TipoDePago getTipoDePago(String tipo) {
+    public static TipoDePago getTipoDePago(String tipo) {
         switch(tipo){
             case "Efectivo":
                 return TipoDePago.EFECTIVO;
             case "Mixto":
                 return TipoDePago.MIXTO;
+            case "Cuenta Corriente":
+                return TipoDePago.C_CORRIENTE;
             default:
                 return TipoDePago.TARJETA;
         }

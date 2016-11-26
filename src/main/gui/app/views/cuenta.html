@@ -1,33 +1,77 @@
-
-<div class="panel panel-primary">
-    <div class="panel-heading"></a>Cuenta corriente</div>
-    <div class="panel-body">
-        <form>
-            <div class="form-group-sm">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" class="form-control" placeholder="Nombre"  ng-model="cuenta.nombre" value=""/>
+<div class="row">
+    <div class=" col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"></a>Cuenta corriente</div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group-sm">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" class="form-control" placeholder="Nombre"  ng-model="cuenta.nombre" value=""/>
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" class="form-control" placeholder="Apellido"  ng-model="cuenta.apellido" />
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="username">DNI</label>
+                        <input type="text" id="username" class="form-control" placeholder="DNI" ng-model="cuenta.dni" ng-disabled="cuenta.id > 0"/>
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="email">Correo</label>
+                        <input type="email" id="email" class="form-control" placeholder="Email" ng-model="cuenta.email" />
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="telefono">Telefono</label>
+                        <input type="text" id="telefono" class="form-control" placeholder="Telefono" ng-model="cuenta.telefono" />
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button ng-click="agregar();" class="btn btn-success" ng-disabled="!isModificable();">Agregar</button>
+                        <button ng-click="modificar();" class="btn btn-primary" ng-disabled="isModificable();">Modificar</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group-sm">
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" class="form-control" placeholder="Apellido"  ng-model="cuenta.apellido" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"></a>Resumen de cuenta</div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group-sm">
+                        <label for="nombre">Saldo</label>
+                        <input type="number" id="" class="form-control" disabled />
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="apellido">Entrega</label>
+                        <input type="number" id="Entrega" class="form-control" />
+                    </div>
+                    <hr>
+                    <button ng-click="agregar();" class="btn btn-success" ng-disabled="!isModificable();">Agregar</button>
+                </form>
+                <!--
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Codigo</th>
+                        <th>Descripcion</th>
+                        <th>Saldo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="cuenta in listado.content">
+                        <td style="width: 10%">{{cuenta.dni}}</td>
+                        <td style="width: 10%">{{cuenta.nombre}}</td>
+                        <td style="width: 10%">{{cuenta.apellido}}</td>
+                        <td style="width: 10%">{{cuenta.email}}</td>
+                        <td style="width: 10%">{{cuenta.telefono}}</td>
+                        <td style="width: 10%">{{cuenta.saldo}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                -->
             </div>
-            <div class="form-group-sm">
-                <label for="username">DNI</label>
-                <input type="text" id="username" class="form-control" placeholder="DNI" ng-model="cuenta.dni" />
-            </div>
-            <div class="form-group-sm">
-                <label for="email">Correo</label>
-                <input type="email" id="email" class="form-control" placeholder="Email" ng-model="cuenta.email" />
-            </div>
-            <div class="form-group-sm">
-                <label for="telefono">Telefono</label>
-                <input type="text" id="telefono" class="form-control" placeholder="Telefono" ng-model="cuenta.telefono" />
-            </div>
-            <div style="margin-top: 10px;">
-                <button ng-click="agregar();" class="btn btn-success" ng-disabled="!isModificable();">Agregar</button>
-                <button ng-click="modificar();" class="btn btn-primary" ng-disabled="isModificable();">Modificar</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 <div id="lista">
@@ -49,6 +93,7 @@
                 <th>Apellido</th>
                 <th>Email</th>
                 <th>Telefono</th>
+                <th>Saldo</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -59,10 +104,14 @@
                 <td style="width: 10%">{{cuenta.apellido}}</td>
                 <td style="width: 10%">{{cuenta.email}}</td>
                 <td style="width: 10%">{{cuenta.telefono}}</td>
+                <td style="width: 10%">{{cuenta.saldo}}</td>
                 <td style="width: 20%">
                     <div class="btn-group">
                         <button ng-click="editar(cuenta);" class="btn btn-primary btn-sm">Modificar</button>
+                        <button ng-click="verCuenta(cuenta);" class="btn btn-info btn-sm">Ver cuenta</button>
+                        <!--
                         <button ng-click="eliminar(cuenta);" class="btn btn-danger btn-sm">Eliminar</button>
+                        -->
                     </div>
                 </td>
             </tr>
