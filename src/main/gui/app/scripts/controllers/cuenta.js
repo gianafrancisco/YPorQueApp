@@ -10,6 +10,8 @@ function cuentaController($scope,$http,$window,$location) {
      $scope.codigo = {};
      $scope.ipp = 20;
      $scope.pageNumber = 1;
+     $scope.descripcion = "";
+     $scope.entrega = 0;
 
      $scope.obtenerLista = function(){
          var url = "/cuentas?page="+($scope.pageNumber-1);
@@ -85,6 +87,25 @@ function cuentaController($scope,$http,$window,$location) {
 
      $scope.isModificable = function(){
          return $scope.cuenta.id == undefined;
+     };
+
+     $scope.agregarEntrega = function(cuenta, desc, entrega){
+        var entrega = {
+                descripcion: desc,
+                monto: entrega
+             };
+        if(confirm("Esta seguro de registrar un ingreso a la cuenta corriente?")){
+             $http.post(
+             "/cuentas/"+cuenta.id+"/movimientos",
+             entrega
+             )
+             .success(function(data, status, headers, config) {
+                 console.log(data);
+                 $scope.descripcion = "";
+                 $scope.entrega = 0;
+                 $scope.obtenerLista();
+             });
+        }
      };
 
      $scope.init();

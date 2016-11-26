@@ -32,6 +32,12 @@ public class CuentaController {
     @RequestMapping(value = "/cuentas", method = RequestMethod.GET)
     public ResponseEntity<Page<Cuenta>> get(Pageable pageRequest){
         ResponseEntity<Page<Cuenta>> responseEntity = ResponseEntity.ok(cuentaRepository.findAll(pageRequest));
+        responseEntity.getBody().getContent().stream().forEach(
+                cuenta -> {
+                    Double saldo = movimientoRepository.saldo(cuenta.getId());
+                    cuenta.setSaldo(saldo == null ? 0.0: saldo);
+                }
+        );
         return responseEntity;
     }
 
@@ -44,12 +50,24 @@ public class CuentaController {
     @RequestMapping(value = "/cuentas", method = RequestMethod.GET, params = {"search"})
     public ResponseEntity<Page<Cuenta>> get(String search, Pageable pageRequest){
         ResponseEntity<Page<Cuenta>> responseEntity = ResponseEntity.ok(cuentaRepository.search(search, pageRequest));
+        responseEntity.getBody().getContent().stream().forEach(
+                cuenta -> {
+                    Double saldo = movimientoRepository.saldo(cuenta.getId());
+                    cuenta.setSaldo(saldo == null ? 0.0: saldo);
+                }
+        );
         return responseEntity;
     }
 
     @RequestMapping(value = "/cuentas", method = RequestMethod.GET, params = {"dni"})
     public ResponseEntity<Page<Cuenta>> getDni(String dni, Pageable pageRequest){
         ResponseEntity<Page<Cuenta>> responseEntity = ResponseEntity.ok(cuentaRepository.findByDni(Long.valueOf(dni), pageRequest));
+        responseEntity.getBody().getContent().stream().forEach(
+                cuenta -> {
+                    Double saldo = movimientoRepository.saldo(cuenta.getId());
+                    cuenta.setSaldo(saldo == null ? 0.0: saldo);
+                }
+        );
         return responseEntity;
     }
 
@@ -80,7 +98,7 @@ public class CuentaController {
     }
 
     @RequestMapping(value = "/cuentas/{cuentaId}/movimientos", method = RequestMethod.POST)
-    public ResponseEntity<Movimiento> postMovimeinto(@PathVariable Long cuentaId, Entrega entrega){
+    public ResponseEntity<Movimiento> postMovimeinto(@PathVariable Long cuentaId,@RequestBody Entrega entrega){
         Movimiento movimiento = Movimiento.generarEntrega(Instant.now(), entrega.getDescripcion(), cuentaId, entrega.getMonto());
         movimiento = movimientoRepository.saveAndFlush(movimiento);
         ResponseEntity<Movimiento> responseEntity = ResponseEntity.created(URI.create("/cuenta/" + cuentaId + "/movimientos/" + movimiento.getId())).body(movimiento);

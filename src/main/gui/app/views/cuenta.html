@@ -4,25 +4,41 @@
             <div class="panel-heading"></a>Cuenta corriente</div>
             <div class="panel-body">
                 <form>
-                    <div class="form-group-sm">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Nombre"  ng-model="cuenta.nombre" value=""/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group-sm">
+                                <label for="username">DNI</label>
+                                <input type="text" id="username" class="form-control" placeholder="DNI" ng-model="cuenta.dni" ng-disabled="cuenta.id > 0"/>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group-sm">
-                        <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" class="form-control" placeholder="Apellido"  ng-model="cuenta.apellido" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" class="form-control" placeholder="Nombre"  ng-model="cuenta.nombre" value=""/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="apellido">Apellido</label>
+                                <input type="text" id="apellido" class="form-control" placeholder="Apellido"  ng-model="cuenta.apellido" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group-sm">
-                        <label for="username">DNI</label>
-                        <input type="text" id="username" class="form-control" placeholder="DNI" ng-model="cuenta.dni" ng-disabled="cuenta.id > 0"/>
-                    </div>
-                    <div class="form-group-sm">
-                        <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" placeholder="Email" ng-model="cuenta.email" />
-                    </div>
-                    <div class="form-group-sm">
-                        <label for="telefono">Telefono</label>
-                        <input type="text" id="telefono" class="form-control" placeholder="Telefono" ng-model="cuenta.telefono" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="email">Correo</label>
+                                <input type="email" id="email" class="form-control" placeholder="Email" ng-model="cuenta.email" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="telefono">Telefono</label>
+                                <input type="text" id="telefono" class="form-control" placeholder="Telefono" ng-model="cuenta.telefono" />
+                            </div>
+                        </div>
                     </div>
                     <div style="margin-top: 10px;">
                         <button ng-click="agregar();" class="btn btn-success" ng-disabled="!isModificable();">Agregar</button>
@@ -37,39 +53,44 @@
             <div class="panel-heading"></a>Resumen de cuenta</div>
             <div class="panel-body">
                 <form>
-                    <div class="form-group-sm">
-                        <label for="nombre">Saldo</label>
-                        <input type="number" id="" class="form-control" disabled />
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group-sm">
+                                <label for="cc">Cuenta Corriente</label>
+                                <input type="text" id="cc" class="form-control" value="{{cuenta.apellido}} {{cuenta.nombre}}" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-sm">
+                                <label for="saldo">Saldo</label>
+                                <input type="text" id="saldo" class="form-control" disabled value="{{cuenta.saldo}}"/>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group-sm">
-                        <label for="apellido">Entrega</label>
-                        <input type="number" id="Entrega" class="form-control" />
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group-sm">
+                                <label for="descripcion">Descripcion</label>
+                                <input type="text" list="desc" id="descripcion" class="form-control" value="" ng-model="descripcion"/>
+                                <datalist id="desc">
+                                    <option value="Entrega parcial.">
+                                    <option value="Entrega final.">
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-sm">
+                                <label for="apellido">Entrega</label>
+                                <input type="number" step=1 ng-model="entrega" id="Entrega" class="form-control" />
+                            </div>
+                        </div>
                     </div>
-                    <hr>
-                    <button ng-click="agregar();" class="btn btn-success" ng-disabled="!isModificable();">Agregar</button>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-4">
+                            <button ng-click="agregarEntrega(cuenta, descripcion, entrega);" class="btn btn-success" ng-disabled="!(cuenta.id > 0)">Agregar</button>        
+                        </div>
+                    </div>
                 </form>
-                <!--
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Codigo</th>
-                        <th>Descripcion</th>
-                        <th>Saldo</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="cuenta in listado.content">
-                        <td style="width: 10%">{{cuenta.dni}}</td>
-                        <td style="width: 10%">{{cuenta.nombre}}</td>
-                        <td style="width: 10%">{{cuenta.apellido}}</td>
-                        <td style="width: 10%">{{cuenta.email}}</td>
-                        <td style="width: 10%">{{cuenta.telefono}}</td>
-                        <td style="width: 10%">{{cuenta.saldo}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                -->
             </div>
         </div>
     </div>

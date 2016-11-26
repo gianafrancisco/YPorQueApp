@@ -150,7 +150,6 @@ public class CuentaControllerTest {
         Assert.assertThat(movimientos.getTotalElements(), is(1L));
         Assert.assertThat(movimientos.getContent().get(0).getImporte(), is(100.0));
         Assert.assertThat(movimientos.getContent().get(0).getDescripcion(), is("Entrega parcial"));
-
     }
 
     @After

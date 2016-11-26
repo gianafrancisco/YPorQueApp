@@ -7,6 +7,10 @@ public class Entrega {
     private String descripcion;
     private double monto;
 
+
+    public Entrega() {
+    }
+
     public Entrega(String descripcion, double monto) {
         this.descripcion = descripcion;
         this.monto = monto;

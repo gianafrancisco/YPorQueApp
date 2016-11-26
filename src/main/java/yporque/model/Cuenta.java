@@ -17,8 +17,16 @@ public class Cuenta {
     private String telefono;
     private String email;
     private long dni;
+    @Transient
+    private double saldo;
 
     public Cuenta() {
+        this.saldo = 0.0;
+        this.apellido = "";
+        this.nombre = "";
+        this.dni = 0L;
+        this.email = "";
+        this.telefono = "";
     }
 
     public Cuenta(String nombre, String apellido, String telefono, String email, long dni) {
@@ -71,5 +79,13 @@ public class Cuenta {
 
     public void setDni(long dni) {
         this.dni = dni;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 }
