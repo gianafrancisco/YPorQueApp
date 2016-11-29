@@ -7,11 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import yporque.model.Cuenta;
-import yporque.model.Entrega;
-import yporque.model.Movimiento;
+import yporque.model.*;
 import yporque.repository.CuentaRepository;
 import yporque.repository.MovimientoRepository;
+import yporque.repository.VentaRepository;
 
 import java.net.URI;
 import java.time.Instant;
@@ -28,6 +27,9 @@ public class CuentaController {
 
     @Autowired
     private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private VentaRepository ventaRepository;
 
     @RequestMapping(value = "/cuentas", method = RequestMethod.GET)
     public ResponseEntity<Page<Cuenta>> get(Pageable pageRequest){
@@ -99,8 +101,14 @@ public class CuentaController {
 
     @RequestMapping(value = "/cuentas/{cuentaId}/movimientos", method = RequestMethod.POST)
     public ResponseEntity<Movimiento> postMovimeinto(@PathVariable Long cuentaId,@RequestBody Entrega entrega){
-        Movimiento movimiento = Movimiento.generarEntrega(Instant.now(), entrega.getDescripcion(), cuentaId, entrega.getMonto());
+        Instant fecha = Instant.now();
+        Movimiento movimiento = Movimiento.generarEntrega(fecha, entrega.getDescripcion(), cuentaId, entrega.getMonto());
         movimiento = movimientoRepository.saveAndFlush(movimiento);
+        Cuenta cuenta = cuentaRepository.findOne(cuentaId);
+        // TODO: Add vendedor to venta and movimiento
+        Venta venta = new Venta(fecha, "ENTREGA", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
+                                movimiento.getImporte(), movimiento.getImporte(), TipoDePago.C_CORRIENTE,"", "");
+        ventaRepository.saveAndFlush(venta);
         ResponseEntity<Movimiento> responseEntity = ResponseEntity.created(URI.create("/cuenta/" + cuentaId + "/movimientos/" + movimiento.getId())).body(movimiento);
         return responseEntity;
     }

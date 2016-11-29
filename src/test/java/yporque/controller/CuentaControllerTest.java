@@ -17,8 +17,10 @@ import yporque.config.MemoryDBConfig;
 import yporque.model.Cuenta;
 import yporque.model.Entrega;
 import yporque.model.Movimiento;
+import yporque.model.Venta;
 import yporque.repository.CuentaRepository;
 import yporque.repository.MovimientoRepository;
+import yporque.repository.VentaRepository;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ import static org.hamcrest.core.Is.is;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan("yporque")
-@ContextConfiguration(classes = {MemoryDBConfig.class, CuentaController.class})
+@ContextConfiguration(classes = {MemoryDBConfig.class, CuentaController.class, VentaRepository.class})
 public class CuentaControllerTest {
 
     @Autowired
@@ -41,6 +43,9 @@ public class CuentaControllerTest {
 
     @Autowired
     private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private VentaRepository ventaRepository;
 
     private Cuenta cuentam;
 
@@ -150,10 +155,17 @@ public class CuentaControllerTest {
         Assert.assertThat(movimientos.getTotalElements(), is(1L));
         Assert.assertThat(movimientos.getContent().get(0).getImporte(), is(100.0));
         Assert.assertThat(movimientos.getContent().get(0).getDescripcion(), is("Entrega parcial"));
+
+        List<Venta> ventas = ventaRepository.findAll();
+
+        Assert.assertThat(ventas.size(), is(1));
+        Assert.assertThat(ventas.get(0).getCodigo(), is("ENTREGA"));
+        Assert.assertThat(ventas.get(0).getDescripcion(), is("Cuenta Corriente " + cuentam.getDni()));
     }
 
     @After
     public void tearDown() throws Exception {
+        ventaRepository.deleteAll();
         movimientoRepository.deleteAll();
         cuentaRepository.deleteAll();
     }
