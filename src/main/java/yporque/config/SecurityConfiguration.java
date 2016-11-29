@@ -52,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/venta/**",
                         "/ventas",
                         "/retiro/**",
+                        "/cuentas/**",
                         "/caja/**")
                 .permitAll()
                 .anyRequest().authenticated().and()
