@@ -28,8 +28,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
@@ -113,7 +115,7 @@ public class VentaControllerTest {
 
         ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Efectivo", 100.0, 150.0, "99888777", 0);
 
-        HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
+        Map<String,String> codigoDevolucion = ventaController.confirmar(params);
 
         Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
 
@@ -180,7 +182,7 @@ public class VentaControllerTest {
 
         ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888777", 0);
 
-        HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
+        Map<String,String> codigoDevolucion = ventaController.confirmar(params);
 
         Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
 
@@ -246,7 +248,7 @@ public class VentaControllerTest {
 
         ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888777", 150.0);
 
-        HashMap<String,String> codigoDevolucion = ventaController.confirmar(params);
+        Map<String,String> codigoDevolucion = ventaController.confirmar(params);
 
         Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
 
@@ -285,6 +287,59 @@ public class VentaControllerTest {
 
     }
 
+
+    @Test
+    public void test_confirmar_venta_cuenta_corriente_dni_no_existe() throws Exception {
+
+        Articulo articulo = new Articulo("123457", "articulo 2", 10.0, 1.0, 1.0, 10, 10);
+        articuloRepository.save(articulo);
+
+        Instant fecha = Instant.parse("2016-01-18T18:00:00Z");
+        Venta ventaDevuelta = new Venta(fecha, "123457", "articulo 2", 1, 1.0, 1.0, 10.0, 10.0, TipoDePago.EFECTIVO, "username1", "111");
+        ventaDevuelta = ventaRepository.saveAndFlush(ventaDevuelta);
+
+        String codigoDevolucion1 = ventaDevuelta.getCodigoDevolucion();
+
+        articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
+        articulo = articuloRepository.save(articulo);
+        Vendedor vendedor = new Vendedor("username1", "1234", "nombre1", "apellido1");
+
+        DevolucionRequest devolucionRequest = new DevolucionRequest(ventaDevuelta, 1, vendedor, "Efectivo", "111");
+
+        double descuento = 20.0;
+        VentaRequest ventaRequest = new VentaRequest(articulo, 5, vendedor, "Cuenta Corriente", "cupon1", descuento);
+
+        List<VentaRequest> list = new ArrayList<>();
+        list.add(ventaRequest);
+
+        List<DevolucionRequest> devolucionRequestList = new ArrayList<>();
+        devolucionRequestList.add(devolucionRequest);
+
+        ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888711", 150.0);
+
+        Map<String,String> codigoDevolucion = ventaController.confirmar(params);
+
+        Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
+
+        List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
+
+        List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
+
+        List<Resumen> resumenList = resumenRepository.findAll();
+
+        Assert.assertThat(resumenList, hasSize(0));
+
+        Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),nullValue());
+        Assert.assertThat(articulo1.getCantidadStock(),is(10));
+        Assert.assertThat(ventas,hasSize(0));
+
+        Assert.assertThat(devolucion,hasSize(1));
+
+        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));
+
+        Assert.assertThat(movimientos.getTotalElements(), is(0L));
+
+    }
 
     @Test
     public void test_ventas() throws Exception {

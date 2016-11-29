@@ -3,6 +3,7 @@ package yporque.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import yporque.model.*;
@@ -16,8 +17,10 @@ import yporque.utils.VentaFunction;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by francisco on 23/12/15.
@@ -52,7 +55,14 @@ public class VentaController {
     private Cuenta cuenta;
 
     @RequestMapping("/venta/confirmar")
-    public HashMap<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
+    public Map<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
+
+        if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
+            if(!cuentaRepository.exists(Long.valueOf(params.getDni()))){
+                Map<String, String> map = Collections.EMPTY_MAP;
+                return map;
+            }
+        }
 
         List<VentaRequest> ventas = params.getArticulos();
         List<DevolucionRequest> devoluciones = params.getDevoluciones();
