@@ -58,7 +58,7 @@ public class VentaController {
     public Map<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
 
         if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
-            if(!cuentaRepository.exists(Long.valueOf(params.getDni()))){
+            if(cuentaRepository.findByDni(Long.valueOf(params.getDni())) == null){
                 Map<String, String> map = Collections.EMPTY_MAP;
                 return map;
             }
@@ -79,7 +79,7 @@ public class VentaController {
                 art.setCantidadStock(art.getCantidadStock() - 1);
                 articuloRepository.saveAndFlush(art);
                 Venta venta = ventaFunction.apply(fecha, ventaRequest);
-                ventaRepository.save(venta);
+                ventaRepository.saveAndFlush(venta);
                 if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
                     Movimiento movimiento = movimientoFunction.apply(fecha, ventaRequest);
                     movimiento.setCuentaId(cuenta.getId());
@@ -92,6 +92,10 @@ public class VentaController {
             if(params.getEntregaInicial() > 0){
                 Movimiento entrega = Movimiento.generarEntrega(fecha, "Entrega Inicial", cuenta.getId(), params.getEntregaInicial());
                 movimientoRepository.saveAndFlush(entrega);
+                // TODO: Add vendedor to venta and movimiento
+                Venta venta = new Venta(fecha, "ENTREGA INICIAL", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
+                        entrega.getImporte(), entrega.getImporte(), TipoDePago.EFECTIVO, "", "");
+                ventaRepository.saveAndFlush(venta);
             }
         }
 

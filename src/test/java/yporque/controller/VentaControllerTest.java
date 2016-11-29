@@ -265,7 +265,7 @@ public class VentaControllerTest {
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));
-        Assert.assertThat(ventas,hasSize(6));
+        Assert.assertThat(ventas,hasSize(7));
         Assert.assertThat(ventas.get(0).getCantidad(),is(1));
         Assert.assertThat(ventas.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
         Assert.assertThat(ventas.get(0).getCodigo(),is("123456"));
@@ -276,7 +276,18 @@ public class VentaControllerTest {
         Assert.assertThat(ventas.get(0).getFactor2(),is(1.0));
         Assert.assertThat(ventas.get(0).getPrecio(),is(8.0));
         Assert.assertThat(ventas.get(0).getNroCupon(),is("cupon1"));
-
+/*
+        Assert.assertThat(ventas.get(6).getCantidad(),is(1));
+        Assert.assertThat(ventas.get(6).getTipoPago(),is(TipoDePago.EFECTIVO));
+        Assert.assertThat(ventas.get(6).getCodigo(),is("ENTREGA INICIAL"));
+        Assert.assertThat(ventas.get(6).getDescripcion(),is("Cuenta Corriente 99888777"));
+        Assert.assertThat(ventas.get(6).getUsername(),is(""));
+        Assert.assertThat(ventas.get(6).getPrecioLista(),is(10.0));
+        Assert.assertThat(ventas.get(6).getFactor1(),is(1.0));
+        Assert.assertThat(ventas.get(6).getFactor2(),is(1.0));
+        Assert.assertThat(ventas.get(6).getPrecio(),is(150.0));
+        Assert.assertThat(ventas.get(6).getNroCupon(),is(""));
+*/
         Assert.assertThat(devolucion,hasSize(0));
 
         Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));

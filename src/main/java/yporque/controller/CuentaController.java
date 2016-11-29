@@ -107,7 +107,7 @@ public class CuentaController {
         Cuenta cuenta = cuentaRepository.findOne(cuentaId);
         // TODO: Add vendedor to venta and movimiento
         Venta venta = new Venta(fecha, "ENTREGA", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
-                                movimiento.getImporte(), movimiento.getImporte(), TipoDePago.C_CORRIENTE,"", "");
+                                movimiento.getImporte(), movimiento.getImporte(), TipoDePago.EFECTIVO,"", "");
         ventaRepository.saveAndFlush(venta);
         ResponseEntity<Movimiento> responseEntity = ResponseEntity.created(URI.create("/cuenta/" + cuentaId + "/movimientos/" + movimiento.getId())).body(movimiento);
         return responseEntity;
