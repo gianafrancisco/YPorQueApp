@@ -58,9 +58,10 @@ public class VentaController {
     public Map<String, String> confirmar(@RequestBody ConfirmarVentaRequest params) {
 
         if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
-            if(cuentaRepository.findByDni(Long.valueOf(params.getDni())) == null){
-                Map<String, String> map = Collections.EMPTY_MAP;
-                return map;
+            Long dni = Long.valueOf(params.getDni());
+            if(cuentaRepository.findByDni(dni) == null){
+                cuenta = new Cuenta("", "", "", "", dni);
+                cuenta = cuentaRepository.saveAndFlush(cuenta);
             }
         }
 
