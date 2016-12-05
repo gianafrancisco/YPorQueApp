@@ -15,6 +15,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.carrito = [];
    $scope.listDevolucion = [];
    $scope.pagos = [
+                  { id: 0, value: ""},
                   { id: 1, value: "Efectivo"},
                   { id: 2, value: "Tarjeta"},
                   { id: 3, value: "Mixto"}, 
@@ -27,6 +28,7 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.tarjeta = 0.0;
    $scope.entregaInicial = 0.0;
    $scope.dni = "";
+   $scope.numeroCupon = "";
 
 
 
@@ -307,6 +309,15 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.devolucionCerrar = function(){
        $('#dialogDevolucion').modal('close');
    };
+
+   $scope.enableConfirm = function(){
+    return ($scope.montoTotal < 0 || 
+            $scope.vendedor.username == undefined || 
+            $scope.formaPago.id == 0 || 
+            ($scope.formaPago.id == 4 && $scope.dni == '') ||
+            (($scope.formaPago.id == 3 || $scope.formaPago.id == 2 ) && $scope.numeroCupon == '')
+            );
+   }
 
    $scope.init();
 

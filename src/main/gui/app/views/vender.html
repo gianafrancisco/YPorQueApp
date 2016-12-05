@@ -39,15 +39,15 @@
     <div class="panel panel-primary">
         <div class="panel-heading">Artículos en el carrito de compras</div>
         <div class="panel-body">
-            <div class="input-group" style="margin-bottom: 5px;">
+            <div class="input-group" style="margin-bottom: 5px;" ng-class="{'has-error': vendedor.username == undefined}">
                 <span class="input-group-addon" id="vendedor" style="width: 150px;">Vendedor</span>
-                <select class="btn btn-default" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="actualizarCarrito();">
+                <select class="form-control" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor" ng-change="actualizarCarrito();">
                     <option value="" selected></option>
                 </select>
             </div>
-            <div class="input-group" style="margin-bottom: 5px;">
+            <div class="input-group" style="margin-bottom: 5px;" ng-class="{'has-error': formaPago.id == 0}">
                 <span class="input-group-addon" id="formaPago" style="width: 150px;">Forma de pago</span>
-                <select class="btn btn-default navbar-left" ng-options="pago as pago.value for pago in pagos track by pago.value" ng-model="formaPago" ng-change="actualizarCarrito();"></select>
+                <select class="form-control" ng-options="pago as pago.value for pago in pagos track by pago.value" ng-model="formaPago" ng-change="actualizarCarrito();" ></select>
             </div>
             <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="montoTotal" style="width: 150px;">Monto total</span>
@@ -63,7 +63,7 @@
                 <input type="number" class="form-control" ng-model="tarjeta" disabled min="0" step="1">
             </div>
 
-            <div class="input-group" style="margin-bottom: 5px;" ng-show="formaPago.id == 4">
+            <div class="input-group" style="margin-bottom: 5px;" ng-show="formaPago.id == 4" ng-class="{'has-error': ((formaPago.id == 4 ) && dni == '')}">
                 <span class="input-group-addon" id="dni" style="width: 150px;">C. Corriente DNI</span>
                 <input type="text" class="form-control" ng-model="dni" placeholder="dni">
             </div>
@@ -74,14 +74,14 @@
             </div>
 
 
-            <div class="input-group" style="margin-bottom: 5px;">
+            <div class="input-group" style="margin-bottom: 5px;" ng-class="{'has-error': ((formaPago.id == 3 || formaPago.id == 2 ) && numeroCupon == '')}">
                 <span class="input-group-addon" id="numeroCupon" style="width: 150px;">Número Cupon</span>
                 <input type="text" class="form-control" ng-model="numeroCupon" placeholder="Numero de cupon">
             </div>
             <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="finalizarVenta" style="width: 150px;" >Finalizar Venta</span>
                 <div class="btn-group">
-                    <button class="btn btn-success btn-sm" ng-click="confirmarVenta();" ng-disabled="permitirConfirmarVenta(montoTotal < 0 || vendedor.username == undefined">Confirmar Venta</button>
+                    <button class="btn btn-success btn-sm" ng-click="confirmarVenta();" ng-disabled="enableConfirm();">Confirmar Venta</button>
                     <button class="btn btn-info btn-sm" ng-click="notaCredito();">Generar nota crédito</button>
                     <button class="btn btn-danger btn-sm" ng-click="cancelar();">Cancelar Venta</button>
                 </div>
