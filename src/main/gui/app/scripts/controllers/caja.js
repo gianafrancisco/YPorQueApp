@@ -1,11 +1,13 @@
 function cajaController($scope,$http,$window,$location,$rootScope) {
 
     $scope.caja = {};
+    $scope.efectivoApertura = 0.0;
 
      $scope.abrir = function(){
 
          var request = {
-            username: $scope.vendedor.username
+            username: $scope.vendedor.username,
+            efectivoDisponible: $scope.efectivoApertura
          };
 
          $http.put("/caja/abrir",request)
@@ -41,17 +43,20 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
       };
 
       $scope.resumen = function(){
-
-           if($scope.vendedor.username != undefined){
-               var request = {
+          var request;
+          if($scope.vendedor != undefined){
+              request = {
                   username: $scope.vendedor.username
-               };
-
-              $http.put("/caja/resumen", request)
-              .success(function(data, status, headers, config) {
-                  $scope.caja=data;
-              });
-           }
+              };
+          } else {
+              request = {
+                  username: ""
+              };
+          }
+          $http.put("/caja/resumen", request)
+          .success(function(data, status, headers, config) {
+              $scope.caja=data;
+          });
       };
 
 
@@ -60,6 +65,7 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
            $http.get(url)
            .success(function(data, status, headers, config) {
                $scope.vendedores=data;
+               callback();
                /*
                if($scope.vendedores.content.length > 0){
                    $scope.vendedor = $scope.vendedores.content[0];
@@ -82,9 +88,8 @@ function cajaController($scope,$http,$window,$location,$rootScope) {
      $scope.init = function(){
         $scope.isOpen();
         $scope.obtenerListaVendedores(function(){
-            //$scope.resumen();
+            $scope.resumen();
         });
-
      };
      $scope.init();
 

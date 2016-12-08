@@ -16,22 +16,27 @@
                 <input type="text" class="form-control" disabled value="{{caja.apertura.epochSecond*1000 | date:'yyyy-MM-dd HH:mm:ss' : '+0000'}}">
             </div>
 
-            <div class="input-group" style="margin-bottom: 5px;" ng-show="false">
+            <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="efectivo" style="width: 200px;">Efectivo</span>
                 <input type="text" class="form-control" disabled value="{{caja.efectivo | currency}}">
             </div>
-            <div class="input-group" style="margin-bottom: 5px;" ng-show="false">
+            <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="tarjeta" style="width: 200px;">Tarjeta</span>
                 <input type="text" class="form-control" disabled value="{{caja.tarjeta | currency}}">
             </div>
-            <div class="input-group" style="margin-bottom: 5px;" ng-show="false">
+            <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="totalVentaDia" style="width: 200px;">Total venta del día</span>
                 <input type="text" class="form-control" disabled value="{{caja.totalVentaDia | currency}}">
             </div>
 
-            <div class="input-group" style="margin-bottom: 5px;" ng-show="false">
+            <div class="input-group" style="margin-bottom: 5px;">
                 <span class="input-group-addon" id="efectivoDiaSiguiente" style="width: 200px;">Efectivo día siguiente</span>
                 <input type="text" class="form-control" disabled value="{{caja.efectivoDiaSiguiente | currency}}">
+            </div>
+
+            <div class="input-group" style="margin-bottom: 5px;" ng-hide="cajaAbierta" ng-class="{'has-error': efectivoApertura == 0}">
+                <span class="input-group-addon" id="efectivoDiaSiguiente" style="width: 200px;">Efectivo en caja</span>
+                <input type="number" class="form-control" ng-model="efectivoApertura" min=0 step=1 />
             </div>
 
             <div style="margin-top: 10px;">
