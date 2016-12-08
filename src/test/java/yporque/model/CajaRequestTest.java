@@ -18,10 +18,11 @@ public class CajaRequestTest {
     @Test
     public void test_new_CajaRequest() throws Exception {
 
-        CajaRequest cajaRequest = new CajaRequest("usr1", Instant.parse("2015-12-30T00:00:00Z"));
+        CajaRequest cajaRequest = new CajaRequest("usr1", Instant.parse("2015-12-30T00:00:00Z"), 100.0);
 
         Assert.assertThat(cajaRequest.getUsername(),is("usr1"));
         Assert.assertThat(cajaRequest.getFecha(),is(Instant.parse("2015-12-30T00:00:00Z")));
+        Assert.assertThat(cajaRequest.getEfectivoDisponible(), is(100.0));
 
     }
 
@@ -30,8 +31,9 @@ public class CajaRequestTest {
 
         CajaRequest cajaRequest = new CajaRequest();
 
-        Assert.assertThat(cajaRequest.getUsername(),is(""));
-        Assert.assertThat(cajaRequest.getFecha(),notNullValue());
+        Assert.assertThat(cajaRequest.getUsername(), is(""));
+        Assert.assertThat(cajaRequest.getFecha(), notNullValue());
+        Assert.assertThat(cajaRequest.getEfectivoDisponible(), is(0.0));
 
     }
 

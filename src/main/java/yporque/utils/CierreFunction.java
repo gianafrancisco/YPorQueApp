@@ -10,12 +10,15 @@ import yporque.repository.RetiroRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.function.BiFunction;
+import org.apache.log4j.Logger;
 
 /**
  * Created by francisco on 30/12/15.
  */
 @Component("cierreFunction")
 public class CierreFunction implements BiFunction<Instant, String, Caja> {
+
+    final static Logger logger = Logger.getLogger(CierreFunction.class);
 
     private RetiroRepository retiroRepository;
     private CajaRepository cajaRepository;
@@ -56,7 +59,8 @@ public class CierreFunction implements BiFunction<Instant, String, Caja> {
             abierta.setEfectivoDiaSiguiente(efectivo - retiros);
             return abierta;
         }else{
-            throw new RuntimeException("Caja open not found");
+            logger.info("Caja open not found.");
+            return null;
         }
     }
 }

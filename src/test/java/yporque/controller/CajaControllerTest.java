@@ -76,12 +76,21 @@ public class CajaControllerTest {
     @Test
     public void test_abrir_caja() throws Exception {
 
-        Caja caja = cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z")));
+        Caja caja = cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z"), 100.0));
 
         List<Caja> cajaList = cajaRepository.findByCierre(Instant.EPOCH);
+        List<Resumen> resumenList = resumenRepository.findAll();
+        List<Venta> ventaList = ventaRepository.findAll();
 
         Assert.assertThat(cajaList, hasSize(1));
         Assert.assertThat(cajaList.get(0).getAperturaUsername(), is("username1"));
+
+        Assert.assertThat(resumenList.size(), is(1));
+        Assert.assertThat(resumenList.get(0).getEfectivo(), is(100.0));
+
+        Assert.assertThat(ventaList.size(), is(1));
+        Assert.assertThat(ventaList.get(0).getUsername(), is("username1"));
+        Assert.assertThat(ventaList.get(0).getPrecio(), is(100.0));
 
     }
 
@@ -106,7 +115,7 @@ public class CajaControllerTest {
         cajaRepository.save(caja);
 
 
-        Caja caja1 = cajaController.cerrar(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z")));
+        Caja caja1 = cajaController.cerrar(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z"), 0.0));
 
         Boolean isOpen = cajaController.isOpen();
 
@@ -141,7 +150,7 @@ public class CajaControllerTest {
         Caja caja = new Caja(Instant.parse("2015-12-30T09:00:00Z"), "username1");
         cajaRepository.save(caja);
 
-        Caja caja1 = cajaController.resumen(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z")));
+        Caja caja1 = cajaController.resumen(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z"), 0.0));
 
         Boolean isOpen = cajaController.isOpen();
 
@@ -158,7 +167,7 @@ public class CajaControllerTest {
     @Test
     public void test_hay_caja_abierta_true() throws Exception {
 
-        Caja caja = cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z")));
+        Caja caja = cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z"), 0.0));
         Boolean isOpen = cajaController.isOpen();
         Assert.assertThat(isOpen,is(true));
 
@@ -167,8 +176,8 @@ public class CajaControllerTest {
     @Test
     public void test_hay_caja_abierta_false() throws Exception {
 
-        cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z")));
-        cajaController.cerrar(new CajaRequest("username1", Instant.parse("2015-12-30T21:00:00Z")));
+        cajaController.abrir(new CajaRequest("username1", Instant.parse("2015-12-30T09:00:00Z"), 0.0));
+        cajaController.cerrar(new CajaRequest("username1", Instant.parse("2015-12-30T21:00:00Z"), 0.0));
         Boolean isOpen = cajaController.isOpen();
         Assert.assertThat(isOpen,is(false));
 
@@ -192,7 +201,7 @@ public class CajaControllerTest {
         Caja caja = new Caja(Instant.parse("2015-12-30T09:00:00Z"), "username1");
         cajaRepository.save(caja);
 
-        Caja caja1 = cajaController.cerrar(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z")));
+        Caja caja1 = cajaController.cerrar(new CajaRequest("username2", Instant.parse("2015-12-30T21:00:00Z"), 0.0));
 
         ResumenCaja resumenCaja = cajaController.imprimir(caja1.getCajaId());
 

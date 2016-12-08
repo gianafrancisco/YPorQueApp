@@ -11,15 +11,18 @@ public class CajaRequest {
 
     private String username;
     private Instant fecha;
+    private Double efectivoDisponible;
 
-    public CajaRequest(String username, Instant fecha) {
+    public CajaRequest(String username, Instant fecha, Double efectivoDisponible) {
         this.username = username;
         this.fecha = fecha;
+        this.efectivoDisponible = efectivoDisponible;
     }
 
     public CajaRequest() {
         this.username = "";
         this.fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        this.efectivoDisponible = 0.0;
     }
 
     public String getUsername() {
@@ -28,5 +31,9 @@ public class CajaRequest {
 
     public Instant getFecha() {
         return fecha;
+    }
+
+    public Double getEfectivoDisponible() {
+        return efectivoDisponible;
     }
 }

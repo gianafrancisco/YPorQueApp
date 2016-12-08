@@ -45,26 +45,23 @@ public class CajaController {
 
         List<Caja> cajaList = cajaRepository.findAll(new Sort(Sort.Direction.DESC,"cierre"));
         cajaRepository.saveAndFlush(new Caja(cajaRequest.getFecha(), cajaRequest.getUsername()));
-        if(!cajaList.isEmpty()) {
-            Double monto = cajaList.get(0).getEfectivoDiaSiguiente();
-            Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);;
-            Venta venta = new Venta(fecha,
-                        "CAJA",
-                        "Apertura de caja: Efectivo disponible",
-                        1,
-                        1.0,
-                        1.0,
-                        monto,
-                        monto,
-                        TipoDePago.EFECTIVO,
-                        cajaRequest.getUsername(),
-                        ""
-                    );
-            Resumen resumen = new Resumen(fecha,TipoDePago.EFECTIVO,monto,0.0);
-            resumenRepository.saveAndFlush(resumen);
-
-            ventaRepository.save(venta);
-        }
+        Double monto = cajaRequest.getEfectivoDisponible();
+        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);;
+        Venta venta = new Venta(fecha,
+                "CAJA",
+                "Apertura de caja: Efectivo disponible",
+                1,
+                1.0,
+                1.0,
+                monto,
+                monto,
+                TipoDePago.EFECTIVO,
+                cajaRequest.getUsername(),
+                ""
+        );
+        Resumen resumen = new Resumen(fecha, TipoDePago.EFECTIVO, monto, 0.0);
+        resumenRepository.saveAndFlush(resumen);
+        ventaRepository.save(venta);
         return cierreFunction.apply(cajaRequest.getFecha(), cajaRequest.getUsername());
     }
 

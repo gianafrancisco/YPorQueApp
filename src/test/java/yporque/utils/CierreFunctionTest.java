@@ -99,13 +99,4 @@ public class CierreFunctionTest {
         Assert.assertThat(caja.getCierre(), is(Instant.parse("2015-12-30T21:00:00Z")));
 
     }
-
-    @Test(expected = RuntimeException.class)
-    public void test_cierre_de_caja_not_found() throws Exception {
-
-        cajaRepository.deleteAll();
-        Caja caja = cierreFunction.apply(Instant.parse("2015-12-30T21:00:00Z"), "username2");
-
-    }
-
 }
