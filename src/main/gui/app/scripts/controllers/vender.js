@@ -159,11 +159,11 @@ function venderController($scope,$http,$window,$location,$rootScope) {
    $scope.calcularTotal = function(){
        var total = 0;
        $scope.carrito.forEach(function(current){
-           precio = Math.ceil(current.articulo.precio*(1-current.descuento/100));
-           total+=current.cantidad*precio;
+           precio = current.articulo.precio*(1-current.descuento/100);
+           total+=Math.ceil(current.cantidad*precio);
        });
        $scope.listDevolucion.forEach(function(current){
-           total-=current.cantidad*current.venta.precio;
+           total-=current.cantidad*Math.ceil(current.venta.precio);
        });
        $scope.montoTotal = total;
        $scope.actualizarTipoPago();

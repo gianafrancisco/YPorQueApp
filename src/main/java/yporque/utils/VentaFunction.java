@@ -24,7 +24,7 @@ public class VentaFunction implements BiFunction<Instant, VentaRequest, Venta> {
                         articulo.getFactor1(),
                         articulo.getFactor2(),
                         articulo.getPrecioLista(),
-                        articulo.getPrecio()*(1-ventaRequest.getDescuento()/100),
+                        Math.ceil(articulo.getPrecio()*(1-ventaRequest.getDescuento()/100)),
                         tipoDePago,
                         vendedor.getUsername(),
                         ventaRequest.getNroCupon()

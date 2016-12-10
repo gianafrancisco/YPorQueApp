@@ -192,10 +192,7 @@ public class VentaControllerTest {
 
         List<Resumen> resumenList = resumenRepository.findAll();
 
-        Assert.assertThat(resumenList, hasSize(1));
-        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
-        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
-        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+        Assert.assertThat(resumenList, hasSize(0));
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));
@@ -259,9 +256,9 @@ public class VentaControllerTest {
         List<Resumen> resumenList = resumenRepository.findAll();
 
         Assert.assertThat(resumenList, hasSize(1));
-        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
-        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
-        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.EFECTIVO));
+        Assert.assertThat(resumenList.get(0).getTarjeta(),is(0.0));
+        Assert.assertThat(resumenList.get(0).getEfectivo(),is(150.0));
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));
@@ -327,30 +324,6 @@ public class VentaControllerTest {
         devolucionRequestList.add(devolucionRequest);
 
         ConfirmarVentaRequest params = new ConfirmarVentaRequest(list, devolucionRequestList, "Cuenta Corriente", 100.0, 150.0, "99888711", 150.0);
-/*
-        Map<String,String> codigoDevolucion = ventaController.confirmar(params);
-
-        Articulo articulo1 = articuloRepository.findOne(articulo.getArticuloId());
-
-        List<Venta> ventas = ventaRepository.findByCodigoDevolucion(codigoDevolucion.get("codigoDevolucion"));
-
-        List<Venta> devolucion = ventaRepository.findByCodigoDevolucion(codigoDevolucion1);
-
-        List<Resumen> resumenList = resumenRepository.findAll();
-
-        Assert.assertThat(resumenList, hasSize(0));
-
-        Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),nullValue());
-        Assert.assertThat(articulo1.getCantidadStock(),is(10));
-        Assert.assertThat(ventas,hasSize(0));
-
-        Assert.assertThat(devolucion,hasSize(1));
-
-        Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuenta.getId(), new PageRequest(0, 1000));
-
-        Assert.assertThat(movimientos.getTotalElements(), is(0L));
-*/
-
 
         Map<String,String> codigoDevolucion = ventaController.confirmar(params);
 
@@ -367,9 +340,9 @@ public class VentaControllerTest {
         List<Resumen> resumenList = resumenRepository.findAll();
 
         Assert.assertThat(resumenList, hasSize(1));
-        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.C_CORRIENTE));
-        Assert.assertThat(resumenList.get(0).getTarjeta(),is(150.0));
-        Assert.assertThat(resumenList.get(0).getEfectivo(),is(100.0));
+        Assert.assertThat(resumenList.get(0).getTipoPago(),is(TipoDePago.EFECTIVO));
+        Assert.assertThat(resumenList.get(0).getTarjeta(),is(0.0));
+        Assert.assertThat(resumenList.get(0).getEfectivo(),is(150.0));
 
         Assert.assertThat(codigoDevolucion.get("codigoDevolucion"),notNullValue());
         Assert.assertThat(articulo1.getCantidadStock(),is(5));

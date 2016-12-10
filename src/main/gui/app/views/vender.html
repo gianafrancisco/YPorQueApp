@@ -105,14 +105,14 @@
                 <td >{{item.vendedor.username}}</td>
                 <td >{{item.articulo.codigo}}</td>
                 <td >{{item.articulo.descripcion}}</td>
-                <td ><input type="number" min=0 max=50 step=5 ng-model="item.descuento" ng-change="calcularTotal();"/></td>
+                <td ><input type="number" min=0 max=50 step=5 ng-model="item.descuento" ng-change="calcularTotal();" ng-disabled="item.articulo.codigo == 'N.CREDITO'"/></td>
                 <td >{{item.articulo.precio | currency}}</td>
                 <td >{{item.cantidad}}</td>
                 <td >{{precioConDescuento(item.cantidad*item.articulo.precio, item.descuento) | currency}}</td>
                 <td >
                     <div class="btn-group">
-                        <button ng-click="agregarCarrito(item.articulo);" class="btn btn-primary btn-sm" ng-show="item.articulo.precio >= 0" ><span class="glyphicon glyphicon-plus"></span></button>
-                        <button ng-click="removerCarrito(item.articulo);" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+                        <button ng-click="agregarCarrito(item.articulo);" class="btn btn-primary btn-sm" ng-show="item.articulo.precio >= 0" ng-disabled="item.articulo.codigo == 'N.CREDITO'"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button ng-click="removerCarrito(item.articulo);" class="btn btn-danger btn-sm" ng-disabled="item.articulo.codigo == 'N.CREDITO'"><span class="glyphicon glyphicon-minus"></span></button>
                     </div>
                 </td>
             </tr>
