@@ -97,6 +97,8 @@ public class VentaController {
                 Venta venta = new Venta(fecha, "ENTREGA INICIAL", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
                         entrega.getImporte(), entrega.getImporte(), TipoDePago.EFECTIVO, "", "");
                 ventaRepository.saveAndFlush(venta);
+                Resumen resumen = new Resumen(fecha, TipoDePago.EFECTIVO, params.getEntregaInicial(), 0.0);
+                resumenRepository.saveAndFlush(resumen);
             }
         }
 
@@ -128,8 +130,10 @@ public class VentaController {
             }
         );
 
-        Resumen resumen = new Resumen(fecha,VentaFunction.getTipoDePago(params.getFormaPago()),params.getEfectivo(),params.getTarjeta());
-        resumenRepository.saveAndFlush(resumen);
+        if(!VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)) {
+            Resumen resumen = new Resumen(fecha, VentaFunction.getTipoDePago(params.getFormaPago()), params.getEfectivo(), params.getTarjeta());
+            resumenRepository.saveAndFlush(resumen);
+        }
 
         HashMap<String,String> map = new HashMap<>();
         map.put("codigoDevolucion",String.format("%x", fecha.getEpochSecond()));
