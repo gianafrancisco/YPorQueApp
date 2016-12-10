@@ -8,15 +8,15 @@ jdk:
 services:
   - docker
 install:
-  - cd src/main/gui/ && npm install && bower install
-  - grunt build --force
-  - cd ../../../
+  #- cd src/main/gui/ && npm install && bower install
+  #- grunt build --force
+  #- cd ../../../
   - mvn -DskipTests install
-  #- mvn install -Dmaven.javadoc.skip=true -B -V
 
 before_install:
   - sudo apt-get update && sudo apt-get install -y nodejs npm
   - npm install -g grunt grunt-cli bower
+  - node --version
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 after_success:
