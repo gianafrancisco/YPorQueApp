@@ -95,6 +95,38 @@ public class CajaControllerTest {
     }
 
     @Test
+    public void test_abrir_caja_efectivo_dia_siguiente() throws Exception {
+
+        cajaController.abrir(new CajaRequest("username1", Instant.now(), 100.0));
+
+        cajaController.cerrar(new CajaRequest("username1", Instant.now().plusSeconds(3600), 0.0));
+
+        Caja caja = cajaController.abrir(new CajaRequest("username1", Instant.now().plusSeconds(7200), 50.0));
+
+        List<Caja> cajaList = cajaRepository.findByCierre(Instant.EPOCH);
+        List<Resumen> resumenList = resumenRepository.findAll();
+        List<Venta> ventaList = ventaRepository.findAll();
+
+        Assert.assertThat(cajaList, hasSize(1));
+        Assert.assertThat(cajaList.get(0).getAperturaUsername(), is("username1"));
+
+        Assert.assertThat(resumenList.size(), is(3));
+        Assert.assertThat(resumenList.get(0).getEfectivo(), is(100.0));
+        Assert.assertThat(resumenList.get(1).getEfectivo(), is(100.0));
+        Assert.assertThat(resumenList.get(2).getEfectivo(), is(50.0));
+
+        Assert.assertThat(ventaList.size(), is(3));
+        Assert.assertThat(ventaList.get(0).getUsername(), is("username1"));
+        Assert.assertThat(ventaList.get(0).getPrecio(), is(100.0));
+        Assert.assertThat(ventaList.get(1).getUsername(), is("username1"));
+        Assert.assertThat(ventaList.get(1).getPrecio(), is(100.0));
+        Assert.assertThat(ventaList.get(2).getUsername(), is("username1"));
+        Assert.assertThat(ventaList.get(2).getPrecio(), is(50.0));
+
+    }
+
+
+    @Test
     public void test_cerrar_caja() throws Exception {
 
         Resumen resumen = new Resumen(Instant.parse("2015-12-30T16:00:00Z"),TipoDePago.EFECTIVO,200.0,0.0);
