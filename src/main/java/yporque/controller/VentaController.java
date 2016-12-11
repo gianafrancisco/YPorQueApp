@@ -68,6 +68,11 @@ public class VentaController {
         List<VentaRequest> ventas = params.getArticulos();
         List<DevolucionRequest> devoluciones = params.getDevoluciones();
 
+        String vendedor = "";
+        if(ventas.size() > 0){
+           vendedor = ventas.get(0).getVendedor().getUsername();
+        }
+
         Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
 
         if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
@@ -95,7 +100,7 @@ public class VentaController {
                 movimientoRepository.saveAndFlush(entrega);
                 // TODO: Add vendedor to venta and movimiento
                 Venta venta = new Venta(fecha, "ENTREGA INICIAL", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
-                        entrega.getImporte(), entrega.getImporte(), TipoDePago.EFECTIVO, "", "");
+                        entrega.getImporte(), entrega.getImporte(), TipoDePago.EFECTIVO, vendedor, "");
                 ventaRepository.saveAndFlush(venta);
                 Resumen resumen = new Resumen(fecha, TipoDePago.EFECTIVO, params.getEntregaInicial(), 0.0);
                 resumenRepository.saveAndFlush(resumen);

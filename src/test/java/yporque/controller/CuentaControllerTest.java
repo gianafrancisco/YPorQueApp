@@ -14,12 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import yporque.config.MemoryDBConfig;
-import yporque.model.Cuenta;
-import yporque.model.Entrega;
-import yporque.model.Movimiento;
-import yporque.model.Venta;
+import yporque.model.*;
 import yporque.repository.CuentaRepository;
 import yporque.repository.MovimientoRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.VentaRepository;
 
 import java.util.List;
@@ -46,6 +44,9 @@ public class CuentaControllerTest {
 
     @Autowired
     private VentaRepository ventaRepository;
+
+    @Autowired
+    private ResumenRepository resumenRepository;
 
     private Cuenta cuentam;
 
@@ -148,7 +149,7 @@ public class CuentaControllerTest {
 
     @Test
     public void registrar_entrega() throws Exception {
-        Entrega entrega = new Entrega("Entrega parcial", 100.0);
+        Entrega entrega = new Entrega("Entrega parcial", 100.0, "username1");
         ResponseEntity<Movimiento> response = cuentaController.postMovimeinto(cuentam.getId(), entrega);
         Assert.assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
         Page<Movimiento> movimientos = movimientoRepository.findByCuentaId(cuentam.getId(), new PageRequest(0, 100));
@@ -161,6 +162,13 @@ public class CuentaControllerTest {
         Assert.assertThat(ventas.size(), is(1));
         Assert.assertThat(ventas.get(0).getCodigo(), is("ENTREGA"));
         Assert.assertThat(ventas.get(0).getDescripcion(), is("Cuenta Corriente " + cuentam.getDni()));
+        Assert.assertThat(ventas.get(0).getUsername(), is("username1"));
+
+        List<Resumen> resumenList = resumenRepository.findAll();
+        Assert.assertThat(resumenList.size(), is(1));
+        Assert.assertThat(resumenList.get(0).getEfectivo(), is(100.0));
+        Assert.assertThat(resumenList.get(0).getTipoPago(), is(TipoDePago.EFECTIVO));
+
     }
 
     @After
@@ -168,6 +176,7 @@ public class CuentaControllerTest {
         ventaRepository.deleteAll();
         movimientoRepository.deleteAll();
         cuentaRepository.deleteAll();
+        resumenRepository.deleteAll();
     }
 
 }

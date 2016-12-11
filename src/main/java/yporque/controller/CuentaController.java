@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import yporque.model.*;
 import yporque.repository.CuentaRepository;
 import yporque.repository.MovimientoRepository;
+import yporque.repository.ResumenRepository;
 import yporque.repository.VentaRepository;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 /**
  * Created by francisco on 18/12/15.
@@ -27,6 +30,9 @@ public class CuentaController {
 
     @Autowired
     private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private ResumenRepository resumenRepository;
 
     @Autowired
     private VentaRepository ventaRepository;
@@ -101,14 +107,16 @@ public class CuentaController {
 
     @RequestMapping(value = "/cuentas/{cuentaId}/movimientos", method = RequestMethod.POST)
     public ResponseEntity<Movimiento> postMovimeinto(@PathVariable Long cuentaId,@RequestBody Entrega entrega){
-        Instant fecha = Instant.now();
+        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
         Movimiento movimiento = Movimiento.generarEntrega(fecha, entrega.getDescripcion(), cuentaId, entrega.getMonto());
         movimiento = movimientoRepository.saveAndFlush(movimiento);
         Cuenta cuenta = cuentaRepository.findOne(cuentaId);
         // TODO: Add vendedor to venta and movimiento
         Venta venta = new Venta(fecha, "ENTREGA", "Cuenta Corriente " + cuenta.getDni(), 1, 1.0, 1.0,
-                movimiento.getImporte(), movimiento.getImporte(), TipoDePago.EFECTIVO, "", "");
+                movimiento.getImporte(), movimiento.getImporte(), TipoDePago.EFECTIVO, entrega.getUsername(), "");
         ventaRepository.saveAndFlush(venta);
+        Resumen resumen = new Resumen(fecha, TipoDePago.EFECTIVO, movimiento.getImporte(), 0.0);
+        resumenRepository.saveAndFlush(resumen);
         ResponseEntity<Movimiento> responseEntity = ResponseEntity.created(URI.create("/cuenta/" + cuentaId + "/movimientos/" + movimiento.getId())).body(movimiento);
         return responseEntity;
     }
