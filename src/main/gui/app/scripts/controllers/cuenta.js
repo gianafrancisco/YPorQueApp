@@ -12,6 +12,15 @@ function cuentaController($scope,$http,$window,$location) {
      $scope.pageNumber = 1;
      $scope.descripcion = "";
      $scope.entrega = 0;
+     $scope.vendedores = [];
+
+    $scope.obtenerListaVendedores = function(){
+       var url = "/vendedores?page=0&size=1000";
+       $http.get(url)
+       .success(function(data, status, headers, config) {
+           $scope.vendedores=data;
+       });
+    };
 
      $scope.obtenerLista = function(){
          var url = "/cuentas?page="+($scope.pageNumber-1);
@@ -81,7 +90,9 @@ function cuentaController($scope,$http,$window,$location) {
      };
 
      $scope.init = function(){
+         $scope.obtenerListaVendedores();
          $scope.obtenerLista();
+         console.log($scope.vendedor);
 
      };
 
@@ -89,10 +100,11 @@ function cuentaController($scope,$http,$window,$location) {
          return $scope.cuenta.id == undefined;
      };
 
-     $scope.agregarEntrega = function(cuenta, desc, entrega){
+     $scope.agregarEntrega = function(cuenta, desc, entrega, vendedor){
         var entrega = {
                 descripcion: desc,
-                monto: entrega
+                monto: entrega,
+                username: vendedor.username
              };
         if(confirm("Esta seguro de registrar un ingreso a la cuenta corriente?")){
              $http.post(

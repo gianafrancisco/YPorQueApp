@@ -68,6 +68,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="saldo">Vendedor</label>
+                                <select class="form-control" ng-options="vendedor as vendedor.username for vendedor in vendedores.content track by vendedor.username" ng-model="vendedor">
+                                    <option value="" selected></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-8">
                             <div class="form-group-sm">
                                 <label for="descripcion">Descripcion</label>
@@ -87,7 +97,7 @@
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-4">
-                            <button ng-click="agregarEntrega(cuenta, descripcion, entrega);" class="btn btn-success" ng-disabled="!(cuenta.id > 0)">Agregar</button>        
+                            <button ng-click="agregarEntrega(cuenta, descripcion, entrega, vendedor);" class="btn btn-success" ng-disabled="!(cuenta.id > 0) || vendedor == undefined">Agregar</button>
                         </div>
                     </div>
                 </form>
