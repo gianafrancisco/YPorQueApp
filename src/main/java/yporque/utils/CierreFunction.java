@@ -36,6 +36,11 @@ public class CierreFunction implements BiFunction<Instant, String, Caja> {
     public Caja apply(Instant cierre, String username) {
 
         List<Caja> cajaList = cajaRepository.findByCierre(Instant.EPOCH);
+
+        if(cajaList.isEmpty()){
+            cajaList = cajaRepository.findAll();
+        }
+
         if(!cajaList.isEmpty()) {
             Caja abierta = cajaList.get(0);
             abierta.setCierreUsername(username);
@@ -55,7 +60,6 @@ public class CierreFunction implements BiFunction<Instant, String, Caja> {
             abierta.setEfectivo(efectivo);
             abierta.setTarjeta(tarjeta);
             abierta.setTotalVentaDia(efectivo + tarjeta);
-            //TODO: check offset transporte and cambio about $400
             abierta.setEfectivoDiaSiguiente(efectivo - retiros);
             return abierta;
         }else{
