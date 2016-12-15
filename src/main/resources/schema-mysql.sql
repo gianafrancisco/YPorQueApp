@@ -133,6 +133,16 @@ CREATE TABLE IF NOT EXISTS `cuenta` (
   INDEX (`cuenta_id`, `dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `movimiento` (
+  `movimiento_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE KEY,
+  `cuentaId` double NOT NULL,
+  `codigo` varchar(100) NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `importe` double NOT NULL,
+  `fecha` datetime DEFAULT NULL,
+  INDEX (`movimiento_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
