@@ -36,7 +36,7 @@
         <div class="panel panel-primary" >
             <div class="panel-heading">Retiros</div>
             <div class="panel-body">
-                <uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerLista();"></uib-pagination>
+                <ul uib-pagination total-items="listado.totalElements" ng-model="pageNumber" max-size="maxSize" items-per-page="listado.size" class="pagination-sm" boundary-links="true" ng-change="obtenerLista();"></ul>
                 <pre>Página: {{pageNumber}} / {{listado.totalPages}}</pre>
             </div>
             <table id="tablaListaRetiros" class="table">
