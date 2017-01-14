@@ -73,7 +73,7 @@ public class VentaController {
            vendedor = ventas.get(0).getVendedor().getUsername();
         }
 
-        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3));
 
         if(VentaFunction.getTipoDePago(params.getFormaPago()).equals(TipoDePago.C_CORRIENTE)){
             cuenta = cuentaRepository.findByDni(Long.valueOf(params.getDni()));

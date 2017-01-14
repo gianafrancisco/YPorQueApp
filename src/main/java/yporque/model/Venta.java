@@ -38,7 +38,7 @@ public class Venta {
     public Venta() {
         this.codigo = "";
         this.descripcion = "";
-        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3));
         this.factor1 = 1.0;
         this.factor2 = 1.0;
         this.tipoPago = TipoDePago.EFECTIVO;

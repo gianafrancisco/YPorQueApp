@@ -30,7 +30,7 @@ public class Caja {
     private Double efectivoDiaSiguiente;
 
     public Caja() {
-        this.apertura = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        this.apertura = LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3));
         this.cierre = Instant.EPOCH;
         this.efectivo = 0.0;
         this.tarjeta = 0.0;

@@ -24,7 +24,7 @@ public class RetiroController {
 
     @RequestMapping("/retiro/agregar")
     public Retiro agregar(@RequestBody Retiro retiro){
-        retiro.setFecha(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+        retiro.setFecha(LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3)));
         retiroRepository.saveAndFlush(retiro);
         return retiro;
     }
@@ -35,7 +35,7 @@ public class RetiroController {
         LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         LocalDateTime stopTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
 
-        return retiroRepository.findByFechaBetween(startTime.toInstant(ZoneOffset.UTC), stopTime.toInstant(ZoneOffset.UTC), pageRequest);
+        return retiroRepository.findByFechaBetween(startTime.toInstant(ZoneOffset.ofHours(-3)), stopTime.toInstant(ZoneOffset.ofHours(-3)), pageRequest);
     }
 
 

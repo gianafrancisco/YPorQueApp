@@ -107,7 +107,7 @@ public class CuentaController {
 
     @RequestMapping(value = "/cuentas/{cuentaId}/movimientos", method = RequestMethod.POST)
     public ResponseEntity<Movimiento> postMovimeinto(@PathVariable Long cuentaId,@RequestBody Entrega entrega){
-        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant fecha = LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3));
         Movimiento movimiento = Movimiento.generarEntrega(fecha, entrega.getDescripcion(), cuentaId, entrega.getMonto());
         movimiento = movimientoRepository.saveAndFlush(movimiento);
         Cuenta cuenta = cuentaRepository.findOne(cuentaId);

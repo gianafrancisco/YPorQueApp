@@ -21,7 +21,7 @@ public class CajaRequest {
 
     public CajaRequest() {
         this.username = "";
-        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        this.fecha = LocalDateTime.now().toInstant(ZoneOffset.ofHours(-3));
         this.efectivoDisponible = 0.0;
     }
 
