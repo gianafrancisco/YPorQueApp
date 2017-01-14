@@ -370,8 +370,8 @@ public class VentaControllerTest {
     @Test
     public void test_ventas() throws Exception {
 
-        Instant start = Instant.parse("2015-12-24T13:00:00Z");
-        Instant end = Instant.parse("2015-12-24T16:00:00Z");
+        Instant start = Instant.parse("2015-12-24T00:00:00Z");
+        Instant end = Instant.parse("2015-12-24T23:59:59Z");
 
         Articulo articulo = new Articulo("123456", "articulo 1", 10.0, 1.0, 1.0, 10, 10);
         articulo = articuloRepository.save(articulo);
@@ -385,8 +385,8 @@ public class VentaControllerTest {
 
         BiFunction<Instant,VentaRequest,Venta> function = new VentaFunction();
 
-        ventaRepository.save(function.apply(Instant.parse("2015-12-24T16:00:00Z"),ventaRequest));
-        ventaRepository.save(function.apply(Instant.parse("2015-12-24T13:00:00Z"),ventaRequest1));
+        ventaRepository.save(function.apply(Instant.parse("2015-12-24T02:00:00Z"),ventaRequest));
+        ventaRepository.save(function.apply(Instant.parse("2015-12-24T01:00:00Z"),ventaRequest1));
 
         Sort order = new Sort(Sort.Direction.DESC, "fecha");
         Page<Venta> page1 = ventaController.obtenerListado(start, end, new PageRequest(0, 1, order));

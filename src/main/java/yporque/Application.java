@@ -14,12 +14,15 @@ import yporque.repository.ArticuloRepository;
 import yporque.repository.VendedorRepository;
 
 import java.util.List;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @ComponentScan("yporque")
 public class Application {
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Cordoba"));
+
 		SpringApplication.run(Application.class);
 	}
 
