@@ -38,8 +38,10 @@ En caso de que no se use docker para correr la APP, se puede extraer el archivo 
 
 - maven
 - java 8 (SDK & JRE)
-- angular
+- Spring boot framework
+- angular 1.4
 - grunt (para compilar el codigo de angular)
+- Mysql database
 
 # Estructura del projecto
 
