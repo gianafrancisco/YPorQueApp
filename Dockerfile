@@ -1,14 +1,37 @@
-FROM java:8-jre-alpine
+# En este bloque generamos el código de la UI
+FROM node:22-alpine3.19 as build_ui
+
+COPY src/main/gui /source_code/gui
+WORKDIR /source_code/gui
+RUN npm install && \
+    npm install -g grunt grunt-cli && \
+    grunt build --force
+
+# En este bloque se genera el archivo jar que contiene el compilado del código de java
+FROM maven:3.9.9 as build
+
+COPY src/ /source_code/src
+COPY pom.xml /source_code/pom.xml
+# Borramos el código existente de la UI
+# RUN rm -rf /source_code/src/main/resources/static
+# Copiamos el código de la UI generado en el paso anterior
+# COPY --from=build_ui /source_code/resources/static /source_code/src/main/resources/static
+
+WORKDIR /source_code/
+RUN mvn -DskipTests install
+
+# En este último bloque se crea el la imagen de docker que se puede utilizar
+FROM openjdk:8-jre-alpine
 
 RUN mkdir -p /opt/target
 
-COPY target/yporque-0.1.0.jar /opt/target/yporque-0.1.0.jar
+COPY --from=build /source_code/target/yporque-0.1.1.jar /opt/target/yporque-0.1.1.jar
 COPY init.sh /opt/init.sh
 
 RUN chmod a+x /opt/init.sh
 
-MAINTAINER Francisco Giana <gianafrancisco@gmail.com>
+LABEL MAINTAINER="Francisco Giana <gianafrancisco@gmail.com>"
 
 EXPOSE 8080
 
-ENTRYPOINT /opt/init.sh
+CMD ["/opt/init.sh"]
