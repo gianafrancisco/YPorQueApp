@@ -6,8 +6,8 @@ WORKDIR /source_code/gui
 RUN apk update && \
     apk add git && \
     npm install -g grunt grunt-cli bower && \
-    npm install -g && \
-    bower instal && \
+    npm install && \
+    bower install && \
     grunt build
 
 # En este bloque se genera el archivo jar que contiene el compilado del código de java
